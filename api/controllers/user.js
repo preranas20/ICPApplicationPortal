@@ -38,7 +38,7 @@ exports.create_evaluator = (req, res, next) => {
                 res.status(201).json({
                   status: 200,
                   message: "Evaluator created",
-                  data:{ apiKey:result.APIKey}
+                  data:{ qrcode:result.APIKey}
                 });
               })
               .catch(err => {
