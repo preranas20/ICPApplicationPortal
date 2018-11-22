@@ -24,7 +24,7 @@ router.post("/registerEvaluator", UserController.create_evaluator);
 
 //team
 router.post("/registerTeam", TeamControlller.createTeam);
-//router.post("/editTeam", TeamControlller.editTeam);
+router.post("/editTeam", TeamControlller.editTeam);
 
 // show developers-details and logs
 

@@ -28,13 +28,13 @@ const team = new Team({
               }); 
  }
 
- /*module.exports.editTeam = function(req, res){
+ module.exports.editTeam = function(req, res){
  const id=req.body.id
    Team.findByIdAndUpdate(
     id,
     {
       $set:{
-        username: req.body.username
+        teamName: req.body.teamName
 
       }
     },
@@ -43,22 +43,19 @@ const team = new Team({
     if(err){
       console.log(err);
       res.status(500).json({
-        error:err,
-        status:500
+        status:500,
+        error:err
       });
     }else{
       console.log(result);
       res.status(200).json(
       status:200,
-      message:"Request successful",
-      result
-
+      message:"Team Details updated",
       );
-     // console.log(result);
     }
     });
 
- };*/
+ };
 
 
 
