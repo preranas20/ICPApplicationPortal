@@ -83,7 +83,7 @@ const team = new Team({
 module.exports.getTeam = function(req, res){
     Team
       .find({})
-      .exec(function(err, user) {
+      .exec(function(err, team) {
         res.status(200).json({
           message:"Request successful",
           status:200,
