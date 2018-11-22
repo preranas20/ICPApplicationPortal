@@ -6,7 +6,7 @@ const APIKey = require("apikeygen");
 const User = require("../models/user");
 
 
-exports.user_signup = (req, res, next) => {
+exports.create_evaluator = (req, res, next) => {
   User.find({ email: req.body.email }) //check if email id exists before in DB
     .exec()
     .then(user => {
@@ -27,9 +27,9 @@ exports.user_signup = (req, res, next) => {
               _id: new mongoose.Types.ObjectId(),
               email: req.body.email,
               password: hash,
-             role: req.body.role?req.body.role:'developer',
+              role: req.body.role,
               APIKey: APIKey.apikey(),
-              callback_webhook:req.body.callback_webhook
+              username:req.body.username
              // phone:req.body.phone
             });
             user
