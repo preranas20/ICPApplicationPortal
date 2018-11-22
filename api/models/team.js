@@ -4,7 +4,7 @@ const teamSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     teamName: { type: String, required: true },
     score:{
-       type:Decimal128
+       type:Number
      },
      numberOfEval:{
             type:Number
