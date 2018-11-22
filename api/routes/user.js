@@ -31,7 +31,7 @@ router.post("/registerTeam", TeamControlller.createTeam);
 //router.post("/showlogs",checkAuth, UserProfile.showLogs);
 //router.get("/showdevices",checkAuth, UserProfile.showDevices);
 //router.post("/recivedToGateway",workFlowController.receivedMessage);
-;
+
 //To test stubs:
 //router.post("/addMessage", UserProfile.addMessage);
 //router.post("/addDevice",checkAuth, UserProfile.addDevice);
