@@ -54,6 +54,7 @@ exports.create_evaluator = (req, res, next) => {
     });
 };
 
+
 exports.user_login = (req, res, next) => {
   User.find({ email: req.body.email })
     .exec()
@@ -84,11 +85,13 @@ exports.user_login = (req, res, next) => {
             }
           );
           return res.status(200).json({
+            status: 200,
             message: "Auth successful",
-            token: token,
-            role:user[0].role,
+            data:{ token: token,
+            role:user[0].role}
+
            // userId:user[0]._id,
-            status: 200
+
           });
         }
         res.status(401).json({
