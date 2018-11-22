@@ -27,7 +27,7 @@ exports.create_evaluator = (req, res, next) => {
               _id: new mongoose.Types.ObjectId(),
               email: req.body.email,
               password: hash,
-              role: req.body.role,
+              role: "Evaluator",
               APIKey: APIKey.apikey(),
               username:req.body.username
             });
