@@ -1,0 +1,302 @@
+{
+	"info": {
+		"name": "SMSGatewayAPI_testStubs",
+		"_postman_id": "46f172fb-6fda-c33b-d9b2-8c2c651097e1",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"ohm6@edu.com\",\n\t\"password\":\"ohm\",\n\t\"callback_webhook\":\"ohm\",\n\t\"role\":\"developer\"\n}"
+				},
+				"url": {
+					"raw": "localhost:5000/user/signup",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"signup"
+					]
+				},
+				"description": "Sign up for New users"
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"ohm6@edu.com\",\n\t\"password\":\"ohm\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"login"
+					]
+				},
+				"description": "Login to existing users "
+			},
+			"response": []
+		},
+		{
+			"name": "show developer list(admin)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiZGV2ZWxvcGVyIiwidXNlcklkIjoiNWJiYjBiYjQ3YzNhMDIwNTFhZjdiNjZjIiwiaWF0IjoxNTM4OTg0OTEwLCJleHAiOjE1Mzg5ODg1MTB9.-VggzWNzq5HDb6Mg2fl0w3KGusfB6LQf_4LEdh-9c6s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:5000/user/devloperlist",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"devloperlist"
+					]
+				},
+				"description": "show developer list(admin)"
+			},
+			"response": []
+		},
+		{
+			"name": "show details(developer details after devloper login)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiZGV2ZWxvcGVyIiwidXNlcklkIjoiNWJiYjBiYjQ3YzNhMDIwNTFhZjdiNjZjIiwiaWF0IjoxNTM4OTg0OTEwLCJleHAiOjE1Mzg5ODg1MTB9.-VggzWNzq5HDb6Mg2fl0w3KGusfB6LQf_4LEdh-9c6s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:5000/user/details",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"details"
+					]
+				},
+				"description": "show details(developer details after devloper login)"
+			},
+			"response": []
+		},
+		{
+			"name": "dummy/stub API function to add and test message",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"deviceId\":\"22\",\n\t\"message\":\"ohm\",\n\t\"date\":\"10/08/2018\",\n\t\"from\":9807855569,\n\t\"to\":7807855569,\n\t\"status\":\"sent\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/user/addMessage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"addMessage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "show message logs",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiZGV2ZWxvcGVyIiwidXNlcklkIjoiNWJiYjBiYjQ3YzNhMDIwNTFhZjdiNjZjIiwiaWF0IjoxNTM4OTg0OTEwLCJleHAiOjE1Mzg5ODg1MTB9.-VggzWNzq5HDb6Mg2fl0w3KGusfB6LQf_4LEdh-9c6s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"deviceId\":\"22\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/user/showlogs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"showlogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:5000/user/recivedToGateway",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"to\":\"5679865555\",\n\t\"from\":\"7682270704\",\n\t\"APIKey\":\"5yfwjskBRhcburBXkFDMXfwewaukh5bysofLlfwP\",\n\t\"message\":\"hello\"\n}"
+				},
+				"url": {
+					"raw": "localhost:5000/user/recivedToGateway",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"recivedToGateway"
+					]
+				},
+				"description": "POST Request to send sms from customer to Gateway Server"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:5000/user/addDevice",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"phone\":\"5679865555\",\n\t\"apiKey\":\"5yfwjskBRhcburBXkFDMXfwewaukh5bysofLlfwP\",\n\t\"callback_webhook\":\"ohm1\"\n}"
+				},
+				"url": {
+					"raw": "localhost:5000/user/addDevice",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"addDevice"
+					]
+				},
+				"description": "POST Request to map APIKey with Phone number"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:5000/user/receivedForDeveloper",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n          \"callback_webhook\":\"ohm1\",\n          \"to\":\"5679865555\",\n          \"from\":\"7682270704\",\n          \"message\":\"hello\",\n          \"APIKey\":\"5yfwjskBRhcburBXkFDMXfwewaukh5bysofLlfwP\"\n}"
+				},
+				"url": {
+					"raw": "localhost:5000/user/receivedForDeveloper",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"receivedForDeveloper"
+					]
+				},
+				"description": "POST Request for SMS recived to developer from Gateway API"
+			},
+			"response": []
+		}
+	]
+}

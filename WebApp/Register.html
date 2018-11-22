@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link href="content/css/app.css" rel="stylesheet" type="text/css" />
+    <link href="content/css/login.css" rel="stylesheet" type="text/css" />
+    
+    
+    <link href="content/css/toast.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    
+    <title>In class 2</title>
+  </head>
+  <body>
+    <div id="body">
+     
+    <div id="registerPage" class="container text-center" ><br>
+
+      <div class="float-right pd-3 mb-2 "> <button class=" btn btn-success " data-bind="click:$root.logout"> Back</button> 
+    </div>
+
+     <div class="float-right pd-3 mb-2 "> 
+    </div><br><br><br> 
+    <form>  
+                  <input type="text" id="login" class="fadeIn second" data-bind="value: $root.email" name="login" placeholder="username">
+                  <input type="password" id="password" class="fadeIn third" data-bind="value: $root.password"  placeholder="password">
+                  <input type="text" id="callback_webhook" class="fadeIn second" data-bind="value: $root.callback_webhook" name="callback_webhook" placeholder="Callback Webhook" title="enter the callback webhook for your server.">
+                  <input type="button" class="fadeIn fourth"  data-bind="value: 'Register',click: $root.register">
+
+    </form>  
+    <!-- ko if: $root.APIKey()!='' -->
+    <div class="card text-center">
+      <div class="card-header">
+        Attention
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Please store this api key in your developer server.</h5>
+        <p class="card-text" data-bind="text:$root.APIKey()"></p>
+       
+      </div>
+      <div class="card-footer text-muted">
+       If you lose this api key you may not be able to send sms through ur logged in devices.
+    <br/>
+     <div title="install this app on andorid device to register it with you account." class="btn btn-primary"><a href="content/apk/SMSGateway.apk" download>Download App</a><i class="fa fa-download" aria-hidden="true"></i></div>
+      </div>
+    </div>
+    <!-- /ko-->
+
+               
+    </div>
+
+
+    </div>
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="content/js/crossdomain.js"></script>
+    <script src="content/js/toast.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="content/js/knockout.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.4.1/css/buttons.dataTables.min.css">
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/buttons.flash.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/buttons.html5.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/buttons.print.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+
+    <script src="content/js/newapp.js"></script>
+    
+
+  </body>
+</html>
