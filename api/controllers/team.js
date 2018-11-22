@@ -27,3 +27,12 @@ const team = new Team({
                 });
               }); 
  }
+
+ /*module.exports.editTeam = function(req, res){
+ const id=req.body.id
+
+ }*/
+
+
+
+
