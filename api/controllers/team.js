@@ -9,7 +9,7 @@ const Team = require("../models/team");
 module.exports.createTeam = function(req, res){
 const team = new Team({
               _id: new mongoose.Types.ObjectId(),
-              teamName: req.body.name    
+              teamName: req.body.teamName    
             });
            team.save()
               .then(result => {
