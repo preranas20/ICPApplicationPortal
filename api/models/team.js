@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const teamSchema = mongoose.Schema({
-
-    teamId: {
-        type:String
-    },
+    _id: mongoose.Schema.Types.ObjectId,
     teamName: { type: String, required: true },
     Score:{
        type:Decimal128
