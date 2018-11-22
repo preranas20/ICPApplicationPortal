@@ -87,7 +87,7 @@ module.exports.getTeam = function(req, res){
         res.status(200).json({
           message:"Request successful",
           status:200,
-        data:user}
+        data:team}
         )
       });
 
