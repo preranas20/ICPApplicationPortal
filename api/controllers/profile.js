@@ -68,7 +68,7 @@ module.exports.editEvaluator = function(req,res){
     message:"Request successful",
       result
 
-      );
+      });
      // console.log(result);
     }
     });
