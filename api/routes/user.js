@@ -28,17 +28,17 @@ router.post("/registerTeam", TeamControlller.createTeam);
 // show developers-details and logs
 
 
-router.post("/showlogs",checkAuth, UserProfile.showLogs);
-router.get("/showdevices",checkAuth, UserProfile.showDevices);
-router.post("/recivedToGateway",workFlowController.receivedMessage);
+//router.post("/showlogs",checkAuth, UserProfile.showLogs);
+//router.get("/showdevices",checkAuth, UserProfile.showDevices);
+//router.post("/recivedToGateway",workFlowController.receivedMessage);
 ;
 //To test stubs:
-router.post("/addMessage", UserProfile.addMessage);
-router.post("/addDevice",checkAuth, UserProfile.addDevice);
+//router.post("/addMessage", UserProfile.addMessage);
+//router.post("/addDevice",checkAuth, UserProfile.addDevice);
 //fcm server routes
-router.post("/sendToDevice",workFlowController.SendToDevice);
+//router.post("/sendToDevice",workFlowController.SendToDevice);
 
-router.put("/profile/edit",checkAuth,UserProfile.editProfile);
+//router.put("/profile/edit",checkAuth,UserProfile.editProfile);
 
 
 module.exports = router;
