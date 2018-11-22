@@ -4,9 +4,10 @@ const Message = require("../models/message");
 const Device = require("../models/device");
 const jwt = require("jsonwebtoken");
 
+
+/*
 //show team details
 module.exports.getTeam = function(req, res){
-
     Team
       .find({})
       .exec(function(err, user) {
@@ -17,7 +18,7 @@ module.exports.getTeam = function(req, res){
         )
       });
 
-};
+}; */
 
 
 
@@ -97,6 +98,11 @@ exports.user_delete = (req, res, next) => {
       });
     });
 };
+
+
+
+
+
 
 
 

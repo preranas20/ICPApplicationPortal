@@ -58,5 +58,26 @@ const team = new Team({
  };
 
 
+//show team details
+module.exports.getTeam = function(req, res){
+    Team
+      .find({})
+      .exec(function(err, user) {
+        res.status(200).json({
+          message:"Request successful",
+          status:200,
+        data:user}
+        )
+      });
+
+};
+
+
+
+
+
+
+
+
 
 
