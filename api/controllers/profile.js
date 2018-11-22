@@ -42,18 +42,15 @@ module.exports.getEvaluatorsList = function(req, res){
   }
 };
 
-//
-module.exports.editProfile = function(req,res){
+//Edit evaluator
+module.exports.editEvaluator = function(req,res){
   const id=req.userData.userId;
   User.findByIdAndUpdate(
     id,
     {
       $set:{
-        email: req.body.email,
-        password: hash,
-        role: req.body.role,
-        APIKey: req.body.APIKey,
-        callback_webhook:req.body.callback_webhook
+        username: req.body.username
+
       }
     },
     {new: true},
@@ -67,9 +64,10 @@ module.exports.editProfile = function(req,res){
     }else{
       console.log(result);
       res.status(200).json(
-    //  message:"Request successful",
+      status:200,
+    message:"Request successful",
       result
-      //status:200
+
       );
      // console.log(result);
     }
@@ -77,7 +75,24 @@ module.exports.editProfile = function(req,res){
 
 };
 
-
+//Delete evaluator
+exports.user_delete = (req, res, next) => {
+  User.remove({ _id: req.params.userId })
+    .exec()
+    .then(result => {
+      res.status(200).json({
+        message: "User deleted",
+        status: 200
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+        status: 500
+      });
+    });
+};
 
 
 
