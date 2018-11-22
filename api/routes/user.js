@@ -4,12 +4,16 @@ const router = express.Router();
 const UserController = require('../controllers/user');
 const UserProfile = require('../controllers/profile');
 const workFlowController = require('../controllers/workFlow');
+const TeamControlller = require('../controllers/team');
 
 const checkAuth = require('../middleware/check-auth');
 
 router.post("/registerEvaluator", UserController.create_evaluator);
 
 router.post("/login", UserController.user_login);
+
+//team
+router.post("/registerTeam", TeamControlller.createTeam);
 
 // show developers-details and logs
 router.get("/details",checkAuth, UserProfile.showDeveloperDetails);
