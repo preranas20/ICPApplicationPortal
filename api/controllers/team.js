@@ -48,10 +48,10 @@ const team = new Team({
       });
     }else{
       console.log(result);
-      res.status(200).json(
+      res.status(200).json({
       status:200,
       message:"Team Details updated",
-      );
+      });
     }
     });
 
