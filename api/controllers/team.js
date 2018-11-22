@@ -27,3 +27,36 @@ const team = new Team({
                 });
               }); 
  }
+
+ module.exports.editTeam = function(req, res){
+ const id=req.body.id
+   Team.findByIdAndUpdate(
+    id,
+    {
+      $set:{
+        teamName: req.body.teamName
+
+      }
+    },
+    {new: true},
+    function(err,result){
+    if(err){
+      console.log(err);
+      res.status(500).json({
+        status:500,
+        error:err
+      });
+    }else{
+      console.log(result);
+      res.status(200).json(
+      status:200,
+      message:"Team Details updated",
+      );
+    }
+    });
+
+ };
+
+
+
+
