@@ -1,6 +1,6 @@
 const express = require("express"); // like import to a variable
 const router = express.Router();
-
+const checkAuth = require('../middleware/check-auth');
 const UserController = require('../controllers/user');
 const UserProfile = require('../controllers/profile');
 const workFlowController = require('../controllers/workFlow');
@@ -8,11 +8,15 @@ const TeamControlller = require('../controllers/team');
 
 //new apis
 router.post("/login", UserController.user_login);
-router.get("/details",checkAuth, UserProfile.getTeam);
-router.get("/devloperlist",checkAuth, UserProfile.getEvaluatorsList);
+router.get("/getTeam",checkAuth, UserProfile.getTeam);
+router.get("/getEvaluatorsList",checkAuth, UserProfile.getEvaluatorsList);
+router.put("/editEvaluator",checkAuth,UserProfile.editEvaluator);
+router.delete("/:userId", checkAuth, UserProfile.user_delete);
 
 
-const checkAuth = require('../middleware/check-auth');
+
+
+
 
 router.post("/registerEvaluator", UserController.create_evaluator);
 
@@ -36,5 +40,5 @@ router.post("/sendToDevice",workFlowController.SendToDevice);
 
 router.put("/profile/edit",checkAuth,UserProfile.editProfile);
 
-router.delete("/:userId", checkAuth, UserController.user_delete);
+
 module.exports = router;
