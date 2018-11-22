@@ -7,7 +7,7 @@ const workFlowController = require('../controllers/workFlow');
 
 const checkAuth = require('../middleware/check-auth');
 
-router.post("/signup", UserController.user_signup);
+router.post("/registerEvaluator", UserController.create_evaluator);
 
 router.post("/login", UserController.user_login);
 
