@@ -30,16 +30,15 @@ exports.create_evaluator = (req, res, next) => {
               role: req.body.role,
               APIKey: APIKey.apikey(),
               username:req.body.username
-             // phone:req.body.phone
             });
             user
               .save()
               .then(result => {
                 console.log(result);
                 res.status(201).json({
-                  data:{ apiKey:result.APIKey},
-                  message: "User created",
-                  status: 200
+                  status: 200,
+                  message: "Evaluator created",
+                  data:{ apiKey:result.APIKey}
                 });
               })
               .catch(err => {
