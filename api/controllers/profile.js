@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 //show team details
 module.exports.getTeam = function(req, res){
 
-    User
+    Team
       .find({})
       .exec(function(err, user) {
         res.status(200).json({
