@@ -57,6 +57,27 @@ const team = new Team({
 
  };
 
+ module.exports.deleteTeam = function(req, res){
+ 
+   Team.remove({ _id: req.body.id})
+    .exec()
+    .then(result => {
+      res.status(200).json({
+      	status: 200,
+        message: "Team deleted"
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+      	status: 500,
+        error: err
+        
+      });
+    });
+
+ };
+
 
 //show team details
 module.exports.getTeam = function(req, res){
