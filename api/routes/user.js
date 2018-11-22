@@ -10,7 +10,7 @@ const TeamControlller = require('../controllers/team');
 router.post("/login", UserController.user_login);
 router.get("/getTeam",checkAuth, UserProfile.getTeam);
 router.get("/getEvaluatorsList",checkAuth, UserProfile.getEvaluatorsList);
-router.post("/editEvaluator",checkAuth,UserProfile.editEvaluator);
+//router.post("/editEvaluator",checkAuth,UserProfile.editEvaluator);
 router.delete("/:userId", checkAuth, UserProfile.user_delete);
 
 
