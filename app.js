@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 const userRoutes = require('./api/routes/user');
 
 
-mongoose.connect('mongodb://localhost:27017/SMSGatewayDB');
+mongoose.connect('mongodb://localhost:27017/ICPApplicationPortal');
 mongoose.Promise = global.Promise;
 
 app.use(morgan("dev"));

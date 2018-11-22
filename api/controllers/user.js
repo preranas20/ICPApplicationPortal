@@ -59,9 +59,9 @@ exports.user_login = (req, res, next) => {
   User.find({ email: req.body.email })
     .exec()
     .then(user => {
-      if (user.length < 1) {
+      if (user.length < 1 || user[0].role=="evaluator") {
         return res.status(401).json({
-          message: "Auth failed",
+          message: "Not Authorized",
           status: 401
         });
       }
