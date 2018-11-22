@@ -4,16 +4,11 @@ const Message = require("../models/message");
 const Device = require("../models/device");
 const jwt = require("jsonwebtoken");
 
-//show developer details
-module.exports.showDeveloperDetails = function(req, res){
-  const id=req.userData.userId;
-  if (!id) {
-    res.status(401).json({
-      "message" : "UnauthorizedError: private profile"
-    });
-  } else {
+//show team details
+module.exports.getTeam = function(req, res){
+
     User
-      .findById(id)
+      .find({})
       .exec(function(err, user) {
         res.status(200).json({
           message:"Request successful",
@@ -21,31 +16,75 @@ module.exports.showDeveloperDetails = function(req, res){
         data:user}
         )
       });
-  }
+
 };
 
-//show developers to Admin
-module.exports.showDevelopers = function(req, res){
+
+
+//show evaluators list to Admin
+module.exports.getEvaluatorsList = function(req, res){
   const role=req.userData.role;
-  if (!(role=="admin")) {
+  if (!(role=="evaluator")) {
     res.status(401).json({
       "message" : "UnauthorizedError: not an admin profile"
     });
   } else {
     User
-      .find({ role: 'developer' })
+      .find({ role: 'evaluator' })
       .exec(function(err, user) {
         res.status(200).json({
           message:"Request successful",
           status:200,
-        data:user}
-       // {
-        //user:user,
-        //status:200}
+          data:user}
+
         )
       });
   }
 };
+
+//
+module.exports.editProfile = function(req,res){
+  const id=req.userData.userId;
+  User.findByIdAndUpdate(
+    id,
+    {
+      $set:{
+        email: req.body.email,
+        password: hash,
+        role: req.body.role,
+        APIKey: req.body.APIKey,
+        callback_webhook:req.body.callback_webhook
+      }
+    },
+    {new: true},
+    function(err,result){
+    if(err){
+      console.log(err);
+      res.status(500).json({
+        error:err,
+        status:500
+      });
+    }else{
+      console.log(result);
+      res.status(200).json(
+    //  message:"Request successful",
+      result
+      //status:200
+      );
+     // console.log(result);
+    }
+    });
+
+};
+
+
+
+
+
+
+
+
+
 
 
 
@@ -157,36 +196,4 @@ var userId=req.userData.userId;
 
 
 
-module.exports.editProfile = function(req,res){
-  const id=req.userData.userId;
-  User.findByIdAndUpdate(
-    id,
-    {
-      $set:{
-        email: req.body.email,
-        password: hash,
-        role: req.body.role,
-        APIKey: req.body.APIKey,
-        callback_webhook:req.body.callback_webhook
-      }
-    },
-    {new: true},
-    function(err,result){
-    if(err){
-      console.log(err);
-      res.status(500).json({
-        error:err,
-        status:500
-      });
-    }else{
-      console.log(result);
-      res.status(200).json(
-    //  message:"Request successful",
-      result
-      //status:200
-      );
-     // console.log(result);
-    }
-    });
 
-};

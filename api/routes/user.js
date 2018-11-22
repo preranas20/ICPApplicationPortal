@@ -6,18 +6,24 @@ const UserProfile = require('../controllers/profile');
 const workFlowController = require('../controllers/workFlow');
 const TeamControlller = require('../controllers/team');
 
+//new apis
+router.post("/login", UserController.user_login);
+router.get("/details",checkAuth, UserProfile.getTeam);
+router.get("/devloperlist",checkAuth, UserProfile.getEvaluatorsList);
+
+
 const checkAuth = require('../middleware/check-auth');
 
 router.post("/registerEvaluator", UserController.create_evaluator);
 
-router.post("/login", UserController.user_login);
+
 
 //team
 router.post("/registerTeam", TeamControlller.createTeam);
 
 // show developers-details and logs
-router.get("/details",checkAuth, UserProfile.showDeveloperDetails);
-router.get("/devloperlist",checkAuth, UserProfile.showDevelopers);
+
+
 router.post("/showlogs",checkAuth, UserProfile.showLogs);
 router.get("/showdevices",checkAuth, UserProfile.showDevices);
 router.post("/recivedToGateway",workFlowController.receivedMessage);
