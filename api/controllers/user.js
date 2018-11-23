@@ -7,6 +7,12 @@ const User = require("../models/user");
 
 
 exports.create_evaluator = (req, res, next) => {
+  const role=req.userData.role;
+  if ( role != "admin") {
+    res.status(401).json({
+      "message" : "UnauthorizedError: not an admin profile"
+    });
+  } else {
   User.find({ email: req.body.email }) //check if email id exists before in DB
     .exec()
     .then(user => {
@@ -27,7 +33,7 @@ exports.create_evaluator = (req, res, next) => {
               _id: new mongoose.Types.ObjectId(),
               email: req.body.email,
               password: hash,
-              role: "Evaluator",
+              role: "evaluator",
               APIKey: APIKey.apikey(),
               username:req.body.username
             });
@@ -52,6 +58,7 @@ exports.create_evaluator = (req, res, next) => {
         });
       }
     });
+  }
 };
 
 

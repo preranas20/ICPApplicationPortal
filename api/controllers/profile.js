@@ -4,11 +4,10 @@ const Message = require("../models/message");
 const Device = require("../models/device");
 const jwt = require("jsonwebtoken");
 
-
-/*
 //show team details
 module.exports.getTeam = function(req, res){
-    Team
+
+    User
       .find({})
       .exec(function(err, user) {
         res.status(200).json({
@@ -18,7 +17,7 @@ module.exports.getTeam = function(req, res){
         )
       });
 
-}; */
+};
 
 
 
@@ -43,9 +42,7 @@ module.exports.getEvaluatorsList = function(req, res){
   }
 };
 
-
 //Edit evaluator
-/*
 module.exports.editEvaluator = function(req,res){
   const id=req.userData.userId;
   User.findByIdAndUpdate(
@@ -66,19 +63,17 @@ module.exports.editEvaluator = function(req,res){
       });
     }else{
       console.log(result);
-      res.status(200).json({
+      res.status(200).json(
       status:200,
-    message:"Request successful",
+      message:"Request successful",
       result
 
-
+      );
      // console.log(result);
-    })
-    };
+    }
+    });
 
-}; */
-
-
+};
 
 //Delete evaluator
 exports.user_delete = (req, res, next) => {
@@ -98,11 +93,6 @@ exports.user_delete = (req, res, next) => {
       });
     });
 };
-
-
-
-
-
 
 
 
