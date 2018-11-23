@@ -4,10 +4,10 @@ const teamSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     teamName: { type: String, required: true },
     score:{
-       type:Number
+       type:Number, default: 0
      },
      numberOfEval:{
-            type:Number
+            type:Number, default: 0
           }
 });
 
