@@ -1,17 +1,18 @@
 // This is a simple *viewmodel* - JavaScript that defines the data and behavior of your UI
-
+var debug = false;
 function AppViewModel() {
     var self= this;
    // var qrcode = new QRCode("qrcode");
     self.email=ko.observable('');
     self.password=ko.observable('');
-    self.urlIP=ko.observable('http://18.223.110.166:5000');
+    self.urlIP=ko.observable('http://52.202.147.130:5000');
     self.newname=ko.observable('ankit');
     self.newemail=ko.observable('ak@a.com');
     self.newpassword=ko.observable('a');
     self.callback_webhook=ko.observable('');
     self.APIKey = ko.observable('');
     self.role = ko.observable('');
+    
   var token=  readCookie("token");
     self.token=ko.observable(token);
     self.adminName = ko.observable('Admin');
@@ -23,9 +24,6 @@ function AppViewModel() {
         window.location="index.html";
     }
 
-    self.registerclick=function(){
-        window.location="Register.html";
-    }
     self.makeQRCode =function (params) {
         qrcode.makeCode(self.newemail()+"_SEPERATOR_"+self.newpassword());
         $('#qrSpace').show();
@@ -49,6 +47,13 @@ function AppViewModel() {
       return;
 
   }
+if(debug){
+$('#login').hide();
+$('#page').show();
+self.getTeams();
+    return;
+}
+
 
     $.ajax({
         method: "POST",
@@ -59,27 +64,25 @@ function AppViewModel() {
             url: self.urlIP()+"/user/login",
            
             success: function(result) {
-                //Write your code here
+               
                 if(result.status==200){
-                //self.token(result.token);
+               
                 $.toast({ heading: 'Success',
                 text: result.message,
                   showHideTransition: 'slide',
                 icon: 'success'});
                 $('#login').hide();
+                $('#page').show();
                 createCookie("token",result.token,1);
-                createCookie("role",result.role,1);
+               
 
-                if(result.role=="admin")
-                self.getData();
-                else{
-                    window.location="SurveyDetail.html";
+               
+                self.getTeams();
+                
+                
+              
                 }
-                }
                 else{
-                    if(result.status==200 )
-                    $.toast({heading:'error',text:'Invalid User only admin is allowed to use this portal.', icon: 'error'});
-                    else
                     $.toast({heading:'error',text:result.responseJSON.message,icon:'error'});
                
                 }
@@ -97,7 +100,7 @@ function AppViewModel() {
 
     }
 
-
+//to create new evaluator
     self.register = function() {
 
         var email= self.email();
@@ -166,9 +169,44 @@ function AppViewModel() {
         // });
 
     }
-
+//to get all the teams data
+self.getTeams=function(){
+    $.ajax({
+        method: "GET",
+        contentType: 'application/json',
+        headers: {"Authorization": "BEARER "+readCookie('token')},
+       
+            url: self.urlIP()+ "/user/getTeam",
+           
+            success: function(result) {
+                //Write your code here
+                if(result.status==200){
+                //self.token(result.token);
+                console.log('not getting status');
+                console.log(result);
+                self.showTeams(result.data);
+                }
+                else{
+                    console.log('not getting status');
+                    console.log(result);
+                    $.toast({heading:'error',text:result.message, icon: 'error'});
+                }
+                },
+            error:
+            function(result) {
+                //Write your code here
+                $.toast({heading:'error',text:result.message,icon:'error'});
+                }
+        
+      });
+  
+}
+self.showTeams = function(data) {
+    self.showTeamTable(data);
+    console.log(readCookie('token'))
+}
      //make ajax call to api to get the data required to show the data tables.
-        self.getData= function(params) {
+    self.getData= function(params) {
             //on the success of ajax call showTable method by passing data
             $.ajax({
                 method: "GET",
@@ -183,7 +221,7 @@ function AppViewModel() {
                         //self.token(result.token);
                         console.log('not getting status');
                         console.log(result);
-                        self.showTable(result.data);
+                       // self.showTable(result.data);
                         }
                         else{
                             console.log('not getting status');
@@ -200,38 +238,39 @@ function AppViewModel() {
               });
           
         }
-    self.showTable= function(tabledata) {
-      
+    self.showTeamTable= function(tabledata) {
+      console.log(tabledata);
         $('#usertable').fadeIn( 2000);
         var table=$('#table_id').DataTable( {
             data: tabledata,
            
             columns: [
-                { data: 'email', title:'Email' },
-                { data: '_id',title:'UserId' },
-                { data: 'APIKey',title:'APIkey' },
-                { data: 'callback_webhook' ,title:'Webhook'}
+                { data: '_id', title:'S.N' },
+                { data: 'teamName',title:'Team' },
+                { data: 'score',title:'Average Score' },
+                { data: 'numberOfEval' ,title:'#Evaluations'}
             ]
         } );
+        
 
-        $('#table_id tbody').on( 'click', 'tr', function () {
-            if ( $(this).hasClass('selected') ) {
-                $(this).removeClass('selected');
-            }
-            else {
-                table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-             //   alert('show user details');
-             //find the userid and surveyid admin clicked
-            var userid= this.cells[1].innerHTML;
-            var sid = this.cells[2].innerHTML;
-            createCookie("uid",userid);
-            //createCookie("sid",sid);
-             window.location="SurveyDetail.html";
+        // $('#table_id tbody').on( 'click', 'tr', function () {
+        //     if ( $(this).hasClass('selected') ) {
+        //         $(this).removeClass('selected');
+        //     }
+        //     else {
+        //         table.$('tr.selected').removeClass('selected');
+        //         $(this).addClass('selected');
+        //      //   alert('show user details');
+        //      //find the userid and surveyid admin clicked
+        //     var userid= this.cells[1].innerHTML;
+        //     var sid = this.cells[2].innerHTML;
+        //     createCookie("uid",userid);
+        //     //createCookie("sid",sid);
+        //      window.location="SurveyDetail.html";
              
-             self.getUserDetailSurvey();
-            }
-        } );
+        //      self.getUserDetailSurvey();
+        //     }
+        // } );
         
     }
     self.showUsers=function (params) {
@@ -327,8 +366,12 @@ self.showUserForm= function(){
 $('#qrSpace').hide();
 
 if((self.token()==null || self.token()=="")){
-$('#usertable').hide();}else{
-    self.getData();
+$('#page').hide();
+
+}else{
+    //self.getData();
+    self.getTeams();
+    $('#page').show();
 }
 
 $('#addUser').hide();
@@ -337,21 +380,18 @@ $('#addUser').hide();
 //dummy data to be deleted later
 var data = [
     {
-        "name":       "Tiger Nixon",
-        "position":   "System Architect",
-        "salary":     "$3,120",
-        "start_date": "2011/04/25",
-        "office":     "Edinburgh",
-        "extn":       "5421"
+        "_id":       "23",
+        "teamName":   "System Architect",
+        "score":     "$3,120",
+        "numberOfEval": "2011/04/25"
     },
     {
-        "name":       "Garrett Winters",
-        "position":   "Director",
-        "salary":     "$5,300",
-        "start_date": "2011/07/25",
-        "office":     "Edinburgh",
-        "extn":       "8422"
+        "_id":       "Tiger Nixon",
+        "teamName":   "System Architect",
+        "score":     "$3,120",
+        "numberOfEval": "2011/04/25"
     }
+    
 ];
 
 }
