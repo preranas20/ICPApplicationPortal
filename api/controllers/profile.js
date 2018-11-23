@@ -63,11 +63,11 @@ module.exports.editEvaluator = function(req,res){
       });
     }else{
       console.log(result);
-      res.status(200).json(
+      res.status(200).json({
       status:200,
       message:"Request successful",
       result
-
+     }
       );
      // console.log(result);
     }
