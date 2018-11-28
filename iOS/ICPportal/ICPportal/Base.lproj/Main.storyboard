@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="2I9-bZ-x0B">
+            <objects>
+                <viewController id="xpi-VJ-FZx" customClass="ViewController" customModule="QRCodeReader_swift" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="JEj-EI-tux"/>
+                        <viewControllerLayoutGuide type="bottom" id="sdC-1z-r2A"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Jsh-9J-wjj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6sA-H3-dNg">
+                                <rect key="frame" x="27.5" y="258.5" width="320" height="150"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5wf-jk-Szg">
+                                        <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="5wf-jk-Szg" secondAttribute="height" multiplier="1:1" id="wWv-t4-D8u"/>
+                                        </constraints>
+                                        <state key="normal" title="Scan In Modal">
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="scanInModalAction:" destination="xpi-VJ-FZx" eventType="touchUpInside" id="mFa-Mg-TJB"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="URJ-8O-2Vg">
+                                        <rect key="frame" x="170" y="0.0" width="150" height="150"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="URJ-8O-2Vg" secondAttribute="height" multiplier="1:1" id="RVf-rw-9ab"/>
+                                        </constraints>
+                                        <state key="normal" title="Scan In Preview">
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="scanInPreviewAction:" destination="xpi-VJ-FZx" eventType="touchUpInside" id="mF6-ZT-rZi"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="URJ-8O-2Vg" secondAttribute="trailing" id="4J3-75-bcE"/>
+                                    <constraint firstAttribute="width" constant="320" id="FIW-dL-OhF"/>
+                                    <constraint firstAttribute="bottom" secondItem="5wf-jk-Szg" secondAttribute="bottom" id="YBb-4e-rhD"/>
+                                    <constraint firstAttribute="bottom" secondItem="URJ-8O-2Vg" secondAttribute="bottom" id="dLe-eT-PCv"/>
+                                    <constraint firstItem="5wf-jk-Szg" firstAttribute="top" secondItem="6sA-H3-dNg" secondAttribute="top" id="f9E-b2-SQF"/>
+                                    <constraint firstAttribute="height" constant="150" id="tJc-Uf-kjl"/>
+                                    <constraint firstItem="URJ-8O-2Vg" firstAttribute="top" secondItem="6sA-H3-dNg" secondAttribute="top" id="wea-jv-4qK"/>
+                                    <constraint firstItem="5wf-jk-Szg" firstAttribute="leading" secondItem="6sA-H3-dNg" secondAttribute="leading" id="wsp-dO-dbX"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JKE-Pj-pvO" customClass="QRCodeReaderView" customModule="QRCodeReader_swift" customModuleProvider="target">
+                                <rect key="frame" x="87.5" y="42.5" width="200" height="200"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="JKE-Pj-pvO" secondAttribute="height" multiplier="1:1" id="YqY-hP-1sV"/>
+                                    <constraint firstAttribute="height" constant="200" id="xmh-zc-7R4"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="JKE-Pj-pvO" firstAttribute="centerX" secondItem="6sA-H3-dNg" secondAttribute="centerX" id="4I4-f6-pAk"/>
+                            <constraint firstItem="6sA-H3-dNg" firstAttribute="centerY" secondItem="Jsh-9J-wjj" secondAttribute="centerY" id="FnK-Da-4L8"/>
+                            <constraint firstItem="6sA-H3-dNg" firstAttribute="top" secondItem="JKE-Pj-pvO" secondAttribute="bottom" constant="16" id="Ytk-8E-smM"/>
+                            <constraint firstItem="6sA-H3-dNg" firstAttribute="centerX" secondItem="Jsh-9J-wjj" secondAttribute="centerX" id="bp5-lC-i0j"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="MTw-zg-Iif"/>
+                    </view>
+                    <connections>
+                        <outlet property="previewView" destination="JKE-Pj-pvO" id="74C-HM-g8i"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zCp-SB-0um" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="304.80000000000001" y="428.63568215892059"/>
+        </scene>
+    </scenes>
+</document>
