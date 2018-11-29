@@ -21,7 +21,8 @@ const team = new Team({
                 console.log(result);
                 res.status(201).json({
                   status: 200,
-                  message: "team added" 
+                  message: "team added",
+                  data:{teamId:result.id}
                 });
               })
               .catch(err => {
