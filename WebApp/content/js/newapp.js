@@ -2,17 +2,19 @@
 var debug = false;
 function AppViewModel() {
     var self= this;
-   // var qrcode = new QRCode("qrcode");
+   var qrcode = new QRCode("qrcode");
     self.email=ko.observable('');
     self.password=ko.observable('');
     self.urlIP=ko.observable('http://52.202.147.130:5000');
-    self.newname=ko.observable('ankit');
+    self.newname=ko.observable('');
     self.newemail=ko.observable('ak@a.com');
     self.newpassword=ko.observable('a');
     self.callback_webhook=ko.observable('');
     self.APIKey = ko.observable('');
     self.role = ko.observable('');
-    
+    self.isEdit = ko.observable(false);
+    var table,evaluatorsTable;
+    self.isDashboard = ko.observable(true);
   var token=  readCookie("token");
     self.token=ko.observable(token);
     self.adminName = ko.observable('Admin');
@@ -25,8 +27,11 @@ function AppViewModel() {
     }
 
     self.makeQRCode =function (params) {
-        qrcode.makeCode(self.newemail()+"_SEPERATOR_"+self.newpassword());
-        $('#qrSpace').show();
+        if(params==null || params ==''){
+            params = self.newname();
+        }
+        qrcode.makeCode(params);
+        $('#qrSpace').slideToggle();
     }
    
     self.toggleQRCodeDisplay= function (params) {
@@ -73,7 +78,8 @@ self.getTeams();
                 icon: 'success'});
                 $('#login').hide();
                 $('#page').show();
-                createCookie("token",result.token,1);
+                console.log(result)
+                createCookie("token",result.data.token,1);
                
 
                
@@ -169,6 +175,18 @@ self.getTeams();
         // });
 
     }
+    self.dashboardTab = function(params) {
+        self.isDashboard(true);
+        self.getTeams();
+    }
+    self.teamsTab = function(params) {
+        self.isDashboard(false);
+        self.getTeams();
+    }
+    self.evaluatorsTab = function(params) {
+        self.isDashboard(true);
+        self.getEvaluators();
+    }
 //to get all the teams data
 self.getTeams=function(){
     $.ajax({
@@ -182,9 +200,36 @@ self.getTeams=function(){
                 //Write your code here
                 if(result.status==200){
                 //self.token(result.token);
-                console.log('not getting status');
-                console.log(result);
+             
                 self.showTeams(result.data);
+                }
+                else{
+                    console.log('not getting status');
+                    console.log(result);
+                    $.toast({heading:'error',text:result.message, icon: 'error'});
+                }
+                },
+            error:
+            function(result) {
+                //Write your code here
+                $.toast({heading:'error',text:result.message,icon:'error'});
+                }
+        
+      });
+  
+}
+self.getEvaluators = function(){
+    $.ajax({
+        method: "GET",
+        contentType: 'application/json',
+        headers: {"Authorization": "BEARER "+readCookie('token')},
+       
+            url: self.urlIP()+ "/user/getEvaluatorsList",
+           
+            success: function(result) {
+                //Write your code here
+                if(result.status==200){
+                self.showEvaluators(result.data);
                 }
                 else{
                     console.log('not getting status');
@@ -205,52 +250,46 @@ self.showTeams = function(data) {
     self.showTeamTable(data);
     console.log(readCookie('token'))
 }
+self.showEvaluators = function(data) {
+    self.showEvaluatorsTable(data);
+}
      //make ajax call to api to get the data required to show the data tables.
-    self.getData= function(params) {
-            //on the success of ajax call showTable method by passing data
-            $.ajax({
-                method: "GET",
-                contentType: 'application/json',
-                headers: {"Authorization": "BEARER "+readCookie('token')},
-               
-                    url: self.urlIP()+ "/user/devloperlist",
-                   
-                    success: function(result) {
-                        //Write your code here
-                        if(result.status==200){
-                        //self.token(result.token);
-                        console.log('not getting status');
-                        console.log(result);
-                       // self.showTable(result.data);
-                        }
-                        else{
-                            console.log('not getting status');
-                            console.log(result);
-                            $.toast({heading:'error',text:result.message, icon: 'error'});
-                        }
-                        },
-                    error:
-                    function(result) {
-                        //Write your code here
-                        $.toast({heading:'error',text:result.responseJSON.message,icon:'error'});
-                        }
-                
-              });
-          
-        }
+  
     self.showTeamTable= function(tabledata) {
-      console.log(tabledata);
-        $('#usertable').fadeIn( 2000);
-        var table=$('#table_id').DataTable( {
-            data: tabledata,
-           
+     // console.log(table);
+        $('#teams').fadeIn( 2000);
+        if(table == null ){
+        table=$('#teamstable').DataTable( {
+            data: tabledata, 
             columns: [
-                { data: '_id', title:'S.N' },
+                { data: '_id', title:'Team ID' },
                 { data: 'teamName',title:'Team' },
                 { data: 'score',title:'Average Score' },
                 { data: 'numberOfEval' ,title:'#Evaluations'}
             ]
         } );
+        $('#teamstable tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('selected') ) {
+                $(this).removeClass('selected');
+                $('#editTeam').addClass('disabled')
+                $('#deleteTeam').addClass('disabled');
+
+            }
+            else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                $('#editTeam').removeClass('disabled');
+                $('#deleteTeam').removeClass('disabled');
+
+            }
+        } );
+        }
+        else{
+           //see how to update table
+          // $('#teamstable').DataTable().draw();
+            table.clear();
+            table.rows.add(tabledata).draw();
+        }
         
 
         // $('#table_id tbody').on( 'click', 'tr', function () {
@@ -272,14 +311,49 @@ self.showTeams = function(data) {
         //     }
         // } );
         
-    }
+    } 
+    self.showEvaluatorsTable= function(tabledata) {
+        // console.log(table);
+           $('#evaluators').fadeIn( 2000);
+           if(evaluatorsTable == null)
+           evaluatorsTable=$('#evaluatorsTable').DataTable( {
+               data: tabledata, 
+               columns: [
+                   { data: '_id', title:'ID' },
+                   { data: 'username',title:'Name' },
+                   { data: 'email',title:'Email' },
+                   
+               ]
+           } );
+           
+   
+           // $('#table_id tbody').on( 'click', 'tr', function () {
+           //     if ( $(this).hasClass('selected') ) {
+           //         $(this).removeClass('selected');
+           //     }
+           //     else {
+           //         table.$('tr.selected').removeClass('selected');
+           //         $(this).addClass('selected');
+           //      //   alert('show user details');
+           //      //find the userid and surveyid admin clicked
+           //     var userid= this.cells[1].innerHTML;
+           //     var sid = this.cells[2].innerHTML;
+           //     createCookie("uid",userid);
+           //     //createCookie("sid",sid);
+           //      window.location="SurveyDetail.html";
+                
+           //      self.getUserDetailSurvey();
+           //     }
+           // } );
+           
+       }
     self.showUsers=function (params) {
         $('#usertable').fadeIn(2000);
         $('#userDetail').hide();
     }
     self.getUserDetailSurvey =function (params) {
         //ajax to bring the user survey
-        $('#usertable').hide();
+        //$('#teams').hide();
         $('#userDetail').fadeIn(2000);
 //on success call 
 self.showUserDetailTable();
@@ -308,8 +382,9 @@ self.showUserDetailTable= function (tabledata) {
         } );
 }
 
-    self.saveUser = function () {
+    self.saveUser = function (isEdit) {
         //add user ajax to be called here
+       
         $.ajax({
             method: "POST",
             contentType: 'application/json',
@@ -354,10 +429,157 @@ self.showUserDetailTable= function (tabledata) {
         
 
     }
+    self.saveTeam = function (isEdit) {
+        //add user ajax to be called here'
+        if(isEdit){
+            self.editTeam();
+            return;
+        }
 
-self.showUserForm= function(){
-    $('#addUser').slideDown( "slow");
+        console.log(readCookie('token'))
+        $.ajax({
+            method: "POST",
+            contentType: 'application/json',
+        headers: {"Authorization": "BEARER "+readCookie('token')},
+            data: JSON.stringify({
+                teamName:self.newname(),
+                }),
+                url: self.urlIP()+ "/user/registerTeam",
+               
+                success: function(result) {
+                    //Write your code here
+                    if(result.status==200){
+                    //self.token(result.token);
+                    $.toast({ heading: 'Success',
+                    text: result.message,
+                      showHideTransition: 'slide',
+                    icon: 'success'});
+                    console.log('team data')
+                    console.log(result.data);
+
+                     $('#addUser').slideToggle("slow");
+                
+                    //self.getData();
+                    self.makeQRCode(result.data.teamId);
+                    self.getTeams();
+                    }
+                    else{
+                        $.toast({heading:'error',text:result.message, icon: 'error'});
+                    }
+                    },
+                error:
+                function(result) {
+                    //Write your code here
+                    $.toast({heading:'error',text:result.responseJSON.message,icon:'error'});
+                    }
+            
+          });
+            // .done(function( data ) {
+            //   alert( "welcome your token is = : " + data.token );
+            // });
+    
+        
+
+    }
+    self.showeditForm= function(){
+        self.isEdit(!self.isEdit());
+        var teamName= table.row('.selected').data().teamName;
+        self.newname(teamName)
+        $('#addTeam').slideToggle( "slow");
+    }
+    self.editTeam = function () {
+        //add user ajax to be called here
+        var teamId= table.row('.selected').data()._id;
+        var teamName =self.newname();
+        $.ajax({
+            method: "POST",
+            contentType: 'application/json',
+        headers: {"Authorization": "BEARER "+readCookie('token')},
+            data: JSON.stringify({
+                teamName:teamName,
+                teamId: teamId
+                }),
+                url: self.urlIP()+ "/user/editTeam",
+               
+                success: function(result) {
+                    //Write your code here
+                    if(result.status==200){
+                    //self.token(result.token);
+                    $.toast({ heading: 'Success',
+                    text: result.message,
+                      showHideTransition: 'slide',
+                    icon: 'success'});
+                     $('#addUser').slideToggle("slow");
+                     self.getTeams();
+                     self.showeditForm();
+                
+                    }
+                    else{
+                        $.toast({heading:'error',text:result.message, icon: 'error'});
+                    }
+                    },
+                error:
+                function(result) {
+                    //Write your code here
+                    $.toast({heading:'error',text:result.responseJSON.message,icon:'error'});
+                    }
+            
+          });
+            // .done(function( data ) {
+            //   alert( "welcome your token is = : " + data.token );
+            // });
+    
+        
+
+    }
+    self.deleteTeam = function () {
+        //add user ajax to be called here
+        var teamId= table.row('.selected').data()._id;
+        console.log(teamId)
+        $.ajax({
+            method: "DELETE",
+            contentType: 'application/json',
+            headers: {"Authorization": "BEARER "+readCookie('token')},
+            url: self.urlIP()+ "/user/deleteTeam/"+teamId,
+               
+                success: function(result) {
+                    //Write your code here
+                    if(result.status==200){
+                    //self.token(result.token);
+                    $.toast({ heading: 'Success',
+                    text: result.message,
+                      showHideTransition: 'slide',
+                    icon: 'success'});
+                    self.getTeams();
+                    self.disableButtons();
+                    $('#qrSpace').hide();
+                    }
+                    else{
+                        $.toast({heading:'error',text:result.message, icon: 'error'});
+                    }
+                    },
+                error:
+                function(result) {
+                    //Write your code here
+                    $.toast({heading:'error',text:result.responseJSON.message,icon:'error'});
+                    }
+            
+          });
+          
+    
+        
+
+    }
+self.disableButtons=function(){
+    $('#editTeam').addClass('disabled')
+    $('#deleteTeam').addClass('disabled');
+
 }
+self.showTeamForm= function(){
+    self.newname('');
+    $('#addTeam').slideToggle( "slow");
+}
+
 // self.hideUserForm= function(){
 //     $('addUser').hide( "slow");
 // }
@@ -374,7 +596,7 @@ $('#page').hide();
     $('#page').show();
 }
 
-$('#addUser').hide();
+$('#addTeam').hide();
 
 
 //dummy data to be deleted later
