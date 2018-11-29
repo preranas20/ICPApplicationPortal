@@ -78,23 +78,21 @@ const team = new Team({
     });
   }else{
  
-   Team.findOneAndRemove({_id:req.body.id},
-   {new: true},
-   function(err,result){
-    if(err){
-      console.log(err);
-      res.status(500).json({
-        status:500,
-        error:err
-      });
-    }else{
-      console.log(result);
-      res.status(200).json({
-      	status: 200,
-        message: "Team deleted"
-      });
-    }
-  });
+   Team.findOneAndRemove({_id:req.params.id})
+     .exec(function(err, item) {
+        if (err) {
+            return res.json({
+              status: 500, 
+              message: 'Cannot remove Team'});
+        }       
+        if (!item) {
+            return res.status(404).json(
+              {status:404, 
+              message: 'Team not found'});
+        }  
+        res.json({
+          status: 200, msg: 'Team deleted.'});
+    });
     
   }
  };
