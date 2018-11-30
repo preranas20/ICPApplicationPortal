@@ -83,8 +83,8 @@
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">ICP Portal</a>
     
     <ul class="navbar-nav px-3">
-      <li class="nav-item text-nowrap">
-          <a class="nav-link" data-bind="click:$root.logout" href="#"> <i class="fas text-white fa-sign-out-alt"></i> &nbsp;&nbsp;Sign out</a>
+      <li class="nav-item text-nowrap btn btn-sm btn-danger">
+          <a class="nav-link text-white " data-bind="click:$root.logout" href="#"> <i class="fas text-white fa-sign-out-alt"></i> &nbsp;&nbsp;Sign out</a>
       </li>
     </ul>
   </nav>
@@ -119,7 +119,8 @@
               </a>
             </li>
             <li class="nav-item disabled">
-              <a class="nav-link" href="#">
+                <a class="nav-link" id="results-tab" data-toggle="tab" href="#survey" role="tab" aria-controls="survey" data-bind="click:$root.surveyTab"  aria-selected="false">
+
                 <span data-feather="bar-chart-2"></span>
                 Survey
               </a>
@@ -221,9 +222,9 @@
               <!-- </div></div> -->
               <div class="tab-pane fade" id="results" role="tabpanel" aria-labelledby="results-tab">
                  
-                  <div  class="p-3 mb-2  text-white "><h1 class=" align-middle">Results&nbsp;<span class="float-right " ><div class="btn-group"role="group">
+                  <div  class="p-3 mb-2  text-white "><h1 class=" align-middle">Results&nbsp;<span class="float-right " ><div class="btn-group"role="group" data-bind="if:$root.isDetail()">
 
-                      <button type="button" class=" btn btn-primary btn-sm " data-bind="if:$root.isDetail,click:$root.getResults"> Back</button>
+                      <button type="button" class=" btn btn-primary btn-sm " data-bind="click:$root.getResults"> Back</button>
                    
                     </div></span></h1> </div>
                 <div id="results" class="table-responsive">
@@ -240,7 +241,7 @@
                        
                       </table>
                     </div>
-                    <div id="detailResult" class="table-responsive">
+                    <div id="detailResult" class="table-responsive"  data-bind="if:$root.isDetail()">
                         <table id="detailTable" class="table table-striped table-sm">
                           <thead>
                             
@@ -255,6 +256,43 @@
                          
                         </table>
                       </div>
+              </div>
+              <div class="tab-pane fade" id="survey" role="tabpanel" aria-labelledby="teams-tab">
+                  <div  class="p-3 mb-2  text-white "><h1 class=" align-middle">Survey Questions&nbsp;<span class="float-right " ><div class=""role="group">
+
+                  <button type="button" class=" btn btn-primary btn-sm " data-bind="click:$root.showQuestionForm"> Add New</button>
+                  <button id="saveOrder" type="button"  class=" btn btn-primary btn-sm " data-bind="click:$root.saveOrder"> Save Order</button>
+                  <button id="DeleteQuestion" type="button"  class=" btn btn-danger btn-sm " data-bind="click:$root.delelteSurvey"> Delete</button>
+
+                </div></span></h1> </div>
+ 
+                  <div id="addQuestion" class="shadow-lg bg-white mb-5 rounded">
+                      <form id="userForm" class="form-inline">
+                          <div class="form-group">
+                              <label for="inputName"  class="sr-only">Name</label>
+                              <input type="text" required class="form-control-plaintext input-sm" id="Name" placeholder="Name" data-bind="value: $root.newname" >
+                            </div>  
+                          <button type="submit" class="btn btn-primary" data-bind="click:function(){$root.saveQuest()}" >&nbsp;&nbsp;Save&nbsp;&nbsp;</button>
+                        </form>
+                       
+                  </div>
+                 
+                      <div id="survey" class="table-responsive">
+                          <table id="surveyTable" class="table table-striped table-sm">
+                            <thead>
+                              
+                                
+                                <th>Header</th>
+                                <th>Header</th>
+                                <th>Header</th>
+                                <th>Header</th>
+                              
+                            </thead>
+                           
+                          </table>
+                        </div>
+                  <!-- </div> -->
+                <!-- </div> -->
               </div>
           </div>
         

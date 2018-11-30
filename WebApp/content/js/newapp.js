@@ -179,18 +179,35 @@ self.getTeams();
     self.dashboardTab = function(params) {
         self.isDashboard(true);
         self.getTeams();
+        self.showOneTable('home');
     }
     self.teamsTab = function(params) {
         self.isDashboard(false);
         self.getTeams();
+        self.showOneTable('teams');
     }
     self.evaluatorsTab = function(params) {
         self.isDashboard(true);
         self.getEvaluators();
+        self.showOneTable('evaluators');
     }
     self.resultsTab = function (params) {
         self.isDashboard(false);
         self.getResults();
+        self.showOneTable('results');
+    }
+    self.surveyTab = function (params) {
+       self.showQuestionForm();
+        self.showOneTable('survey');
+    }
+    self.showOneTable =function(selector){
+        $('#teams').hide();
+        $('#evaluators').hide();
+        $('#results').hide();
+        $('#home').hide();
+        $('#survey').hide();
+        $('#'+selector).show();
+
     }
 //to get all the teams data
 self.getTeams=function(){
@@ -224,7 +241,7 @@ self.getTeams=function(){
   
 }
 self.getResults =function(){
-    self.isDetail(false);
+    self.isDetail(false)
     $.ajax({
         method: "GET",
         contentType: 'application/json',
@@ -409,8 +426,9 @@ self.showEvaluators = function(data) {
                    $(this).addClass('selected');
                 //   alert('show user details');
                 //find the userid and surveyid admin clicked
-              
+                var teamid= resultsTable.row('.selected').data()._id;
                //hide this table and get details about the team using team id and results table
+               self.getResultDetail(teamid)
                }
            } );
            
@@ -530,6 +548,9 @@ self.showEvaluators = function(data) {
         
 
     }
+    self.saveQuest = function (params) {
+        
+    }
     self.showeditForm= function(){
         self.isEdit(!self.isEdit());
         var teamName= table.row('.selected').data().teamName;
@@ -628,6 +649,16 @@ self.disableButtons=function(){
 self.showTeamForm= function(){
     self.newname('');
     $('#addTeam').slideToggle( "slow");
+}
+self.saveOrder = function(){
+
+}
+self.showQuestionForm = function (params) {
+    self.newname('');
+    $('#addQuestion').slideToggle( "slow");
+}
+self.delelteSurvey = function (params) {
+    
 }
 
 // self.hideUserForm= function(){
