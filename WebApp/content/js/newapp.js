@@ -13,9 +13,11 @@ function AppViewModel() {
     self.APIKey = ko.observable('');
     self.role = ko.observable('');
     self.isEdit = ko.observable(false);
-    var table,evaluatorsTable,resultsTable,detailTable;
     self.isDashboard = ko.observable(true);
     self.isDetail = ko.observable(false);
+  //table variables
+    var table,evaluatorsTable,resultsTable,detailTable,surveyTable;
+
   var token=  readCookie("token");
     self.token=ko.observable(token);
     self.adminName = ko.observable('Admin');
@@ -182,11 +184,14 @@ self.getTeams();
         self.showOneTable('home');
     }
     self.teamsTab = function(params) {
+        $('#qrSpace').hide();
         self.isDashboard(false);
         self.getTeams();
         self.showOneTable('teams');
     }
     self.evaluatorsTab = function(params) {
+        $('#qrSpaceE').hide();
+        $('#addEvaluator').hide();
         self.isDashboard(true);
         self.getEvaluators();
         self.showOneTable('evaluators');
@@ -330,6 +335,9 @@ self.getEvaluators = function(){
       });
   
 }
+self.getSurvey = function (params) {
+    
+}
 self.showTeams = function(data) {
     self.showTeamTable(data);
     console.log(readCookie('token'))
@@ -376,24 +384,6 @@ self.showEvaluators = function(data) {
         }
         
 
-        // $('#table_id tbody').on( 'click', 'tr', function () {
-        //     if ( $(this).hasClass('selected') ) {
-        //         $(this).removeClass('selected');
-        //     }
-        //     else {
-        //         table.$('tr.selected').removeClass('selected');
-        //         $(this).addClass('selected');
-        //      //   alert('show user details');
-        //      //find the userid and surveyid admin clicked
-        //     var userid= this.cells[1].innerHTML;
-        //     var sid = this.cells[2].innerHTML;
-        //     createCookie("uid",userid);
-        //     //createCookie("sid",sid);
-        //      window.location="SurveyDetail.html";
-             
-        //      self.getUserDetailSurvey();
-        //     }
-        // } );
         
     } 
     self.showResultsTable= function(tabledata) {
@@ -458,8 +448,9 @@ self.showEvaluators = function(data) {
        } 
     self.showEvaluatorsTable= function(tabledata) {
         // console.log(table);
+     
            $('#evaluators').fadeIn( 2000);
-           if(evaluatorsTable == null)
+           if(evaluatorsTable == null){
            evaluatorsTable=$('#evaluatorsTable').DataTable( {
                data: tabledata, 
                columns: [
@@ -470,26 +461,65 @@ self.showEvaluators = function(data) {
                ]
            } );
            
-   
-           // $('#table_id tbody').on( 'click', 'tr', function () {
-           //     if ( $(this).hasClass('selected') ) {
-           //         $(this).removeClass('selected');
-           //     }
-           //     else {
-           //         table.$('tr.selected').removeClass('selected');
-           //         $(this).addClass('selected');
-           //      //   alert('show user details');
-           //      //find the userid and surveyid admin clicked
-           //     var userid= this.cells[1].innerHTML;
-           //     var sid = this.cells[2].innerHTML;
-           //     createCookie("uid",userid);
-           //     //createCookie("sid",sid);
-           //      window.location="SurveyDetail.html";
-                
-           //      self.getUserDetailSurvey();
-           //     }
-           // } );
+           $('#evaluatorstable tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('selected') ) {
+                $(this).removeClass('selected');
+                $('#editTeam').addClass('disabled')
+                $('#deleteTeam').addClass('disabled');
+
+            }
+            else {
+                evaluatorsTable.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                $('#editEvaluator').removeClass('disabled');
+                $('#deleteEvaluator').removeClass('disabled');
+
+            }
+        } );
+        }
+        else{
+           //see how to update table
+          // $('#teamstable').DataTable().draw();
+          evaluatorsTable.clear();
+          evaluatorsTable.rows.add(tabledata).draw();
+        }
            
+       }
+       self.showSurveyTable = function(tabledata) {
+       
+            $('#survey').fadeIn( 2000);
+            if(surveyTable == null){
+                surveyTable=$('#surveyTable').DataTable( {
+                data: tabledata,
+                reorder:true, 
+                columns: [
+                    { data: '_id', title:'ID' },
+                    { data: 'username',title:'Name' },
+                    { data: 'email',title:'Email' },
+                    
+                ]
+            } );
+            
+            $('#surveyTable tbody').on( 'click', 'tr', function () {
+             if ( $(this).hasClass('selected') ) {
+                 $(this).removeClass('selected');
+                 $('#editTeam').addClass('disabled')
+                 $('#deleteTeam').addClass('disabled');
+ 
+             }
+             else {
+                surveyTable.$('tr.selected').removeClass('selected');
+                 $(this).addClass('selected');
+               
+             }
+         } );
+         }
+         else{
+            //see how to update table
+           // $('#teamstable').DataTable().draw();
+           evaluatorsTable.clear();
+           evaluatorsTable.rows.add(tabledata).draw();
+         }
        }
     self.showUsers=function (params) {
         $('#usertable').fadeIn(2000);
@@ -548,6 +578,60 @@ self.showEvaluators = function(data) {
         
 
     }
+    self.saveEvaluator = function (isEdit) {
+        //add user ajax to be called here'
+        if(isEdit){
+            self.editEvaluator();
+            return;
+        }
+
+        console.log(readCookie('token'))
+        $.ajax({
+            method: "POST",
+            contentType: 'application/json',
+        headers: {"Authorization": "BEARER "+readCookie('token')},
+            data: JSON.stringify({
+                email:self.newemail(),
+                password:self.newpassword(),
+                username:self.newname(),
+                }),
+                url: self.urlIP()+ "/user/registerEvaluator",
+               
+                success: function(result) {
+                    //Write your code here
+                    if(result.status==200){
+                    //self.token(result.token);
+                    $.toast({ heading: 'Success',
+                    text: result.message,
+                      showHideTransition: 'slide',
+                    icon: 'success'});
+                    console.log('team data')
+                    console.log(result.data);
+
+                     $('#addUser').slideToggle("slow");
+                
+                    //self.getData();
+                    self.makeQRCode(result.data.teamId);
+                    self.getEvaluators();
+                    }
+                    else{
+                        $.toast({heading:'error',text:result.message, icon: 'error'});
+                    }
+                    },
+                error:
+                function(result) {
+                    //Write your code here
+                    $.toast({heading:'error',text:result.responseJSON.message,icon:'error'});
+                    }
+            
+          });
+            // .done(function( data ) {
+            //   alert( "welcome your token is = : " + data.token );
+            // });
+    
+        
+
+    }
     self.saveQuest = function (params) {
         
     }
@@ -557,17 +641,25 @@ self.showEvaluators = function(data) {
         self.newname(teamName)
         $('#addTeam').slideToggle( "slow");
     }
+    self.showeditEvaluatorForm= function(){
+        self.isEdit(!self.isEdit());
+        var name= evaluatorsTable.row('.selected').data().teamName;
+        self.newname(teamName)
+        $('#emailEval').hide();
+        $('#passwordEval').hide();
+        $('#addTeam').slideToggle( "slow");
+    }
     self.editTeam = function () {
         //add user ajax to be called here
         var teamId= table.row('.selected').data()._id;
-        var teamName =self.newname();
+        var tname =self.newname();
         $.ajax({
             method: "POST",
             contentType: 'application/json',
         headers: {"Authorization": "BEARER "+readCookie('token')},
             data: JSON.stringify({
-                teamName:teamName,
-                teamId: teamId
+                teamName:tname,
+                id: teamId
                 }),
                 url: self.urlIP()+ "/user/editTeam",
                
@@ -600,6 +692,46 @@ self.showEvaluators = function(data) {
             // });
     
         
+
+    }
+    self.editEvaluator= function () {
+        //add user ajax to be called here
+        var userId= evaluatorsTable.row('.selected').data()._id;
+        var tname =self.newname();
+        $.ajax({
+            method: "POST",
+            contentType: 'application/json',
+        headers: {"Authorization": "BEARER "+readCookie('token')},
+            data: JSON.stringify({
+                teamName:tname,
+                id: teamId
+                }),
+                url: self.urlIP()+ "/user/editEvaluator",
+               
+                success: function(result) {
+                    //Write your code here
+                    if(result.status==200){
+                    //self.token(result.token);
+                    $.toast({ heading: 'Success',
+                    text: result.message,
+                      showHideTransition: 'slide',
+                    icon: 'success'});
+                     $('#addUser').slideToggle("slow");
+                     self.getEvaluators();
+                     self.showeditEvaluatorForm();
+                
+                    }
+                    else{
+                        $.toast({heading:'error',text:result.message, icon: 'error'});
+                    }
+                    },
+                error:
+                function(result) {
+                    //Write your code here
+                    $.toast({heading:'error',text:result.responseJSON.message,icon:'error'});
+                    }
+            
+          });
 
     }
     self.deleteTeam = function () {
@@ -640,6 +772,80 @@ self.showEvaluators = function(data) {
         
 
     }
+    self.deleteSurvey = function () {
+        //add user ajax to be called here
+        var teamId= table.row('.selected').data()._id;
+        console.log(teamId)
+        $.ajax({
+            method: "DELETE",
+            contentType: 'application/json',
+            headers: {"Authorization": "BEARER "+readCookie('token')},
+            url: self.urlIP()+ "/user/deleteTeam/"+teamId,
+               
+                success: function(result) {
+                    //Write your code here
+                    if(result.status==200){
+                    //self.token(result.token);
+                    $.toast({ heading: 'Success',
+                    text: result.message,
+                      showHideTransition: 'slide',
+                    icon: 'success'});
+                    self.getTeams();
+                    self.disableButtons();
+                    $('#qrSpace').hide();
+                    }
+                    else{
+                        $.toast({heading:'error',text:result.message, icon: 'error'});
+                    }
+                    },
+                error:
+                function(result) {
+                    //Write your code here
+                    $.toast({heading:'error',text:result.responseJSON.message,icon:'error'});
+                    }
+            
+          });
+          
+    
+        
+
+    }
+    self.deleteEvaluator = function () {
+        //add user ajax to be called here
+        var id= evaluatorsTable.row('.selected').data()._id;
+        console.log(teamId)
+        $.ajax({
+            method: "DELETE",
+            contentType: 'application/json',
+            headers: {"Authorization": "BEARER "+readCookie('token')},
+            url: self.urlIP()+ "/user/deleteEvaluator/"+id,
+               
+                success: function(result) {
+                    //Write your code here
+                    if(result.status==200){
+                    //self.token(result.token);
+                    $.toast({ heading: 'Success',
+                    text: result.message,
+                      showHideTransition: 'slide',
+                    icon: 'success'});
+                    self.getTeams();
+                    self.disableButtons();
+                    $('#qrSpace').hide();
+                    }
+                    else{
+                        $.toast({heading:'error',text:result.message, icon: 'error'});
+                    }
+                    },
+                error:
+                function(result) {
+                    //Write your code here
+                    $.toast({heading:'error',text:result.responseJSON.message,icon:'error'});
+                    }
+            
+          });
+      
+    }
+
 
 self.disableButtons=function(){
     $('#editTeam').addClass('disabled')
@@ -647,11 +853,24 @@ self.disableButtons=function(){
 
 }
 self.showTeamForm= function(){
+    self.isEdit(false);
     self.newname('');
     $('#addTeam').slideToggle( "slow");
 }
-self.saveOrder = function(){
 
+self.showEvaluatorForm= function(){
+    self.isEdit(false);
+    self.newname('');
+    $('#emailEval').show();
+    $('#passwordEval').show();
+    $('#addEvaluator').slideToggle( "slow");
+}
+self.saveOrder = function(){
+var surveyData = surveyTable.rows().data();
+var arrayToStore = $.each( surveyData, function( i, val){
+    return val.orderId;
+  });
+  //send this array to ajax similar to saveTeam
 }
 self.showQuestionForm = function (params) {
     self.newname('');
@@ -661,12 +880,10 @@ self.delelteSurvey = function (params) {
     
 }
 
-// self.hideUserForm= function(){
-//     $('addUser').hide( "slow");
-// }
+
 
 //initialisation of the page goes here
-$('#qrSpace').hide();
+
 
 if((self.token()==null || self.token()=="")){
 $('#page').hide();
