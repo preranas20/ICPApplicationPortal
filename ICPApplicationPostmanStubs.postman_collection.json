@@ -1,0 +1,206 @@
+{
+	"info": {
+		"name": "ICPApplicationPostmanStubs",
+		"_postman_id": "2f0614de-96d7-b3c7-1399-2dc47aa0a5b2",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "52.202.147.130:5000/user/login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"admin@admin.com\",\n\t\"password\":\"admin\"\n}"
+				},
+				"url": {
+					"raw": "52.202.147.130:5000/user/login",
+					"host": [
+						"52",
+						"202",
+						"147",
+						"130"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"login"
+					]
+				},
+				"description": "Login for Admin"
+			},
+			"response": []
+		},
+		{
+			"name": "52.202.147.130:5000/user/registerEvaluator",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VySWQiOiI1YmY3MzJkOWE0ZDZjYjEzMjQ5MDg0MzYiLCJpYXQiOjE1NDM2MzE3NDIsImV4cCI6MTU0MzYzNTM0Mn0.5y2uqPBTGEDw4QFFXysaZi5g-LpTwoNs1XrH__xziqw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"evaluator4@gmail.com\",\n    \"password\":\"evaluator4\",\n    \"username\":\"evaluator 4\"\n}\n"
+				},
+				"url": {
+					"raw": "52.202.147.130:5000/user/registerEvaluator",
+					"host": [
+						"52",
+						"202",
+						"147",
+						"130"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"registerEvaluator"
+					]
+				},
+				"description": "Create Evaluator by admin"
+			},
+			"response": []
+		},
+		{
+			"name": "52.202.147.130:5000/user/registerTeam",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VySWQiOiI1YmY3MzJkOWE0ZDZjYjEzMjQ5MDg0MzYiLCJpYXQiOjE1NDM2MzE3NDIsImV4cCI6MTU0MzYzNTM0Mn0.5y2uqPBTGEDw4QFFXysaZi5g-LpTwoNs1XrH__xziqw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"teamName\":\"Test Team 5\"\n}"
+				},
+				"url": {
+					"raw": "52.202.147.130:5000/user/registerTeam",
+					"host": [
+						"52",
+						"202",
+						"147",
+						"130"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"registerTeam"
+					]
+				},
+				"description": "Registering team by admin"
+			},
+			"response": []
+		},
+		{
+			"name": "52.202.147.130:5000/user/editTeam",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VySWQiOiI1YmY3MzJkOWE0ZDZjYjEzMjQ5MDg0MzYiLCJpYXQiOjE1NDM2MzE3NDIsImV4cCI6MTU0MzYzNTM0Mn0.5y2uqPBTGEDw4QFFXysaZi5g-LpTwoNs1XrH__xziqw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":\"5c01f4d123eb58677aea7f36\",\n\t\"teamName\":\"Team 5\"\n}"
+				},
+				"url": {
+					"raw": "52.202.147.130:5000/user/editTeam",
+					"host": [
+						"52",
+						"202",
+						"147",
+						"130"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"editTeam"
+					]
+				},
+				"description": "Edit Team by admin"
+			},
+			"response": []
+		},
+		{
+			"name": "52.202.147.130:5000/user/deleteTeam/5c01f4d123eb58677aea7f36",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VySWQiOiI1YmY3MzJkOWE0ZDZjYjEzMjQ5MDg0MzYiLCJpYXQiOjE1NDM2MzE3NDIsImV4cCI6MTU0MzYzNTM0Mn0.5y2uqPBTGEDw4QFFXysaZi5g-LpTwoNs1XrH__xziqw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "52.202.147.130:5000/user/deleteTeam/5c01f4d123eb58677aea7f36",
+					"host": [
+						"52",
+						"202",
+						"147",
+						"130"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"deleteTeam",
+						"5c01f4d123eb58677aea7f36"
+					]
+				},
+				"description": "Delete Team by admin"
+			},
+			"response": []
+		}
+	]
+}
