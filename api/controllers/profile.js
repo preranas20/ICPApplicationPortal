@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 const User = require("../models/user");
-const Message = require("../models/message");
-const Device = require("../models/device");
+const Result = require("../models/result");
+const Survey = require("../models/survey");
 const jwt = require("jsonwebtoken");
 
 //show team details
