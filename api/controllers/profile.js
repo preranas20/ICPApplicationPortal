@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 const User = require("../models/user");
 const Result = require("../models/result");
 const Survey = require("../models/survey");
+const Team = require("../models/team");
 const jwt = require("jsonwebtoken");
 
 //show team details
