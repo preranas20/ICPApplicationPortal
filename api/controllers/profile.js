@@ -98,8 +98,165 @@ exports.user_delete = (req, res, next) => {
 
 
 
+//Create new question
+module.exports.createQuestion = function(req, res){
+//var userId=req.userData.userId;
+//Get max
+var order;
+Survey
+  .findOne()
+  .sort({orderId : -1})  // give me the max
+  .exec(function (err, survey) {
+
+    // your callback code
+    order = survey[0].orderId;
+    console.log(order);
+
+  });
+  const question = new Survey({
+              qId: new mongoose.Types.ObjectId(),
+              surveyId: 0,
+              qText: req.body.qText,
+              orderId: order
+            });
+        question.save()
+              .then(result => {
+                console.log(result);
+                res.status(201).json({
+                  message: "question added to the survey",
+                  status: 200
+                });
+              })
+              .catch(err => {
+                console.log(err);
+                res.status(500).json({
+                  error: err,
+                  status: 500
+                });
+              });
+  };
 
 
+//Edit question
+module.exports.editQuestion = function(req,res){
+
+  Survey.findByIdAndUpdate(
+    id,
+    {
+      $set:{
+        qText: req.body.qText
+
+      }
+    },
+    {new: true},
+    function(err,result){
+    if(err){
+      console.log(err);
+      res.status(500).json({
+        error:err,
+        status:500
+      });
+    }else{
+      console.log(result);
+      res.status(200).json({
+      status:200,
+      message:"Question successfully updated",
+      result
+     }
+      );
+     // console.log(result);
+    }
+    });
+
+};
+
+//Delete question
+exports.deleteQuestion = (req, res, next) => {
+  Survey.remove({ _id: req.body.qId })
+    .exec()
+    .then(result => {
+      res.status(200).json({
+        message: "Question deleted",
+        status: 200
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+        status: 500
+      });
+    });
+};
+
+
+//get results for a team by team id
+//show team details
+module.exports.getResultForTeams = function(req, res){
+Result.find({{teamId: req.body.teamId }})
+      .exec(function(err, result) {
+        res.status(200).json({
+          message:"Request successful",
+          status:200,
+        data:result}
+        )
+      });
+
+};
+
+
+//save survey
+module.exports.saveSurvey = function(req, res){
+var data = request.body.data;
+for(var item in data){
+    new Survey(data[item])
+    .save()
+                  .then(result => {
+                    console.log(result);
+                    res.status(201).json({
+                      message: "survey answers added",
+                      status: 200
+                    });
+                  })
+                  .catch(err => {
+                    console.log(err);
+                    res.status(500).json({
+                      error: err,
+                      status: 500
+                    });
+                  });
+                  /*
+      .save()
+      .catch((err)=>{
+        console.log(err.message);
+      } ); */
+}
+/*
+        device.save()
+              .then(result => {
+                console.log(result);
+                res.status(201).json({
+                  message: "device added",
+                  status: 200
+                });
+              })
+              .catch(err => {
+                console.log(err);
+                res.status(500).json({
+                  error: err,
+                  status: 500
+                });
+              }); */
+  };
+
+
+
+
+
+
+
+
+////
 
 
 
