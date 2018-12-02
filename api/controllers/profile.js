@@ -189,9 +189,21 @@ exports.deleteQuestion = (req, res, next) => {
     });
 };
 
+//get all questions
+module.exports.getAllQuestions = function(req, res){
+Survey.find({})
+      .sort({orderId: -1})
+      .exec(function(err, survey) {
+        res.status(200).json({
+          message:"Request successful",
+          status:200,
+          data:survey}
+        )
+      });
+
+};
 
 //get results for a team by team id
-//show team details
 module.exports.getResultForTeams = function(req, res){
 Result.find({{teamId: req.body.teamId }})
       .exec(function(err, result) {
