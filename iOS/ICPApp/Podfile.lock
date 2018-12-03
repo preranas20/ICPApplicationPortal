@@ -1,0 +1,20 @@
+PODS:
+  - Alamofire (4.8.0)
+  - QRCodeReader.swift (9.0.1)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.7)
+  - QRCodeReader.swift (~> 9.0.1)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - QRCodeReader.swift
+
+SPEC CHECKSUMS:
+  Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
+  QRCodeReader.swift: 96292a5612fbc2fd9a0b26f93fa5164c8d02f59d
+
+PODFILE CHECKSUM: 08e84873ef69cdf142a5e1113b3c2a832918e7f2
+
+COCOAPODS: 1.5.3

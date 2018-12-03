@@ -68,6 +68,7 @@ self.getTeams();
         contentType: 'application/json',
         data: JSON.stringify({
             email: self.email(),
+            isPortal:true,
             password:self.password() }),
             url: self.urlIP()+"/user/login",
            

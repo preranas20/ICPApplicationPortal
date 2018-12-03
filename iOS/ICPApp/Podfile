@@ -1,0 +1,8 @@
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '12.1'
+use_frameworks!
+
+target 'ICPApp' do
+    pod 'QRCodeReader.swift', '~> 9.0.1'
+    pod 'Alamofire', '~> 4.7'
+end
