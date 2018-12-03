@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 const User = require("../models/user");
-const Message = require("../models/message");
-const Device = require("../models/device");
+const Result = require("../models/result");
+const Survey = require("../models/survey");
+const Team = require("../models/team");
 const jwt = require("jsonwebtoken");
 
 //show team details
@@ -98,8 +99,192 @@ exports.user_delete = (req, res, next) => {
 
 
 
+//Create new question
+module.exports.createQuestion = function(req, res){
+//var userId=req.userData.userId;
+//Get max
+var order;
+Survey
+  .findOne()
+  .sort('-orderId')  // give me the max
+  .exec(function (err, survey) {
+
+    // your callback code
+    if (survey == null)
+    { order = 1;
+    }
+    else { order = (survey.orderId)+1;
+    console.log(order);}
+
+    //
+    const question = new Survey({
+                  qId: new mongoose.Types.ObjectId(),
+                  surveyId: 0,
+                  qText: req.body.qText,
+                  orderId: order
+                });
+            question.save()
+                  .then(result => {
+                    console.log(result);
+                    res.status(201).json({
+                      message: "question added to the survey",
+                      status: 200
+                    });
+                  })
+                  .catch(err => {
+                    console.log(err);
+                    res.status(500).json({
+                      error: err,
+                      status: 500
+                    });
+                  }); //
 
 
+  });
+
+
+  //was here
+
+
+  };
+
+
+//Edit question
+module.exports.editQuestion = function(req,res){
+var id = req.body.qId;
+  Survey.update(
+    {qId: req.body.qId},
+    {
+
+        qText: req.body.qText
+
+
+    },
+    {new: true},
+    function(err,result){
+    if(err){
+      console.log(err);
+      res.status(500).json({
+        error:err,
+        status:500
+      });
+    }else{
+      console.log(result);
+      res.status(200).json({
+      status:200,
+      message:"Question successfully updated"
+
+     }
+      );
+     // console.log(result);
+    }
+    });
+
+};
+
+
+
+
+
+//Delete question
+exports.deleteQuestion = (req, res, next) => {
+  Survey.remove({ qId: req.body.qId })
+    .exec()
+    .then(result => {
+      res.status(200).json({
+        message: "Question deleted",
+        status: 200
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+        status: 500
+      });
+    });
+};
+
+//get all questions
+module.exports.getAllQuestions = function(req, res){
+Survey.find({})
+      .sort({orderId: -1})
+      .exec(function(err, survey) {
+        res.status(200).json({
+          message:"Request successful",
+          status:200,
+          data:survey}
+        )
+      });
+
+};
+
+//get results for a team by team id
+module.exports.getResultForTeams = function(req, res){
+Result.find({teamId: req.body.teamId })
+      .exec(function(err, result) {
+        res.status(200).json({
+          message:"Request successful",
+          status:200,
+        data:result}
+        )
+      });
+
+};
+
+
+//save survey
+module.exports.saveSurvey = function(req, res){
+var data = request.body.data;
+for(var item in data){
+    new Result(data[item])
+    .save()
+                  .then(result => {
+                    console.log(result);
+                    res.status(201).json({
+                      message: "survey answers added",
+                      status: 200
+                    });
+                  })
+                  .catch(err => {
+                    console.log(err);
+                    res.status(500).json({
+                      error: err,
+                      status: 500
+                    });
+                  });
+                  /*
+      .save()
+      .catch((err)=>{
+        console.log(err.message);
+      } ); */
+}
+/*
+        device.save()
+              .then(result => {
+                console.log(result);
+                res.status(201).json({
+                  message: "device added",
+                  status: 200
+                });
+              })
+              .catch(err => {
+                console.log(err);
+                res.status(500).json({
+                  error: err,
+                  status: 500
+                });
+              }); */
+  };
+
+
+
+
+
+
+
+
+////
 
 
 

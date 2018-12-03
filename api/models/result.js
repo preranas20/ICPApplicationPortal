@@ -15,11 +15,11 @@ const resultSchema = mongoose.Schema({
         	type:String
         },
     surveyId:{
-        	type:String
+        	type:Number
         },
     answer:{
             	type:Number
             }
 });
 
-module.exports = mongoose.model('DeviceMapping', deviceSchema);
+module.exports = mongoose.model('Result', resultSchema);

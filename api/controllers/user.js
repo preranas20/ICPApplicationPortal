@@ -63,10 +63,12 @@ exports.create_evaluator = (req, res, next) => {
 
 
 exports.user_login = (req, res, next) => {
+  //in case we login from portal we need only admin to login but from mobile we need to let evaluator login as well
+  var onlyAdmin = req.body.isPortal;
   User.find({ email: req.body.email })
     .exec()
     .then(user => {
-      if (user.length < 1 || user[0].role=="evaluator") {
+      if (user.length < 1 || (onlyAdmin&&user[0].role=="evaluator")) {
         return res.status(401).json({
           message: "Not Authorized",
           status: 401

@@ -12,17 +12,14 @@ router.get("/getTeam", TeamControlller.getTeam);
 router.get("/getEvaluatorsList",checkAuth, UserProfile.getEvaluatorsList);
 //router.post("/editEvaluator",checkAuth,UserProfile.editEvaluator);
 router.delete("/:userId", checkAuth, UserProfile.user_delete);
-
-
-
-
-
-
+router.post("/createQuestion",UserProfile.createQuestion);
+router.post("/editQuestion",UserProfile.editQuestion);
+router.post("/saveSurvey",UserProfile.saveSurvey);
+router.post("/deleteQuestion", UserProfile.deleteQuestion);
+router.get("/getAllQuestions",UserProfile.getAllQuestions);
+router.post("/getResultForTeams",UserProfile.getResultForTeams);
 router.post("/registerEvaluator",checkAuth,UserController.create_evaluator);
 
-
-
-//team
 router.post("/registerTeam",checkAuth,TeamControlller.createTeam);
 router.post("/editTeam",checkAuth,TeamControlller.editTeam);
 router.delete("/deleteTeam/:id",checkAuth,TeamControlller.deleteTeam);

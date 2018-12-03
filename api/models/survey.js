@@ -3,16 +3,14 @@ const mongoose = require('mongoose');
 const surveySchema = mongoose.Schema({
 
     surveyId:{
-        type:String
+        type:Number
     },
-    qId: {
-        type:String
-    },
+    qId:mongoose.Schema.Types.ObjectId,
 
     qText: { type: String, required: true },
 
     orderId:{
-       type:Number
+       type:String
      }
 });
 
