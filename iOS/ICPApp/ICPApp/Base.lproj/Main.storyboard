@@ -153,10 +153,78 @@
                             <outlet property="delegate" destination="1Ud-ch-1X7" id="pJs-uT-eYA"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="eN1-z4-gqs" kind="show" identifier="showSurvey" id="Yif-b7-nSF"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uIj-TR-oIa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="24.800000000000001" y="118.29085457271366"/>
+            <point key="canvasLocation" x="68" y="116"/>
+        </scene>
+        <!--Survey Table View Controller-->
+        <scene sceneID="82F-Jo-k8m">
+            <objects>
+                <tableViewController id="eN1-z4-gqs" customClass="SurveyTableViewController" customModule="ICPApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="1ff-Jm-JKG">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="nAq-Wo-6cG">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <items>
+                                <navigationItem title="Evaluate Team" id="nwX-lF-bqV">
+                                    <barButtonItem key="rightBarButtonItem" title="Save" id="zWu-WM-666"/>
+                                </navigationItem>
+                            </items>
+                        </navigationBar>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="surveyCell" rowHeight="260" id="Gqh-41-Lpw" customClass="QuestionCell" customModule="ICPApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="72" width="375" height="260"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Gqh-41-Lpw" id="lDo-Gu-JNe">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="259.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pkQ-6W-MF5">
+                                            <rect key="frame" x="16" y="0.0" width="343" height="127"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                            <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
+                                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="2t4-B5-jf8">
+                                            <rect key="frame" x="31" y="184" width="346" height="31"/>
+                                            <connections>
+                                                <action selector="SliderValueChanged:" destination="eN1-z4-gqs" eventType="valueChanged" id="0Di-ut-Xxz"/>
+                                            </connections>
+                                        </slider>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottomMargin" secondItem="2t4-B5-jf8" secondAttribute="bottom" constant="35" id="4Dk-ow-shh"/>
+                                        <constraint firstItem="2t4-B5-jf8" firstAttribute="leading" secondItem="lDo-Gu-JNe" secondAttribute="leadingMargin" constant="17" id="Cvi-J5-vPr"/>
+                                        <constraint firstItem="pkQ-6W-MF5" firstAttribute="top" secondItem="lDo-Gu-JNe" secondAttribute="top" id="OkD-zA-7Ru"/>
+                                        <constraint firstItem="pkQ-6W-MF5" firstAttribute="leading" secondItem="lDo-Gu-JNe" secondAttribute="leading" constant="16" id="STN-8f-ioj"/>
+                                        <constraint firstAttribute="trailing" secondItem="pkQ-6W-MF5" secondAttribute="trailing" constant="16" id="YPo-6j-0Mh"/>
+                                        <constraint firstItem="2t4-B5-jf8" firstAttribute="trailing" secondItem="lDo-Gu-JNe" secondAttribute="trailingMargin" constant="16" id="llh-g2-Uwq"/>
+                                        <constraint firstItem="2t4-B5-jf8" firstAttribute="top" secondItem="pkQ-6W-MF5" secondAttribute="bottom" constant="57" id="oGF-ls-8qT"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="Slider" destination="2t4-B5-jf8" id="I8U-Zt-dMV"/>
+                                    <outlet property="questionText" destination="pkQ-6W-MF5" id="gRV-8L-vy1"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="eN1-z4-gqs" id="MIe-Es-JSC"/>
+                            <outlet property="delegate" destination="eN1-z4-gqs" id="b8K-ZB-lAX"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lmZ-Ii-VAA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1080.8" y="115.59220389805098"/>
         </scene>
     </scenes>
 </document>

@@ -12,7 +12,7 @@ import Alamofire
 import SwiftyJSON
 
 class TeamsTableViewController: UITableViewController ,QRCodeReaderViewControllerDelegate {
-    
+    var selectedTeam: String = ""
     var teams:NSArray = [];
     var swiftyJson: JSON = []
     let RemoteIp:String = "http://52.202.147.130:5000/";
@@ -163,7 +163,14 @@ class TeamsTableViewController: UITableViewController ,QRCodeReaderViewControlle
         return cell
     }
     
-
+  override  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    self.selectedTeam = self.swiftyJson["data"][indexPath.row]["_id"].stringValue
+        self.performSegue(withIdentifier: "showSurvey", sender: self)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let dest = segue.destination as! SurveyTableViewController
+        dest.teamId = self.selectedTeam;
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
