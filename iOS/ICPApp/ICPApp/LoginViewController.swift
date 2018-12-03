@@ -19,6 +19,10 @@ class LoginViewController: UIViewController ,QRCodeReaderViewControllerDelegate 
     override func viewDidLoad() {
         
         super.viewDidLoad()
+         let tok = self.readToken()
+         if tok != ""{
+            self.performSegue(withIdentifier: "showTeams", sender: self)
+         }
         // Do any additional setup after loading the view, typically from a nib.
     }
     
