@@ -10,29 +10,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
-            <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ICPApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iQd-PR-nap">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Evaluator Login" id="zuN-4u-mH0"/>
-                                </items>
-                            </navigationBar>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-            </objects>
-        </scene>
         <!--Login View Controller-->
         <scene sceneID="79C-uj-gX2">
             <objects>
@@ -107,11 +84,76 @@
                     <connections>
                         <outlet property="email" destination="63s-xD-tqL" id="gbp-mM-qoR"/>
                         <outlet property="password" destination="l0V-iK-tiP" id="6cc-3E-Asc"/>
+                        <segue destination="1Ud-ch-1X7" kind="show" identifier="showTeams" id="hsd-pz-aTg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kc9-pA-jLB" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-842.39999999999998" y="119.1904047976012"/>
+        </scene>
+        <!--Teams Table View Controller-->
+        <scene sceneID="u89-rB-VRJ">
+            <objects>
+                <tableViewController id="1Ud-ch-1X7" customClass="TeamsTableViewController" customModule="ICPApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ebu-U1-LbV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="XA7-Ye-fYq">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <items>
+                                <navigationItem title="Teams" id="Ouf-NE-z8C">
+                                    <barButtonItem key="rightBarButtonItem" title="Scan Code" id="nqX-An-rTR">
+                                        <connections>
+                                            <action selector="scanInModalAction:" destination="1Ud-ch-1X7" id="vk8-Hy-1r6"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </navigationItem>
+                            </items>
+                        </navigationBar>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="teamCell" rowHeight="76" id="wMy-so-s6F">
+                                <rect key="frame" x="0.0" y="72" width="375" height="76"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wMy-so-s6F" id="Fih-8T-vDz">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="75.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textField opaque="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="249" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4CH-ms-88Y">
+                                            <rect key="frame" x="16" y="22" width="265" height="30"/>
+                                            <nil key="textColor"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                        <textField opaque="NO" tag="2" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hwe-sg-7SV">
+                                            <rect key="frame" x="289" y="21" width="78" height="30"/>
+                                            <nil key="textColor"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottomMargin" secondItem="4CH-ms-88Y" secondAttribute="bottom" constant="13" id="4dG-LB-NAL"/>
+                                        <constraint firstAttribute="trailing" secondItem="Hwe-sg-7SV" secondAttribute="trailing" constant="8" id="6et-pY-OIU"/>
+                                        <constraint firstItem="4CH-ms-88Y" firstAttribute="top" secondItem="Fih-8T-vDz" secondAttribute="topMargin" constant="11" id="A3v-PY-SIG"/>
+                                        <constraint firstItem="Hwe-sg-7SV" firstAttribute="top" secondItem="Fih-8T-vDz" secondAttribute="top" constant="22" id="Gee-xQ-MGw"/>
+                                        <constraint firstItem="Hwe-sg-7SV" firstAttribute="leading" secondItem="4CH-ms-88Y" secondAttribute="trailing" constant="8" id="K1L-bl-bWc"/>
+                                        <constraint firstItem="4CH-ms-88Y" firstAttribute="leading" secondItem="Fih-8T-vDz" secondAttribute="leadingMargin" id="MNx-ch-WOY"/>
+                                        <constraint firstAttribute="bottom" secondItem="Hwe-sg-7SV" secondAttribute="bottom" constant="23.5" id="gzs-IR-h6y"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="1Ud-ch-1X7" id="dEs-i7-lp8"/>
+                            <outlet property="delegate" destination="1Ud-ch-1X7" id="pJs-uT-eYA"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uIj-TR-oIa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="24.800000000000001" y="118.29085457271366"/>
         </scene>
     </scenes>
 </document>
