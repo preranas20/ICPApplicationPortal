@@ -106,48 +106,59 @@ module.exports.createQuestion = function(req, res){
 var order;
 Survey
   .findOne()
-  .sort({orderId : -1})  // give me the max
+  .sort('-orderId')  // give me the max
   .exec(function (err, survey) {
 
     // your callback code
-    order = survey[0].orderId;
-    console.log(order);
+    if (survey == null)
+    { order = 1;
+    }
+    else { order = (survey.orderId)+1;
+    console.log(order);}
+
+    //
+    const question = new Survey({
+                  qId: new mongoose.Types.ObjectId(),
+                  surveyId: 0,
+                  qText: req.body.qText,
+                  orderId: order
+                });
+            question.save()
+                  .then(result => {
+                    console.log(result);
+                    res.status(201).json({
+                      message: "question added to the survey",
+                      status: 200
+                    });
+                  })
+                  .catch(err => {
+                    console.log(err);
+                    res.status(500).json({
+                      error: err,
+                      status: 500
+                    });
+                  }); //
+
 
   });
-  const question = new Survey({
-              qId: new mongoose.Types.ObjectId(),
-              surveyId: 0,
-              qText: req.body.qText,
-              orderId: order
-            });
-        question.save()
-              .then(result => {
-                console.log(result);
-                res.status(201).json({
-                  message: "question added to the survey",
-                  status: 200
-                });
-              })
-              .catch(err => {
-                console.log(err);
-                res.status(500).json({
-                  error: err,
-                  status: 500
-                });
-              });
+
+
+  //was here
+
+
   };
 
 
 //Edit question
 module.exports.editQuestion = function(req,res){
-
-  Survey.findByIdAndUpdate(
-    id,
+var id = req.body.qId;
+  Survey.update(
+    {qId: req.body.qId},
     {
-      $set:{
+
         qText: req.body.qText
 
-      }
+
     },
     {new: true},
     function(err,result){
@@ -161,8 +172,8 @@ module.exports.editQuestion = function(req,res){
       console.log(result);
       res.status(200).json({
       status:200,
-      message:"Question successfully updated",
-      result
+      message:"Question successfully updated"
+
      }
       );
      // console.log(result);
@@ -171,9 +182,13 @@ module.exports.editQuestion = function(req,res){
 
 };
 
+
+
+
+
 //Delete question
 exports.deleteQuestion = (req, res, next) => {
-  Survey.remove({ _id: req.body.qId })
+  Survey.remove({ qId: req.body.qId })
     .exec()
     .then(result => {
       res.status(200).json({
@@ -222,7 +237,7 @@ Result.find({teamId: req.body.teamId })
 module.exports.saveSurvey = function(req, res){
 var data = request.body.data;
 for(var item in data){
-    new Survey(data[item])
+    new Result(data[item])
     .save()
                   .then(result => {
                     console.log(result);

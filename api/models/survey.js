@@ -10,7 +10,7 @@ const surveySchema = mongoose.Schema({
     qText: { type: String, required: true },
 
     orderId:{
-       type:Number
+       type:String
      }
 });
 

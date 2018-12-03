@@ -15,7 +15,7 @@ const resultSchema = mongoose.Schema({
         	type:String
         },
     surveyId:{
-        	type:String
+        	type:Number
         },
     answer:{
             	type:Number
