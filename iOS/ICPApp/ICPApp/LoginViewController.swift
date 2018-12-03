@@ -19,12 +19,7 @@ class LoginViewController: UIViewController ,QRCodeReaderViewControllerDelegate 
     override func viewDidLoad() {
         
         super.viewDidLoad()
-         let tok = self.readToken()
-         if tok != ""{
-            UserDefaults.standard.set(false, forKey: "status")
-            Switcher.updateRootVC()
-
-        }
+       
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -45,6 +40,7 @@ class LoginViewController: UIViewController ,QRCodeReaderViewControllerDelegate 
                     let data = JSON["data"] as! NSDictionary;
                     let token = data["token"] as! String;
                    self.saveToken(token: token)
+                   UserDefaults.standard.set(false, forKey: "status")
                 print("Validation Successful")
            self.performSegue(withIdentifier: "showTeams", sender: self)
                 }

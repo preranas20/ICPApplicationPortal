@@ -50,7 +50,8 @@ getQuestions()
                           print(subJson["surveyId"])
                           print(subJson["orderId"])
                         let res:Result = Result(json:subJson)!
-                        self.resultArray.append(res)
+                       res.teamId = self.teamId
+                       self.resultArray.append(res)
                     }
                     //self.saveToken(token: token)
                     print("Validation Successful")
@@ -102,7 +103,11 @@ getQuestions()
     
     @IBAction func SaveSurveyClicked(_ sender: Any) {
         for item in resultArray {
+          print(item.teamId)
             print( item.answer)        }
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let nextViewController = storyboard!.instantiateViewController(withIdentifier: "teamsVC") as! TeamsTableViewController
+        self.present(nextViewController, animated:true, completion:nil)
     }
     /*
     // Override to support conditional editing of the table view.
