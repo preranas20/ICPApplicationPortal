@@ -23,7 +23,13 @@ class TeamsTableViewController: UITableViewController ,QRCodeReaderViewControlle
         // Do any additional setup after loading the view, typically from a nib.
     }
     
- func getTeams() {
+    @IBAction func Logout(_ sender: Any) {
+        self.saveToken(token: "")
+        UserDefaults.standard.set(true, forKey: "status")
+        Switcher.updateRootVC()
+        
+    }
+    func getTeams() {
     let headers: HTTPHeaders = [
         "Authorization": "Bearer \(self.readToken()) "
     ]

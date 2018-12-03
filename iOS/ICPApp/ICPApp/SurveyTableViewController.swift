@@ -15,6 +15,7 @@ class SurveyTableViewController: UITableViewController {
     var questions:NSArray = [];
     var swiftyJson: JSON = []
     var teamId: String = ""
+    var resultArray :[Result] = []
     override func viewDidLoad() {
         super.viewDidLoad()
 getQuestions()
@@ -41,7 +42,16 @@ getQuestions()
                     // print("JSON: \(j)")
                     self.questions = j["data"] as! NSArray
                     //     print(self.teams.count)
-                    
+                    for (key,subJson):(String, JSON) in  self.swiftyJson["data"] {
+                        // Do something you want
+                        print(subJson)
+                        print(subJson["qId"])
+                          print(subJson["qText"])
+                          print(subJson["surveyId"])
+                          print(subJson["orderId"])
+                        let res:Result = Result(json:subJson)!
+                        self.resultArray.append(res)
+                    }
                     //self.saveToken(token: token)
                     print("Validation Successful")
                     self.tableView.reloadData()
@@ -67,7 +77,7 @@ getQuestions()
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.questions.count
+        return self.resultArray.count
     }
 
     
@@ -83,9 +93,17 @@ getQuestions()
     
     @IBAction func SliderValueChanged(_ sender: UISlider) {
       //set the value of object and call save survey api
-        print("row: \(sender.tag) answer: \(sender.value)")
+       
+        let val: Int =  Int((sender.value).rounded(.down)); sender.setValue(Float(val), animated: true)
+       
+         self.resultArray[sender.tag].answer = val
+        
     }
     
+    @IBAction func SaveSurveyClicked(_ sender: Any) {
+        for item in resultArray {
+            print( item.answer)        }
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

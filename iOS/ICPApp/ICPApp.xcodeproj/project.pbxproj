@@ -17,6 +17,7 @@
 		30E8BE0221B5189800791C1E /* QuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E8BE0121B5189800791C1E /* QuestionCell.swift */; };
 		30E8BE0421B519FB00791C1E /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E8BE0321B519FB00791C1E /* Result.swift */; };
 		30E8BE0821B51E0F00791C1E /* SurveyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E8BE0721B51E0E00791C1E /* SurveyTableViewController.swift */; };
+		30E8BE0C21B5C15900791C1E /* switcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E8BE0B21B5C15900791C1E /* switcher.swift */; };
 		52A8891EDE973CAC9FC564BC /* Pods_ICPApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A883D5D1337EF56910EACF5 /* Pods_ICPApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		30E8BE0121B5189800791C1E /* QuestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCell.swift; sourceTree = "<group>"; };
 		30E8BE0321B519FB00791C1E /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		30E8BE0721B51E0E00791C1E /* SurveyTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyTableViewController.swift; sourceTree = "<group>"; };
+		30E8BE0B21B5C15900791C1E /* switcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = switcher.swift; sourceTree = "<group>"; };
 		7034208B1399834A91C8E8EA /* Pods-ICPApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ICPApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ICPApp/Pods-ICPApp.debug.xcconfig"; sourceTree = "<group>"; };
 		9A883D5D1337EF56910EACF5 /* Pods_ICPApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ICPApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B52CB924844809049B87B603 /* Pods-ICPApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ICPApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-ICPApp/Pods-ICPApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				30E8BE0121B5189800791C1E /* QuestionCell.swift */,
 				30E8BE0321B519FB00791C1E /* Result.swift */,
 				30E8BE0721B51E0E00791C1E /* SurveyTableViewController.swift */,
+				30E8BE0B21B5C15900791C1E /* switcher.swift */,
 			);
 			path = ICPApp;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 			files = (
 				30E8BE0421B519FB00791C1E /* Result.swift in Sources */,
 				30E8BDFE21B4DB1B00791C1E /* LoginViewController.swift in Sources */,
+				30E8BE0C21B5C15900791C1E /* switcher.swift in Sources */,
 				30E8BDEE21B4C5AD00791C1E /* ViewController.swift in Sources */,
 				30E8BE0021B4F30800791C1E /* TeamsTableViewController.swift in Sources */,
 				30E8BE0821B51E0F00791C1E /* SurveyTableViewController.swift in Sources */,

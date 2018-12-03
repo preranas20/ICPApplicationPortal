@@ -15,7 +15,9 @@ class QuestionCell: UITableViewCell {
         // Initialization code
     }
     
-    @IBOutlet weak var questionText: UITextView!
+  
+    @IBOutlet weak var answerVal: UILabel!
+    @IBOutlet weak var questionText: UILabel!
     @IBOutlet weak var Slider: UISlider!
     
     override func setSelected(_ selected: Bool, animated: Bool) {

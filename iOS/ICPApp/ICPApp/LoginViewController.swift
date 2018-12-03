@@ -21,8 +21,10 @@ class LoginViewController: UIViewController ,QRCodeReaderViewControllerDelegate 
         super.viewDidLoad()
          let tok = self.readToken()
          if tok != ""{
-            self.performSegue(withIdentifier: "showTeams", sender: self)
-         }
+            UserDefaults.standard.set(false, forKey: "status")
+            Switcher.updateRootVC()
+
+        }
         // Do any additional setup after loading the view, typically from a nib.
     }
     
