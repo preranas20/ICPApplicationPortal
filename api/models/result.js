@@ -22,4 +22,4 @@ const resultSchema = mongoose.Schema({
             }
 });
 
-module.exports = mongoose.model('DeviceMapping', deviceSchema);
+module.exports = mongoose.model('Result', resultSchema);

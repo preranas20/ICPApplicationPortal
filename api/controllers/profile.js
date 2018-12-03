@@ -206,7 +206,7 @@ Survey.find({})
 
 //get results for a team by team id
 module.exports.getResultForTeams = function(req, res){
-Result.find({{teamId: req.body.teamId }})
+Result.find({teamId: req.body.teamId })
       .exec(function(err, result) {
         res.status(200).json({
           message:"Request successful",
