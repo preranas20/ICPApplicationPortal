@@ -1,0 +1,312 @@
+{
+	"info": {
+		"_postman_id": "dbcf3131-8f3c-46c6-9334-d3fed5e6bfa3",
+		"name": "ICPApplication",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:5000/user/getResultForTeams",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"teamId\":\"22\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/user/getResultForTeams",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"getResultForTeams"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/user/saveSurvey",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n\"data\": [\n\n    {\n\n      \"evalId\": \"Ohm eval\",\n\n      \"teamId\": \"Ohm team\",\n\n      \"qId\": \"1\",\n      \"text\": \"question\",\n      \"surveyId\": 0,\n      \"answer\": 2\n\n    },\n\n    {\n\n     \"evalId\": \"Ohm eval\",\n\n      \"teamId\": \"Ohm team\",\n\n      \"qId\": \"2\",\n      \"text\": \"question2\",\n      \"surveyId\": 0,\n      \"answer\": 4\n\n    }\n\n  ]\n\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/user/saveSurvey",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"saveSurvey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/user/getResultForTeams",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"teamId\":\"22\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/user/getResultForTeams",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"getResultForTeams"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/user/saveSurvey",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n\"data\": [\n\n    {\n\n      \"evalId\": \"Ohm eval\",\n\n      \"teamId\": \"Ohm team\",\n\n      \"qId\": \"1\",\n      \"text\": \"question\",\n      \"surveyId\": 0,\n      \"answer\": 2\n\n    },\n\n    {\n\n     \"evalId\": \"Ohm eval\",\n\n      \"teamId\": \"Ohm team\",\n\n      \"qId\": \"2\",\n      \"text\": \"question2\",\n      \"surveyId\": 0,\n      \"answer\": 4\n\n    }\n\n  ]\n\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/user/saveSurvey",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"saveSurvey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/user/getAllQuestions",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5000/user/getAllQuestions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"getAllQuestions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/user/createQuestion",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"qText\":\"Ohm question text 2\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/user/createQuestion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"createQuestion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/user/createQuestion",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"qText\":\"Ohm question text 2\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/user/createQuestion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"createQuestion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/user/editQuestion",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \"qId\": \"5c0484d63ec3cc1230c2e45f\",\n\t\"qText\":\"Ohm question text 4\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/user/editQuestion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"editQuestion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/user/getResultForTeams",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"teamId\":\"22\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/user/getResultForTeams",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"getResultForTeams"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/user/deleteQuestion",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \"qId\": \"5c047f4600087c112fabbb6c\"\n\t\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/user/deleteQuestion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"deleteQuestion"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
