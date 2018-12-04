@@ -1,5 +1,8 @@
 package com.example.preranasingh.icpandroidapp;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -31,6 +34,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private String pass;
     private String remoteIP="http://52.202.147.130:5000";
     private String token;
+    static final String TOKEN_KEY ="TOKEN" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +126,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             token = String.valueOf(result.data.get("token"));
                             Log.d("login", "run: "+token);
 
+                            SharedPreferences sharedPref =  getApplicationContext().getSharedPreferences(
+                                    "mypref", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.putString("token", token);
+                            editor.apply();
+
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            intent.putExtra(TOKEN_KEY, token);
+                            startActivity(intent);
+
                         }
                     }
                 });
@@ -136,4 +150,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     });
 }
+
+
 }
