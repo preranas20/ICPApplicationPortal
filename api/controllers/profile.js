@@ -241,10 +241,16 @@ var evalId = req.userData.userId;
 console.log(evalId)
 for(var item in data){
   data[item].evalId= evalId;
-  console.log(data[item].evalId)
-  console.log('item is :')
-  console.log(item)
-  var result=  new Result(data[item])
+  var resData = data[item];
+  var result=  new Result({
+    evalId: resData.evalId,
+    teamId: resData.teamId,
+    qId: resData.qId,
+      text:resData.text,
+      surveyId: 0,
+      answer: resData.answer
+
+  })
     result.save()
                   .then(result => {
                     console.log(result);
