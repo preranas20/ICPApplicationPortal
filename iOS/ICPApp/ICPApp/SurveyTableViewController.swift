@@ -15,16 +15,24 @@ class SurveyTableViewController: UITableViewController {
     var questions:NSArray = [];
     var swiftyJson: JSON = []
     var teamId: String = ""
+    var name:String = ""
     var resultArray :[Result] = []
     override func viewDidLoad() {
         super.viewDidLoad()
+         self.navigationItem.title = self.name
 getQuestions()
+      
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
+    }
+    @IBAction func backButton(_ sender: Any) {
+        self.dismiss(animated: true) {
+            
+        }
     }
     func getQuestions() {
         let headers: HTTPHeaders = [

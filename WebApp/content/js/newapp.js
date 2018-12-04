@@ -1,4 +1,5 @@
 // This is a simple *viewmodel* - JavaScript that defines the data and behavior of your UI
+
 var debug = false;
 function AppViewModel() {
     var self= this;
@@ -15,6 +16,7 @@ function AppViewModel() {
     self.isEdit = ko.observable(false);
     self.isDashboard = ko.observable(true);
     self.isDetail = ko.observable(false);
+    self.teamNames = ko.observableArray([]);
   //table variables
     var table,evaluatorsTable,resultsTable,detailTable,surveyTable;
 
@@ -215,6 +217,45 @@ self.getTeams();
         $('#'+selector).show();
 
     }
+    self.drawCanvas = function (data) {
+
+        var teamnames = $.each( data, function( i, val){
+           self.teamNames.push(val.teamName)
+            return val.teamName;
+          });
+        //  self.teamNames(teamnames);
+          self.teamNames.valueHasMutated();
+          var scores = $.each( data, function( i, val){
+            return val.score;
+          });
+        var ctx = $("#myChart");
+var myChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels:self.teamNames(),
+    datasets: [{
+      data: scores,
+      lineTension: 0,
+      backgroundColor: 'transparent',
+      borderColor: '#007bff',
+      borderWidth: 4,
+      pointBackgroundColor: '#007bff'
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: false
+        }
+      }]
+    },
+    legend: {
+      display: false,
+    }
+  }
+});
+    }
 //to get all the teams data
 self.getTeams=function(){
     $.ajax({
@@ -230,6 +271,8 @@ self.getTeams=function(){
                 //self.token(result.token);
              
                 self.showTeams(result.data);
+                if(self.isDashboard())
+                self.drawCanvas(result.data);
                 }
                 else{
                     console.log('not getting status');

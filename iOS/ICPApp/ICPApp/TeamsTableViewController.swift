@@ -13,6 +13,7 @@ import SwiftyJSON
 
 class TeamsTableViewController: UITableViewController ,QRCodeReaderViewControllerDelegate {
     var selectedTeam: String = ""
+    var selectedName : String = ""
     var teams:NSArray = [];
     var swiftyJson: JSON = []
     let RemoteIp:String = "http://52.202.147.130:5000/";
@@ -81,14 +82,8 @@ class TeamsTableViewController: UITableViewController ,QRCodeReaderViewControlle
         reader.stopScanning()
         
         dismiss(animated: true) { [weak self] in
-            let alert = UIAlertController(
-                title: "QRCodeReader",
-                message: String (format:"%@ (of type %@)", result.value, result.metadataType),
-                preferredStyle: .alert
-            )
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            
-            self?.present(alert, animated: true, completion: nil)
+         self?.selectedTeam = result.value
+            self!.performSegue(withIdentifier: "showSurvey", sender: self)
         }
     }
     
@@ -170,12 +165,14 @@ class TeamsTableViewController: UITableViewController ,QRCodeReaderViewControlle
     }
     
   override  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    self.selectedName = self.swiftyJson["data"][indexPath.row]["teamName"].stringValue
     self.selectedTeam = self.swiftyJson["data"][indexPath.row]["_id"].stringValue
         self.performSegue(withIdentifier: "showSurvey", sender: self)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let dest = segue.destination as! SurveyTableViewController
         dest.teamId = self.selectedTeam;
+        dest.name = self.selectedName
     }
     /*
     // Override to support conditional editing of the table view.

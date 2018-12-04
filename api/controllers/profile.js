@@ -25,9 +25,9 @@ module.exports.getTeam = function(req, res){
 //show evaluators list to Admin
 module.exports.getEvaluatorsList = function(req, res){
   const role=req.userData.role;
-  if (!(role=="evaluator")) {
+  if ((role=="evaluator")) {
     res.status(401).json({
-      "message" : "UnauthorizedError: not an admin profile"
+      "message" : "UnauthorizedError: api not allowed for evaluator"
     });
   } else {
     User
