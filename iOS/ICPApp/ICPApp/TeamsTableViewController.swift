@@ -12,17 +12,25 @@ import Alamofire
 import SwiftyJSON
 
 class TeamsTableViewController: UITableViewController ,QRCodeReaderViewControllerDelegate {
-    
+    var selectedTeam: String = ""
+    var selectedName : String = ""
     var teams:NSArray = [];
+    var swiftyJson: JSON = []
     let RemoteIp:String = "http://52.202.147.130:5000/";
     override func viewDidLoad() {
-         self.getTeams()
-        super.viewDidLoad()
        
+        super.viewDidLoad()
+         self.getTeams()
         // Do any additional setup after loading the view, typically from a nib.
     }
     
- func getTeams() {
+    @IBAction func Logout(_ sender: Any) {
+        self.saveToken(token: "")
+        UserDefaults.standard.set(true, forKey: "status")
+        Switcher.updateRootVC()
+        
+    }
+    func getTeams() {
     let headers: HTTPHeaders = [
         "Authorization": "Bearer \(self.readToken()) "
     ]
@@ -31,13 +39,17 @@ class TeamsTableViewController: UITableViewController ,QRCodeReaderViewControlle
             case .success:
                 
                 if let json = response.result.value {
+                    self.swiftyJson = JSON(json)
+                    print(self.swiftyJson)
+                   // self.teams = self.swiftyJson["data"] as! NSArray
                     let j = json as! NSDictionary
-                    print("JSON: \(j)")
+                  // print("JSON: \(j)")
                   self.teams = j["data"] as! NSArray
-                    print(self.teams.count)
+               //     print(self.teams.count)
                     
                     //self.saveToken(token: token)
                     print("Validation Successful")
+                   self.tableView.reloadData()
                 }
             case .failure(_):
                 print("some error occured")
@@ -70,14 +82,8 @@ class TeamsTableViewController: UITableViewController ,QRCodeReaderViewControlle
         reader.stopScanning()
         
         dismiss(animated: true) { [weak self] in
-            let alert = UIAlertController(
-                title: "QRCodeReader",
-                message: String (format:"%@ (of type %@)", result.value, result.metadataType),
-                preferredStyle: .alert
-            )
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            
-            self?.present(alert, animated: true, completion: nil)
+         self?.selectedTeam = result.value
+            self!.performSegue(withIdentifier: "showSurvey", sender: self)
         }
     }
     
@@ -146,17 +152,28 @@ class TeamsTableViewController: UITableViewController ,QRCodeReaderViewControlle
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "teamCell", for: indexPath)
-        let teamName = cell.viewWithTag(1) as! UITextView
-        let team = self.teams[indexPath.row] as! JSON
-       let name = team["teamName"]
-        print(name)
-        teamName.text = name.stringValue
+        let teamName = cell.viewWithTag(1) as! UITextField
+        let team = self.swiftyJson["data"][indexPath.row]
+        
+       teamName.text = team["teamName"].stringValue
+        let score = cell.viewWithTag(2) as! UITextField
+        score.text = team["score"].stringValue
+      
         // Configure the cell...
 
         return cell
     }
     
-
+  override  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    self.selectedName = self.swiftyJson["data"][indexPath.row]["teamName"].stringValue
+    self.selectedTeam = self.swiftyJson["data"][indexPath.row]["_id"].stringValue
+        self.performSegue(withIdentifier: "showSurvey", sender: self)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let dest = segue.destination as! SurveyTableViewController
+        dest.teamId = self.selectedTeam;
+        dest.name = self.selectedName
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

@@ -25,9 +25,9 @@ module.exports.getTeam = function(req, res){
 //show evaluators list to Admin
 module.exports.getEvaluatorsList = function(req, res){
   const role=req.userData.role;
-  if (!(role=="evaluator")) {
+  if ((role=="evaluator")) {
     res.status(401).json({
-      "message" : "UnauthorizedError: not an admin profile"
+      "message" : "UnauthorizedError: api not allowed for evaluator"
     });
   } else {
     User
@@ -235,13 +235,26 @@ Result.find({teamId: req.body.teamId })
 
 //save survey
 module.exports.saveSurvey = function(req, res){
-var data = request.body.data;
+  console.log(req.body)
+var data = req.body.data;
+console.log(evalId)
 for(var item in data){
-    new Result(data[item])
-    .save()
+  
+  var resData = data[item];
+  var result=  new Result({
+    _id: new mongoose.Types.ObjectId(),
+    evalId: req.userData.userId,
+    teamId: resData.teamId,
+    qId: resData.qId,
+      text:resData.text,
+      surveyId: 0,
+      answer: resData.answer
+
+  })
+    result.save()
                   .then(result => {
                     console.log(result);
-                    res.status(201).json({
+                    res.status(200).json({
                       message: "survey answers added",
                       status: 200
                     });
