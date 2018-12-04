@@ -16,6 +16,7 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.5/css/rowReorder.dataTables.min.css">
 
     <link href="content/css/dashboard.css" rel="stylesheet">
     <title>ICP Portal</title>
@@ -193,8 +194,8 @@
                 <div  class="p-3 mb-2  text-white "><h1 class=" align-middle">Evaluators&nbsp;<span class="float-right " ><div class="btn-group"role="group">
 
                   <button type="button" class=" btn btn-primary btn-sm " data-bind="click:$root.showEvaluatorForm"> Add New</button>
-                  <button id="editTeam" type="button"  class=" btn btn-primary btn-sm disabled" data-bind="click:$root.showeditEvaluatorForm"> Edit</button>
-                  <button id="deleteTeam" type="button"  class=" btn btn-danger btn-sm disabled" data-bind="click:$root.deleteEvaluator"> Delete</button>
+                  <button id="editEvaluator" type="button"  class=" btn btn-primary btn-sm disabled" data-bind="click:$root.showeditEvaluatorForm"> Edit</button>
+                  <button id="deleteEvaluator" type="button"  class=" btn btn-danger btn-sm disabled" data-bind="click:$root.deleteEvaluator"> Delete</button>
 
                 </div></span></h1> </div>
  
@@ -222,7 +223,7 @@
                     <div id="qrcode"></div>
                   </div>
                     <div id="evaluators" class="table-responsive">
-                        <table id="evaluatorstable" class="table table-striped table-sm">
+                        <table id="evaluatorsTable" class="table table-striped table-sm">
                           <thead>
                             <tr>
                               
@@ -289,15 +290,16 @@
 
                   <button type="button" class=" btn btn-primary btn-sm " data-bind="click:$root.showQuestionForm"> Add New</button>
                   <button id="saveOrder" type="button"  class=" btn btn-primary btn-sm " data-bind="click:$root.saveOrder"> Save Order</button>
-                  <button id="deleteSurvey" type="button"  class=" btn btn-danger btn-sm " data-bind="click:$root.deleteSurvey"> Delete</button>
+                  <button id="editQuestion" type="button"  class=" btn btn-primary btn-sm disabled" data-bind="click:$root.showEditQuestion"> Edit</button>
+                  <button id="deleteQuestion" type="button"  class=" btn btn-danger btn-sm disabled" data-bind="click:$root.deleteSurvey"> Delete</button>
 
                 </div></span></h1> </div>
  
                   <div id="addQuestion" class="shadow-lg bg-white mb-5 rounded">
                       <form id="userForm" class="form-inline">
-                          <div class="form-group">
+                          <div class="form-group  col-md-9">
                               <label for="inputName"  class="sr-only">Name</label>
-                              <input type="text" required class="form-control-plaintext input-sm" id="Name" placeholder="Name" data-bind="value: $root.newname" >
+                              <input type="text" required class="form-control-plaintext" id="Question" placeholder="Type your question here" data-bind="value: $root.newname" >
                             </div>  
                           <button type="submit" class="btn btn-primary" data-bind="click:function(){$root.saveQuest()}" >&nbsp;&nbsp;Save&nbsp;&nbsp;</button>
                         </form>
@@ -312,7 +314,7 @@
                                 <th>Header</th>
                                 <th>Header</th>
                                 <th>Header</th>
-                                <th>Header</th>
+                             
                               
                             </thead>
                            
@@ -355,6 +357,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
 <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/rowreorder/1.2.5/js/dataTables.rowReorder.min.js"></script>
  <!-- Icons -->
  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
  <script>

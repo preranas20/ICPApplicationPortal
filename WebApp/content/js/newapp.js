@@ -205,7 +205,8 @@ self.getTeams();
         self.showOneTable('results');
     }
     self.surveyTab = function (params) {
-       self.showQuestionForm();
+        self.isDashboard(false);
+       self.getSurvey();
         self.showOneTable('survey');
     }
     self.showOneTable =function(selector){
@@ -380,7 +381,31 @@ self.getEvaluators = function(){
   
 }
 self.getSurvey = function (params) {
-    
+    $.ajax({
+        method: "GET",
+        contentType: 'application/json',
+        headers: {"Authorization": "BEARER "+readCookie('token')},
+       
+            url: self.urlIP()+ "/user/getAllQuestions",
+           
+            success: function(result) {
+                //Write your code here
+                if(result.status==200){
+                self.showSurveyTable(result.data);
+                }
+                else{
+                    console.log('not getting status');
+                    console.log(result);
+                    $.toast({heading:'error',text:result.message, icon: 'error'});
+                }
+                },
+            error:
+            function(result) {
+                //Write your code here
+                $.toast({heading:'error',text:result.message,icon:'error'});
+                }
+        
+      });
 }
 self.showTeams = function(data) {
     self.showTeamTable(data);
@@ -491,7 +516,7 @@ self.showEvaluators = function(data) {
            
        } 
     self.showEvaluatorsTable= function(tabledata) {
-        // console.log(table);
+        console.log(tabledata);
      
            $('#evaluators').fadeIn( 2000);
            if(evaluatorsTable == null){
@@ -505,11 +530,11 @@ self.showEvaluators = function(data) {
                ]
            } );
            
-           $('#evaluatorstable tbody').on( 'click', 'tr', function () {
+           $('#evaluatorsTable tbody').on( 'click', 'tr', function () {
             if ( $(this).hasClass('selected') ) {
                 $(this).removeClass('selected');
-                $('#editTeam').addClass('disabled')
-                $('#deleteTeam').addClass('disabled');
+                $('#editEvaluator').addClass('disabled')
+                $('#deleteEvaluator').addClass('disabled');
 
             }
             else {
@@ -535,11 +560,11 @@ self.showEvaluators = function(data) {
             if(surveyTable == null){
                 surveyTable=$('#surveyTable').DataTable( {
                 data: tabledata,
-                reorder:true, 
+                rowReorder: true,
                 columns: [
-                    { data: '_id', title:'ID' },
-                    { data: 'username',title:'Name' },
-                    { data: 'email',title:'Email' },
+                    { data: 'qId', title:'ID' },
+                    { data: 'qText',title:'Text' },
+                    { data: 'orderId',title:'Order' },
                     
                 ]
             } );
@@ -547,13 +572,15 @@ self.showEvaluators = function(data) {
             $('#surveyTable tbody').on( 'click', 'tr', function () {
              if ( $(this).hasClass('selected') ) {
                  $(this).removeClass('selected');
-                 $('#editTeam').addClass('disabled')
-                 $('#deleteTeam').addClass('disabled');
+                 $('#editQuestion').addClass('disabled')
+                 $('#deleteQuestion').addClass('disabled');
  
              }
              else {
                 surveyTable.$('tr.selected').removeClass('selected');
                  $(this).addClass('selected');
+                 $('#editQuestion').removeClass('disabled')
+                 $('#deleteQuestion').removeClass('disabled');
                
              }
          } );
@@ -623,6 +650,7 @@ self.showEvaluators = function(data) {
 
     }
     self.saveEvaluator = function (isEdit) {
+        self.showEvaluatorForm();
         //add user ajax to be called here'
         if(isEdit){
             self.editEvaluator();
@@ -688,10 +716,18 @@ self.showEvaluators = function(data) {
     self.showeditEvaluatorForm= function(){
         self.isEdit(!self.isEdit());
         var name= evaluatorsTable.row('.selected').data().teamName;
-        self.newname(teamName)
+        self.newname(name)
         $('#emailEval').hide();
         $('#passwordEval').hide();
         $('#addTeam').slideToggle( "slow");
+    }
+    self.showEditQuestionForm= function(){
+        self.isEdit(!self.isEdit());
+        var text= surveyTable.row('.selected').data().qText;
+        self.newname(text)
+        $('#emailEval').hide();
+        $('#passwordEval').hide();
+        $('#addEvaluator').slideToggle( "slow");
     }
     self.editTeam = function () {
         //add user ajax to be called here
@@ -778,6 +814,9 @@ self.showEvaluators = function(data) {
           });
 
     }
+    self.editQuestion =function(params) {
+        
+    }
     self.deleteTeam = function () {
         //add user ajax to be called here
         var teamId= table.row('.selected').data()._id;
@@ -857,7 +896,7 @@ self.showEvaluators = function(data) {
     self.deleteEvaluator = function () {
         //add user ajax to be called here
         var id= evaluatorsTable.row('.selected').data()._id;
-        console.log(teamId)
+        //console.log(teamId)
         $.ajax({
             method: "DELETE",
             contentType: 'application/json',
@@ -905,6 +944,8 @@ self.showTeamForm= function(){
 self.showEvaluatorForm= function(){
     self.isEdit(false);
     self.newname('');
+    self.newpassword('');
+    self.newemail('');
     $('#emailEval').show();
     $('#passwordEval').show();
     $('#addEvaluator').slideToggle( "slow");
@@ -918,6 +959,7 @@ var arrayToStore = $.each( surveyData, function( i, val){
 }
 self.showQuestionForm = function (params) {
     self.newname('');
+    
     $('#addQuestion').slideToggle( "slow");
 }
 self.delelteSurvey = function (params) {
@@ -939,7 +981,7 @@ $('#page').hide();
 }
 
 $('#addTeam').hide();
-
+$('#addQuestion').hide();
 
 //dummy data to be deleted later
 var data = [
