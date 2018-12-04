@@ -110,9 +110,35 @@ getQuestions()
     }
     
     @IBAction func SaveSurveyClicked(_ sender: Any) {
+        var jData: [Any] = []
         for item in resultArray {
-          print(item.teamId)
-            print( item.answer)        }
+            let js = item.toJSON()
+            jData.append(js)        }
+       // guard let data = try? JSONSerialization.data(withJSONObject: jData, options: []) else {
+     //       print("error in json conversion")
+     //       return
+     //   }
+    //    let jd = String(data: data, encoding: String.Encoding.utf8)
+     //
+        
+            let parameters: Parameters = [
+                "data": jData
+                
+            ]
+            Alamofire.request("\(RemoteIp)user/saveSurvey", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
+                switch response.result {
+                case .success:
+                    self.saveDone()
+                    print("savedScore")
+                case .failure(_):
+                    print("some error occured")
+                }
+            }
+            
+        
+     
+    }
+    func saveDone() ->Void {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let nextViewController = storyboard!.instantiateViewController(withIdentifier: "teamsVC") as! TeamsTableViewController
         self.present(nextViewController, animated:true, completion:nil)

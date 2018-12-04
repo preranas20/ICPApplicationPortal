@@ -45,5 +45,17 @@ class Result {
         self.surveyId = surveyId.stringValue
         self.orderId = orderId.stringValue
     }
+    func toJSON() -> [String:Any] {
+        var dictionary: [String : Any] = [:]
+        
+        dictionary["teamId"] = self.teamId
+        dictionary["answer"] = self.answer
+        dictionary["surveyId"] = self.surveyId
+           dictionary["qId"] = self.qId
+           dictionary["text"] = self.text
+        
+        
+        return dictionary
+    }
 
 }
