@@ -14,7 +14,7 @@ router.get("/getEvaluatorsList",checkAuth, UserProfile.getEvaluatorsList);
 router.delete("/:userId", checkAuth, UserProfile.user_delete);
 router.post("/createQuestion",UserProfile.createQuestion);
 router.post("/editQuestion",UserProfile.editQuestion);
-router.post("/saveSurvey",UserProfile.saveSurvey);
+router.post("/saveSurvey",checkAuth,UserProfile.saveSurvey);
 router.post("/deleteQuestion", UserProfile.deleteQuestion);
 router.get("/getAllQuestions",UserProfile.getAllQuestions);
 router.post("/getResultForTeams",UserProfile.getResultForTeams);
