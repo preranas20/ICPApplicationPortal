@@ -243,6 +243,7 @@ for(var item in data){
   data[item].evalId= evalId;
   var resData = data[item];
   var result=  new Result({
+    _id: new mongoose.Types.ObjectId(),
     evalId: resData.evalId,
     teamId: resData.teamId,
     qId: resData.qId,
