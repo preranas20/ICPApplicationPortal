@@ -237,14 +237,13 @@ Result.find({teamId: req.body.teamId })
 module.exports.saveSurvey = function(req, res){
   console.log(req.body)
 var data = req.body.data;
-var evalId = req.userData.userId;
 console.log(evalId)
 for(var item in data){
-  data[item].evalId= evalId;
+  
   var resData = data[item];
   var result=  new Result({
     _id: new mongoose.Types.ObjectId(),
-    evalId: resData.evalId,
+    evalId: req.userData.userId,
     teamId: resData.teamId,
     qId: resData.qId,
       text:resData.text,
