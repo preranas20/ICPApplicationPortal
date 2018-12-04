@@ -236,7 +236,10 @@ Result.find({teamId: req.body.teamId })
 //save survey
 module.exports.saveSurvey = function(req, res){
 var data = request.body.data;
+var evalId = request.userData.userId;
+console.log(evalId)
 for(var item in data){
+  item["evalId"] = evalId;
     new Result(data[item])
     .save()
                   .then(result => {
