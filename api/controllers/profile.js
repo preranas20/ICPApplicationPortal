@@ -240,7 +240,10 @@ var data = req.body.data;
 var evalId = req.userData.userId;
 console.log(evalId)
 for(var item in data){
-  item["evalId"] = evalId;
+  data[item].evalId= evalId;
+  console.log(data[item].evalId)
+  console.log('item is :')
+  console.log(item)
     new Result(data[item])
     .save()
                   .then(result => {

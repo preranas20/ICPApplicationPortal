@@ -125,7 +125,11 @@ getQuestions()
                 "data": jData
                 
             ]
-            Alamofire.request("\(RemoteIp)user/saveSurvey", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(self.readToken())",
+            "Content-Type": "application/json"
+        ]
+        Alamofire.request("\(RemoteIp)user/saveSurvey", method: .post, parameters: parameters, encoding: JSONEncoding.default,headers:headers).responseJSON { response in
                 switch response.result {
                 case .success:
                     self.saveDone()
