@@ -244,11 +244,11 @@ for(var item in data){
   console.log(data[item].evalId)
   console.log('item is :')
   console.log(item)
-    new Result(data[item])
-    .save()
+  var result=  new Result(data[item])
+    result.save()
                   .then(result => {
                     console.log(result);
-                    res.status(201).json({
+                    res.status(200).json({
                       message: "survey answers added",
                       status: 200
                     });
