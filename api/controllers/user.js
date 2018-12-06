@@ -119,7 +119,6 @@ exports.user_login = (req, res, next) => {
 };
 
 
-
 //Login QR code
 exports.loginQRCode = (req, res, next) => {
     User.find({ APIKey: req.body.key })
