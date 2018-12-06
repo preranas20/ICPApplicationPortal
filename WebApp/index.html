@@ -114,13 +114,13 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="results-tab" data-toggle="tab" href="#results" role="tab" aria-controls="results" data-bind="click:$root.resultsTab"  aria-selected="false">
+              <a class="nav-link" id="results-tab" data-toggle="tab" href="#resultstab" role="tab" aria-controls="results" data-bind="click:$root.resultsTab"  aria-selected="false">
                 <span ><i class="fas fa-poll"></i></span>
                 Results
               </a>
             </li>
             <li class="nav-item disabled">
-                <a class="nav-link" id="results-tab" data-toggle="tab" href="#survey" role="tab" aria-controls="survey" data-bind="click:$root.surveyTab"  aria-selected="false">
+                <a class="nav-link" id="results-tab" data-toggle="tab" href="#surveyTab" role="tab" aria-controls="survey" data-bind="click:$root.surveyTab"  aria-selected="false">
 
                 <span ><i class="fa fa-database" aria-hidden="true"></i></span>
                 Survey
@@ -248,7 +248,7 @@
                       </div>
                 </div>
               <!-- </div></div> -->
-              <div class="tab-pane fade" id="results" role="tabpanel" aria-labelledby="results-tab">
+              <div class="tab-pane fade" id="resultstab" role="tabpanel" aria-labelledby="results-tab">
                  
                   <div  class="p-3 mb-2  text-white "><h1 class=" align-middle">Results&nbsp;<span class="float-right " ><div class="btn-group"role="group" data-bind="if:$root.isDetail()">
 
@@ -277,7 +277,7 @@
                               <th>Header</th>
                               <th>Header</th>
                               <th>Header</th>
-                              <th>Header</th>
+                             
                           
                             
                           </thead>
@@ -285,7 +285,7 @@
                         </table>
                       </div>
               </div>
-              <div class="tab-pane fade" id="survey" role="tabpanel" aria-labelledby="teams-tab">
+              <div class="tab-pane fade" id="surveyTab" role="tabpanel" aria-labelledby="teams-tab">
                   <div  class="p-3 mb-2  text-white "><h1 class=" align-middle">Survey Questions&nbsp;<span class="float-right " ><div class=""role="group">
 
                   <button type="button" class=" btn btn-primary btn-sm " data-bind="click:$root.showQuestionForm"> Add New</button>

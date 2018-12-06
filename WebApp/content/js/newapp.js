@@ -21,6 +21,7 @@ function AppViewModel() {
     self.isDashboard = ko.observable(true);
     self.isDetail = ko.observable(false);
     self.teamNames = ko.observableArray([]);
+    self.scores= ko.observableArray([]);
   //table variables
     var table,evaluatorsTable,resultsTable,detailTable,surveyTable;
 
@@ -233,8 +234,11 @@ self.getTeams();
         $('#'+selector).show();
 
     }
+    var myChart;
     self.drawCanvas = function (data) {
-
+console.log(myChart)
+self.teamNames([]);
+self.scores([]);
         var teamnames = $.each( data, function( i, val){
            self.teamNames.push(val.teamName)
             return val.teamName;
@@ -242,35 +246,45 @@ self.getTeams();
         //  self.teamNames(teamnames);
           self.teamNames.valueHasMutated();
           var scores = $.each( data, function( i, val){
+              self.scores.push(val.score);
             return val.score;
           });
+          self.scores.valueHasMutated();
+          console.log(self.scores())
         var ctx = $("#myChart");
-var myChart = new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels:self.teamNames(),
-    datasets: [{
-      data: scores,
-      lineTension: 0,
-      backgroundColor: 'transparent',
-      borderColor: '#007bff',
-      borderWidth: 4,
-      pointBackgroundColor: '#007bff'
-    }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: false
-        }
-      }]
-    },
-    legend: {
-      display: false,
-    }
-  }
-});
+       var config =  {
+            type: 'line',
+            data: {
+              labels:self.teamNames(),
+              datasets: [{
+                data: self.scores(),
+                lineTension: 0,
+                backgroundColor: 'transparent',
+                borderColor: '#007bff',
+                borderWidth: 4,
+                pointBackgroundColor: '#007bff'
+              }]
+            },
+            options: {
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero: false
+                  }
+                }]
+              },
+              legend: {
+                display: false,
+              }
+            }
+          };
+          if(myChart!=null && myChart!=undefined){
+              myChart.destroy();
+           
+          }
+            myChart= new Chart(ctx,config);
+          
+        
     }
 //to get all the teams data
 self.getTeams=function(){
@@ -339,19 +353,21 @@ self.getResultDetail =function(teamId){
     self.isDetail(true);
     $('#results').hide();
     $.ajax({
-        method: "GET",
+        method: "POST",
         contentType: 'application/json',
         headers: {"Authorization": "BEARER "+readCookie('token')},
-       
-            url: self.urlIP()+ "/user/getResults",
+        data: JSON.stringify({
+            teamId:teamId
+            }),
+            url: self.urlIP()+ "/user/getResultForTeams",
            
             success: function(result) {
                 //Write your code here
                 if(result.status==200){
                 //self.token(result.token);
-             
+               
                 self.showResultsDetailTable(result.data);
-                $('resultsDetail').show();
+               
                 }
                 else{
                     console.log('not getting status');
@@ -492,30 +508,27 @@ self.showEvaluators = function(data) {
              resultsTable.rows.add(tabledata).draw();
            }
            $('#resultsTable tbody').on( 'click', 'tr', function () {
-               if ( $(this).hasClass('selected') ) {
-                   $(this).removeClass('selected');
-               }
-               else {
-                resultsTable.$('tr.selected').removeClass('selected');
-                   $(this).addClass('selected');
+              
+               
                 //   alert('show user details');
                 //find the userid and surveyid admin clicked
                 var teamid= resultsTable.row('.selected').data()._id;
                //hide this table and get details about the team using team id and results table
                self.getResultDetail(teamid)
-               }
+               
            } );
            
        } 
     self.showResultsDetailTable= function(tabledata) {
-        // console.log(table);
+     console.log(tabledata);
+        
            $('#detailResult').fadeIn( 2000);
            if(detailTable == null ){
             detailTable=$('#detailTable').DataTable( {
                data: tabledata, 
                columns: [
                    { data: '_id', title:'SN' },
-                   { data: 'evalId',title:'Evaluator' },
+                   
                    { data: 'text',title:'Question' },
                    { data: 'answer' ,title:'Answer'}
                ]
@@ -603,8 +616,8 @@ self.showEvaluators = function(data) {
          else{
             //see how to update table
            // $('#teamstable').DataTable().draw();
-           evaluatorsTable.clear();
-           evaluatorsTable.rows.add(tabledata).draw();
+           surveyTable.clear();
+           surveyTable.rows.add(tabledata).draw();
          }
        }
     self.showUsers=function (params) {

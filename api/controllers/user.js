@@ -185,7 +185,7 @@ for(var item in data){
 
   var resData = data[item];
   newTotal = newTotal + resData.answer;
-  console.log(newTotal);
+  
 
   var resultSave=  new Result({
     _id: new mongoose.Types.ObjectId(),
@@ -201,12 +201,7 @@ for(var item in data){
 
   resultSaveArray.push(resultSave);
 }
-console.log('teamid and evalId');
-console.log(data[1].teamId);
-console.log(req.userData.userId);
-console.log(resultSaveArray.length);
-console.log('result array ');
-console.log(resultSaveArray)
+
   //flow
 Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }) //check if email id exists before in DB
     .exec()
@@ -239,15 +234,13 @@ Result.insertMany(resultSaveArray)
 
                                        } else {
                                  var score = team[0].score;
-                                 console.log("current score")
-                                 console.log(score);
+                                 
                                  var numEval = team[0].numberOfEval;
                                  console.log(numEval);
                                  var newScore = (score*numEval) + newTotal;
                                  var newEval = numEval+1;
                                  newScore =Math.round( newScore/newEval);
-                                 console.log("new score");
-                                 console.log(newScore);
+                                 
 
 try{
                                    Team.findOneAndUpdate({_id: data[1].teamId}, {$set:{score:newScore, numberOfEval:newEval }}, {new: true}, (err, doc) => {
