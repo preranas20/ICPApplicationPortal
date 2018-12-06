@@ -206,7 +206,7 @@ console.log(resultSaveArray.length);
 console.log('result array ');
 console.log(resultSaveArray)
   //flow
-Result.findOne({ teamId: data[1].teamId, evalId:req.userData.userId  }) //check if email id exists before in DB
+Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }) //check if email id exists before in DB
     .exec()
     .then(result => {
       if (result.length>=1) {
@@ -222,7 +222,7 @@ Result.findOne({ teamId: data[1].teamId, evalId:req.userData.userId  }) //check 
 
 console.log("survey not found saving new");
 Result.insertMany(resultSaveArray)
-.then(result => {
+              .then(result => {
                                 //console.log(result);
                               //  console.log("A");
                                 Team.find({ _id: data[1].teamId })
@@ -237,12 +237,15 @@ Result.insertMany(resultSaveArray)
 
                                        } else {
                                  var score = team[0].score;
+                                 console.log("current score")
                                  console.log(score);
                                  var numEval = team[0].numberOfEval;
                                  console.log(numEval);
                                  var newScore = (score*numEval) + newTotal;
                                  var newEval = numEval+1;
                                  newScore = newScore/newEval;
+                                 console.log("new score");
+                                 console.log(newScore);
 
 
                                    Team.findOneAndUpdate({teamName: data[1].teamId}, {$set:{score:newScore, numberOfEval:newEval }}, {new: true}, (err, doc) => {
@@ -253,6 +256,7 @@ Result.insertMany(resultSaveArray)
                                             status: 411
                                           });
                                        }
+                                       if(doc.length>0){
                                     console.log("Cb");
                                        console.log("success");
                                        return res.status(200).json({
@@ -262,14 +266,28 @@ Result.insertMany(resultSaveArray)
                             
                                        // userId:user[0]._id,
                             
-                                      });
+                                      })
+                                    }else{
+                                      console.log("Something wrong while updating data!");
+                                      return res.status(411).json({
+                                       message: "error while updating score",
+                                       status: 411
+                                     });
+                                    };
                                    });
 
                                    }
 
 
 
-                                 });
+                                 })
+                                 .catch(err => {
+                                  console.log(err);
+                                  res.status(500).json({
+                                    error: err,
+                                    status: 500
+                                  });
+                                });;
 
 
                                 //});
@@ -285,6 +303,13 @@ Result.insertMany(resultSaveArray)
 
       }
 
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+        status: 500
+      });
     });
 
 
