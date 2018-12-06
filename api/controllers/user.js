@@ -243,7 +243,7 @@ Result.insertMany(resultSaveArray)
                                  console.log(numEval);
                                  var newScore = (score*numEval) + newTotal;
                                  var newEval = numEval+1;
-                                 newScore = newScore/newEval;
+                                 newScore =Math.round( newScore/newEval);
                                  console.log("new score");
                                  console.log(newScore);
 
