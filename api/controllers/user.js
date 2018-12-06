@@ -130,14 +130,9 @@ exports.loginQRCode = (req, res, next) => {
           status: 401
         });
       }
-      bcrypt.compare(1, 1, (err, result) => {
-        if (err) {
-          return res.status(401).json({
-            message: "Auth failed",
-            status: 401
-          });
-        }
-        if (result) {
+
+
+
           const token = jwt.sign(
             { //payload
               //email: user[0].email,
@@ -158,12 +153,9 @@ exports.loginQRCode = (req, res, next) => {
            // userId:user[0]._id,
 
           });
-        }
-        res.status(401).json({
-          message: "Auth failed",
-          status: 401
-        });
-      });
+
+
+
     })
     .catch(err => {
       console.log(err);
