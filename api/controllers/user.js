@@ -229,7 +229,7 @@ Result.insertMany(resultSaveArray)
                                 .exec()
                                 .then(team => {
                              //   console.log("B");
-                                 if (team.length <=0) {
+                                 if (team!=null && team.length <=0) {
                                          //TBD
                                          console.log("TeamNotFound");
 
@@ -247,8 +247,8 @@ Result.insertMany(resultSaveArray)
                                  console.log("new score");
                                  console.log(newScore);
 
-
-                                   Team.findOneAndUpdate({teamName: data[1].teamId}, {$set:{score:newScore, numberOfEval:newEval }}, {new: true}, (err, doc) => {
+try{
+                                   Team.findOneAndUpdate({_id: data[1].teamId}, {$set:{score:newScore, numberOfEval:newEval }}, {new: true}, (err, doc) => {
                                        if (err) {
                                            console.log("Something wrong when updating data!");
                                            return res.status(411).json({
@@ -274,13 +274,14 @@ Result.insertMany(resultSaveArray)
                                        status: 411
                                      });
                                     };
-                                   }).catch(err => {
+                                   })
+                                  }catch {
                                     console.log(err);
                                     res.status(500).json({
                                       error: err,
                                       status: 500
                                     });
-                                  });
+                                  };
 
                                    }
 
