@@ -179,7 +179,7 @@ console.log(req.body)
 var data = req.body.data;
 //console.log(evalId)
 //console.log(newTotal);
-var resultSaveArray=[];
+var resultSaveArray= [];
 var newTotal = 0;
 for(var item in data){
 
@@ -201,9 +201,12 @@ for(var item in data){
   resultSaveArray.push(resultSave);
 console.log('teamid and evalId');
 console.log(data[1].teamId);
-console.log(resultSaveArray[1].evalId );
+console.log(req.userData.userId);
+console.log(resultSaveArray.length);
+console.log('result array ');
+console.log(resultSaveArray)
   //flow
-Result.find({ teamId: data[1].teamId, evalId: resultSaveArray[1].evalId  }) //check if email id exists before in DB
+Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }) //check if email id exists before in DB
     .exec()
     .then(result => {
       if (result.length>=1) {
