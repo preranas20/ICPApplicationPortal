@@ -119,3 +119,58 @@ exports.user_login = (req, res, next) => {
 };
 
 
+
+//Login QR code
+exports.loginQRCode = (req, res, next) => {
+    User.find({ APIKey: req.body.key })
+    .exec()
+    .then(user => { //if exists in table and role is evaluator
+      if (user.length < 1 || (user[0].role!="evaluator")) {
+        return res.status(401).json({
+          message: "Not Authorized",
+          status: 401
+        });
+      }
+      bcrypt.compare(1, 1, (err, result) => {
+        if (err) {
+          return res.status(401).json({
+            message: "Auth failed",
+            status: 401
+          });
+        }
+        if (result) {
+          const token = jwt.sign(
+            { //payload
+              //email: user[0].email,
+              role: user[0].role,
+              userId: user[0]._id
+            },
+            process.env.JWT_KEY, //private key
+            {
+              expiresIn: "1h"
+            }
+          );
+          return res.status(200).json({
+            status: 200,
+            message: "Auth successful",
+            data:{ token: token,
+            role:user[0].role}
+
+           // userId:user[0]._id,
+
+          });
+        }
+        res.status(401).json({
+          message: "Auth failed",
+          status: 401
+        });
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+        status: 500
+      });
+    });
+};

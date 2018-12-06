@@ -22,6 +22,7 @@ router.post("/registerEvaluator",checkAuth,UserController.create_evaluator);
 
 router.post("/registerTeam",checkAuth,TeamControlller.createTeam);
 router.post("/editTeam",checkAuth,TeamControlller.editTeam);
+router.post("/loginQRCode",UserController.loginQRCode);
 router.delete("/deleteTeam/:id",checkAuth,TeamControlller.deleteTeam);
 
 
