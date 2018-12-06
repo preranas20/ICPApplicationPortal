@@ -206,7 +206,7 @@ console.log(resultSaveArray.length);
 console.log('result array ');
 console.log(resultSaveArray)
   //flow
-Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }) //check if email id exists before in DB
+Result.findOne({ teamId: data[1].teamId, evalId:req.userData.userId  }) //check if email id exists before in DB
     .exec()
     .then(result => {
       if (result.length>=1) {
@@ -221,7 +221,7 @@ Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }) //check if 
       } else {
 
 console.log("survey not found saving new");
-Result.collection.insert(resultSaveArray)
+Result.insertMany(resultSaveArray)
 .then(result => {
                                 //console.log(result);
                               //  console.log("A");
