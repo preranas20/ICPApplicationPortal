@@ -198,7 +198,9 @@ for(var item in data){
       answer: resData.answer
 
   }  )
+
   resultSaveArray.push(resultSave);
+}
 console.log('teamid and evalId');
 console.log(data[1].teamId);
 console.log(req.userData.userId);
@@ -325,7 +327,7 @@ try{
 
 
 
-}
+
 };
 
 
