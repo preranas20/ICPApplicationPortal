@@ -10,7 +10,7 @@ import UIKit
 import QRCodeReader
 import AVFoundation
 import Alamofire
-
+import  SwiftyJSON
 class LoginViewController: UIViewController ,QRCodeReaderViewControllerDelegate {
     
     @IBOutlet weak var password: UITextField!
@@ -77,11 +77,11 @@ class LoginViewController: UIViewController ,QRCodeReaderViewControllerDelegate 
         
         dismiss(animated: true) { [weak self] in
             let alert = UIAlertController(
-                title: "QRCodeReader",
-                message: String (format:"%@ (of type %@)", result.value, result.metadataType),
+                title: "QR Code Scanned",
+                message: "Will Try to log you in.",
                 preferredStyle: .alert
             )
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {action in self?.goNext(sender: result)}))
             
             self?.present(alert, animated: true, completion: nil)
         }
@@ -122,6 +122,33 @@ class LoginViewController: UIViewController ,QRCodeReaderViewControllerDelegate 
             return false
         }
     }
+    func goNext(sender: QRCodeReaderResult) {
+        print(sender.value)
+        print(JSON(sender.value)["key"])
+        let parameters: Parameters = [
+            "key": JSON(sender.value)["key"]
+            
+        ]
+        Alamofire.request("\(RemoteIp)user/loginQRCode", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
+            switch response.result {
+            case .success:
+                
+                if let json = response.result.value {
+                    let JSON = json as! NSDictionary
+                    // print("JSON: \(JSON)")
+                    let data = JSON["data"] as! NSDictionary;
+                    let token = data["token"] as! String;
+                    self.saveToken(token: token)
+                    UserDefaults.standard.set(false, forKey: "status")
+                    print("Validation Successful")
+                    self.performSegue(withIdentifier: "showTeams", sender: self)
+                }
+            case .failure(_):
+                print("some error occured")
+            }
+        }
+    }
+
     @IBAction func scanInModalAction(_ sender: AnyObject) {
         guard checkScanPermissions() else { return }
         

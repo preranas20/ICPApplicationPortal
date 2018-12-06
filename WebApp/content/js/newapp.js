@@ -10,6 +10,9 @@ function AppViewModel() {
     self.newname=ko.observable('');
     self.newemail=ko.observable('ak@a.com');
     self.newpassword=ko.observable('a');
+    self.evalname=ko.observable('');
+    self.evalemail=ko.observable('ak@a.com');
+    self.evalpass=ko.observable('a');
     self.callback_webhook=ko.observable('');
     self.APIKey = ko.observable('');
     self.role = ko.observable('');
@@ -657,7 +660,8 @@ self.showEvaluators = function(data) {
             return;
         }
 
-        console.log(readCookie('token'))
+        console.log("adding evaluator")
+        console.log(self.newemail()+self.newpassword()+self.newname())
         $.ajax({
             method: "POST",
             contentType: 'application/json',
@@ -715,11 +719,12 @@ self.showEvaluators = function(data) {
     }
     self.showeditEvaluatorForm= function(){
         self.isEdit(!self.isEdit());
-        var name= evaluatorsTable.row('.selected').data().teamName;
-        self.newname(name)
+        var name= evaluatorsTable.row('.selected').data().username;
+        console.log(name)
+        self.evalname(name)
         $('#emailEval').hide();
         $('#passwordEval').hide();
-        $('#addTeam').slideToggle( "slow");
+        $('#addEvaluator').slideToggle( "slow");
     }
     self.showEditQuestionForm= function(){
         self.isEdit(!self.isEdit());
@@ -777,14 +782,14 @@ self.showEvaluators = function(data) {
     self.editEvaluator= function () {
         //add user ajax to be called here
         var userId= evaluatorsTable.row('.selected').data()._id;
-        var tname =self.newname();
+        var tname =self.evalname();
         $.ajax({
             method: "POST",
             contentType: 'application/json',
         headers: {"Authorization": "BEARER "+readCookie('token')},
             data: JSON.stringify({
-                teamName:tname,
-                id: teamId
+                username:tname,
+                userId: userId
                 }),
                 url: self.urlIP()+ "/user/editEvaluator",
                
@@ -901,7 +906,7 @@ self.showEvaluators = function(data) {
             method: "DELETE",
             contentType: 'application/json',
             headers: {"Authorization": "BEARER "+readCookie('token')},
-            url: self.urlIP()+ "/user/deleteEvaluator/"+id,
+            url: self.urlIP()+ "/user/"+id,
                
                 success: function(result) {
                     //Write your code here
@@ -911,8 +916,7 @@ self.showEvaluators = function(data) {
                     text: result.message,
                       showHideTransition: 'slide',
                     icon: 'success'});
-                    self.getTeams();
-                    self.disableButtons();
+                   self.getEvaluators()
                     $('#qrSpace').hide();
                     }
                     else{
@@ -943,9 +947,9 @@ self.showTeamForm= function(){
 
 self.showEvaluatorForm= function(){
     self.isEdit(false);
-    self.newname('');
-    self.newpassword('');
-    self.newemail('');
+    self.evalname('');
+    self.evalpass('');
+    self.evalemail('');
     $('#emailEval').show();
     $('#passwordEval').show();
     $('#addEvaluator').slideToggle( "slow");
