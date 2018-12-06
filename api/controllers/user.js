@@ -179,7 +179,7 @@ console.log(req.body)
 var data = req.body.data;
 //console.log(evalId)
 //console.log(newTotal);
-
+var resultSaveArray=[];
 var newTotal = 0;
 for(var item in data){
 
@@ -189,41 +189,46 @@ for(var item in data){
 
   var resultSave=  new Result({
     _id: new mongoose.Types.ObjectId(),
-    //evalId: req.userData.userId,
+    evalId: req.userData.userId,
     evalId: resData.evalId,
-    teamName: resData.teamName,
+    teamId: resData.teamId,
     qId: resData.qId,
       text:resData.text,
       surveyId: 0,
       answer: resData.answer
 
-  })
-
-
+  }  )
+  resultSaveArray.push(resultSave);
+console.log('teamid and evalId');
+console.log(data[1].teamId);
+console.log(resultSaveArray[1].evalId );
   //flow
-Result.find({ teamName: resData.teamName, evalId: resData.evalId  }) //check if email id exists before in DB
+Result.find({ teamId: data[1].teamId, evalId: resultSaveArray[1].evalId  }) //check if email id exists before in DB
     .exec()
     .then(result => {
-      if (false) {
+      if (result.length>=1) {
       //if (result.length >= 1) {
         //TBD
-        console.log("other");
+        console.log("survey already exist");
+        return res.status(411).json({
+          message: "survye already exist",
+          status: 411
+        });
         //});
       } else {
 
-console.log("main");
-
-            resultSave.save()
-                              .then(result => {
+console.log("survey not found saving new");
+Result.collection.insert(resultSaveArray)
+.then(result => {
                                 //console.log(result);
-                                console.log("A");
-                                Team.find({ teamName: req.body.teamName })
+                              //  console.log("A");
+                                Team.find({ _id: data[1].teamId })
                                 .exec()
                                 .then(team => {
-                                console.log("B");
-                                 if (team.length < 0) {
+                             //   console.log("B");
+                                 if (team.length <=0) {
                                          //TBD
-                                         console.log("Ca");
+                                         console.log("TeamNotFound");
 
 
 
@@ -232,16 +237,29 @@ console.log("main");
                                  console.log(score);
                                  var numEval = team[0].numberOfEval;
                                  console.log(numEval);
-                                 var newScore = (score/numEval) + newTotal;
+                                 var newScore = (score*numEval) + newTotal;
                                  var newEval = numEval+1;
+                                 newScore = newScore/newEval;
 
 
-                                   Team.findOneAndUpdate({teamName: req.body.teamName}, {$set:{score:newScore, numberOfEval:newEval }}, {new: true}, (err, doc) => {
+                                   Team.findOneAndUpdate({teamName: data[1].teamId}, {$set:{score:newScore, numberOfEval:newEval }}, {new: true}, (err, doc) => {
                                        if (err) {
                                            console.log("Something wrong when updating data!");
+                                           return res.status(411).json({
+                                            message: "error while updating score",
+                                            status: 411
+                                          });
                                        }
                                     console.log("Cb");
                                        console.log("success");
+                                       return res.status(200).json({
+                                        status: 200,
+                                        message: "Auth successful",
+                                        data:{ }
+                            
+                                       // userId:user[0]._id,
+                            
+                                      });
                                    });
 
                                    }

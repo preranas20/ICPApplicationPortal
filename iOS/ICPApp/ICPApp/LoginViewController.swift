@@ -126,7 +126,7 @@ class LoginViewController: UIViewController ,QRCodeReaderViewControllerDelegate 
         print(sender.value)
         print(JSON(sender.value)["key"])
         let parameters: Parameters = [
-            "key": JSON(sender.value)["key"]
+            "key": sender.value
             
         ]
         Alamofire.request("\(RemoteIp)user/loginQRCode", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in

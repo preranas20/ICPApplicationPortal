@@ -16,7 +16,7 @@ router.post("/createQuestion",UserProfile.createQuestion);
 router.post("/editQuestion",UserProfile.editQuestion);
 
 //put back chk auth in btw + savesurvey chnge ctrler
-router.post("/saveSurvey",UserController.saveSurvey);
+router.post("/saveSurvey",checkAuth,UserController.saveSurvey);
 
 
 router.post("/registerTeam",checkAuth,TeamControlller.createTeam);

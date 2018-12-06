@@ -4,6 +4,7 @@ var debug = false;
 function AppViewModel() {
     var self= this;
    var qrcode = new QRCode("qrcode");
+   var qrcodeE = new QRCode("qrcodeE");
     self.email=ko.observable('');
     self.password=ko.observable('');
     self.urlIP=ko.observable('http://52.202.147.130:5000');
@@ -11,8 +12,8 @@ function AppViewModel() {
     self.newemail=ko.observable('ak@a.com');
     self.newpassword=ko.observable('a');
     self.evalname=ko.observable('');
-    self.evalemail=ko.observable('ak@a.com');
-    self.evalpass=ko.observable('a');
+    self.evalemail=ko.observable('');
+    self.evalpass=ko.observable('');
     self.callback_webhook=ko.observable('');
     self.APIKey = ko.observable('');
     self.role = ko.observable('');
@@ -41,10 +42,21 @@ function AppViewModel() {
         qrcode.makeCode(params);
         $('#qrSpace').slideToggle();
     }
+    self.makeEvalQRCode =function (params) {
+        if(params==null || params ==''){
+            params = self.evalname();
+        }
+        qrcodeE.makeCode(params);
+        $('#qrSpaceE').slideToggle();
+    }
    
     self.toggleQRCodeDisplay= function (params) {
         $('#qrcode').toggle();
         $('#eyeIcon').toggleClass('fa-eye fa-eye-slash');
+    }
+    self.toggleQRCodeDisplayE= function (params) {
+        $('#qrcodeE').toggle();
+        $('#eyeIconE').toggleClass('fa-eye fa-eye-slash');
     }
     self.login = function() {
 
@@ -653,7 +665,7 @@ self.showEvaluators = function(data) {
 
     }
     self.saveEvaluator = function (isEdit) {
-        self.showEvaluatorForm();
+      //  self.showEvaluatorForm();
         //add user ajax to be called here'
         if(isEdit){
             self.editEvaluator();
@@ -661,15 +673,15 @@ self.showEvaluators = function(data) {
         }
 
         console.log("adding evaluator")
-        console.log(self.newemail()+self.newpassword()+self.newname())
+        console.log(self.evalemail()+self.evalpass()+self.evalname())
         $.ajax({
             method: "POST",
             contentType: 'application/json',
         headers: {"Authorization": "BEARER "+readCookie('token')},
             data: JSON.stringify({
-                email:self.newemail(),
-                password:self.newpassword(),
-                username:self.newname(),
+                email:self.evalemail(),
+                password:self.evalpass(),
+                username:self.evalname(),
                 }),
                 url: self.urlIP()+ "/user/registerEvaluator",
                
@@ -687,8 +699,9 @@ self.showEvaluators = function(data) {
                      $('#addUser').slideToggle("slow");
                 
                     //self.getData();
-                    self.makeQRCode(result.data.teamId);
+                    self.makeEvalQRCode(result.data.key);
                     self.getEvaluators();
+                    self.showEvaluatorForm()
                     }
                     else{
                         $.toast({heading:'error',text:result.message, icon: 'error'});
@@ -720,7 +733,7 @@ self.showEvaluators = function(data) {
     self.showeditEvaluatorForm= function(){
         self.isEdit(!self.isEdit());
         var name= evaluatorsTable.row('.selected').data().username;
-        console.log(name)
+       
         self.evalname(name)
         $('#emailEval').hide();
         $('#passwordEval').hide();
@@ -783,6 +796,7 @@ self.showEvaluators = function(data) {
         //add user ajax to be called here
         var userId= evaluatorsTable.row('.selected').data()._id;
         var tname =self.evalname();
+        console.log(tname);
         $.ajax({
             method: "POST",
             contentType: 'application/json',
@@ -801,9 +815,9 @@ self.showEvaluators = function(data) {
                     text: result.message,
                       showHideTransition: 'slide',
                     icon: 'success'});
-                     $('#addUser').slideToggle("slow");
+                     $('#addEvaluator').slideToggle("slow");
                      self.getEvaluators();
-                     self.showeditEvaluatorForm();
+                   
                 
                     }
                     else{

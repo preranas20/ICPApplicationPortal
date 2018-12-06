@@ -46,6 +46,7 @@ module.exports.getEvaluatorsList = function(req, res){
 //Edit evaluator
 module.exports.editEvaluator = function(req,res){
   const id=req.userData.userId;
+  console.log(req.body.username);
   User.findByIdAndUpdate(
     id,
     {

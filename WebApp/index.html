@@ -203,24 +203,24 @@
                       <form id="userForm" class="form-inline">
                           <div class="form-group">
                               <label for="inputName"  class="sr-only">Name</label>
-                              <input type="text" required class="form-control-plaintext input-sm" id="Name" placeholder="Name" data-bind="value: $root.newname" >
+                              <input type="text" required class="form-control-plaintext input-sm" id="evalName" placeholder="Name" data-bind="value: $root.evalname" >
                             </div>  
                         <div id="emailEval" class="form-group mb-2">
                             <label for="staticEmail2" class="sr-only">Email</label>
-                            <input type="text" required class="form-control-plaintext input-sm" id="Email"  placeholder="Email"  data-bind="value: $root.newemail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="example@example.com" >
+                            <input type="text" required class="form-control-plaintext input-sm" id="Email"  placeholder="Email"  data-bind="value: $root.evalemail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="example@example.com" >
                           </div>
                           <div id="passwordEval" class="form-group mx-sm-3 mb-2">
                             <label for="inputPassword2"  class="sr-only">Password</label>
-                            <input type="password" required class="form-control input-sm" id="Password" data-bind="value: $root.newpassword" placeholder="Password">
+                            <input type="password" required class="form-control input-sm" id="Password" data-bind="value: $root.evalpass" placeholder="Password">
                           </div>
                           <button type="submit" class="btn btn-primary" data-bind="click:function(){$root.saveEvaluator($root.isEdit())}" >&nbsp;&nbsp;Save&nbsp;&nbsp;</button>
                         </form>
                        
                   </div>
                   <div id="qrSpaceE">
-                      <h4>QR code for recently added Evaluator: <span data-bind="text:newname"></span> <button class="btn btn-sm btn-dark" data-bind="click:$root.toggleQRCodeDisplay"> <i id="eyeIcon" class="fas fa-eye-slash float-right" ></i></button></h4>
+                      <h4>QR code for recently added Evaluator: <span data-bind="text:evalname()"></span> <button class="btn btn-sm btn-dark" data-bind="click:$root.toggleQRCodeDisplayE"> <i id="eyeIconE" class="fas fa-eye-slash float-right" ></i></button></h4>
                       <p>Please print this qrcode for evaluator's identification.</p>
-                    <div id="qrcode"></div>
+                    <div id="qrcodeE"></div>
                   </div>
                     <div id="evaluators" class="table-responsive">
                         <table id="evaluatorsTable" class="table table-striped table-sm">
