@@ -256,7 +256,7 @@ Result.insertMany(resultSaveArray)
                                             status: 411
                                           });
                                        }
-                                       if(doc.length>0){
+                                       if(doc!=null && doc.length>0){
                                     console.log("Cb");
                                        console.log("success");
                                        return res.status(200).json({
@@ -274,7 +274,13 @@ Result.insertMany(resultSaveArray)
                                        status: 411
                                      });
                                     };
-                                   });
+                                   }).catch(err => {
+                                    console.log(err);
+                                    res.status(500).json({
+                                      error: err,
+                                      status: 500
+                                    });
+                                  });
 
                                    }
 
