@@ -14,7 +14,13 @@ router.get("/getEvaluatorsList",checkAuth, UserProfile.getEvaluatorsList);
 router.delete("/:userId", checkAuth, UserProfile.user_delete);
 router.post("/createQuestion",UserProfile.createQuestion);
 router.post("/editQuestion",UserProfile.editQuestion);
-router.post("/saveSurvey",checkAuth,UserProfile.saveSurvey);
+
+//put back chk auth in btw + savesurvey chnge ctrler
+router.post("/saveSurvey",UserController.saveSurvey);
+
+
+router.post("/registerTeam",checkAuth,TeamControlller.createTeam);
+
 router.post("/deleteQuestion", UserProfile.deleteQuestion);
 router.get("/getAllQuestions",UserProfile.getAllQuestions);
 router.post("/getResultForTeams",UserProfile.getResultForTeams);

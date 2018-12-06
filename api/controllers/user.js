@@ -4,7 +4,9 @@ const jwt = require("jsonwebtoken");
 const APIKey = require("apikeygen");
 
 const User = require("../models/user");
-
+const Result = require("../models/result");
+const Survey = require("../models/survey");
+const Team = require("../models/team");
 
 exports.create_evaluator = (req, res, next) => {
   const role=req.userData.role;
@@ -165,3 +167,114 @@ exports.loginQRCode = (req, res, next) => {
       });
     });
 };
+
+
+
+
+
+
+//Ohm save survey new
+module.exports.saveSurvey = function(req, res){
+console.log(req.body)
+var data = req.body.data;
+//console.log(evalId)
+//console.log(newTotal);
+
+var newTotal = 0;
+for(var item in data){
+
+  var resData = data[item];
+  newTotal = newTotal + resData.answer;
+  console.log(newTotal);
+
+  var resultSave=  new Result({
+    _id: new mongoose.Types.ObjectId(),
+    //evalId: req.userData.userId,
+    evalId: resData.evalId,
+    teamName: resData.teamName,
+    qId: resData.qId,
+      text:resData.text,
+      surveyId: 0,
+      answer: resData.answer
+
+  })
+
+
+  //flow
+Result.find({ teamName: resData.teamName, evalId: resData.evalId  }) //check if email id exists before in DB
+    .exec()
+    .then(result => {
+      if (false) {
+      //if (result.length >= 1) {
+        //TBD
+        console.log("other");
+        //});
+      } else {
+
+console.log("main");
+
+            resultSave.save()
+                              .then(result => {
+                                //console.log(result);
+                                console.log("A");
+                                Team.find({ teamName: req.body.teamName })
+                                .exec()
+                                .then(team => {
+                                console.log("B");
+                                 if (team.length < 0) {
+                                         //TBD
+                                         console.log("Ca");
+
+
+
+                                       } else {
+                                 var score = team[0].score;
+                                 console.log(score);
+                                 var numEval = team[0].numberOfEval;
+                                 console.log(numEval);
+                                 var newScore = (score/numEval) + newTotal;
+                                 var newEval = numEval+1;
+
+
+                                   Team.findOneAndUpdate({teamName: req.body.teamName}, {$set:{score:newScore, numberOfEval:newEval }}, {new: true}, (err, doc) => {
+                                       if (err) {
+                                           console.log("Something wrong when updating data!");
+                                       }
+                                    console.log("Cb");
+                                       console.log("success");
+                                   });
+
+                                   }
+
+
+
+                                 });
+
+
+                                //});
+
+                              })
+                              .catch(err => {
+                                console.log(err);
+                                res.status(500).json({
+                                  error: err,
+                                  status: 500
+                                });
+                              });
+
+      }
+
+    });
+
+
+
+
+
+
+
+}
+};
+
+
+
+

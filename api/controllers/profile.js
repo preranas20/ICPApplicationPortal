@@ -234,13 +234,15 @@ Result.find({teamId: req.body.teamId })
 
 
 //save survey
-module.exports.saveSurvey = function(req, res){
-  console.log(req.body)
+module.exports.saveSurveyOld = function(req, res){
+console.log(req.body)
 var data = req.body.data;
 console.log(evalId)
 for(var item in data){
   
   var resData = data[item];
+
+  //segregating
   var result=  new Result({
     _id: new mongoose.Types.ObjectId(),
     evalId: req.userData.userId,
@@ -272,6 +274,8 @@ for(var item in data){
         console.log(err.message);
       } ); */
 }
+
+
 /*
         device.save()
               .then(result => {
@@ -295,9 +299,6 @@ for(var item in data){
 
 
 
-
-
-////
 
 
 

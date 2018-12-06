@@ -7,6 +7,7 @@ const Team = require("../models/team");
 
 module.exports.createTeam = function(req, res){
 const role=req.userData.role;
+
   if (role !="admin") {
     res.status(401).json({
       "message" : "UnauthorizedError: not an admin profile"
@@ -14,7 +15,10 @@ const role=req.userData.role;
   }else{
 const team = new Team({
               _id: new mongoose.Types.ObjectId(),
-              teamName: req.body.teamName    
+              teamName: req.body.teamName,
+              numberOfEval: 0,
+              score: 0
+
             });
            team.save()
               .then(result => {
