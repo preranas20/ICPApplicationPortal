@@ -237,8 +237,8 @@ try{
                                        if (err) {
                                            console.log("Something wrong when updating data!");
                                            return res.status(411).json({
-                                            message: "error while updating score",
-                                            status: 411
+                                            message: err,
+                                            status: 410
                                           });
                                        }
                                        if(doc!=null && doc.length>0){
