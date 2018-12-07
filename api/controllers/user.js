@@ -241,8 +241,7 @@ try{
                                             status: 410
                                           });
                                        }
-                                       if(doc!=null && doc.length>0){
-                                    console.log("Cb");
+                                       
                                        console.log("success");
                                        return res.status(200).json({
                                         status: 200,
@@ -252,13 +251,7 @@ try{
                                        // userId:user[0]._id,
                             
                                       })
-                                    }else{
-                                      console.log("Something wrong while updating data!");
-                                      return res.status(411).json({
-                                       message: "error while updating score",
-                                       status: 411
-                                     });
-                                    };
+                                    
                                    })
                                   }catch(err) {
                                     console.log(err);
