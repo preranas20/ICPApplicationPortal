@@ -206,17 +206,7 @@ for(var item in data){
 Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }) //check if email id exists before in DB
     .exec()
     .then(result => {
-      if (result.length>=1) {
-      //if (result.length >= 1) {
-        //TBD
-        console.log("survey already exist");
-        return res.status(411).json({
-          message: "survye already exist",
-          status: 411
-        });
-        //});
-      } else {
-
+      // over riding the previous value functionality is yet to be implemeted
 console.log("survey not found saving new");
 Result.insertMany(resultSaveArray)
               .then(result => {
@@ -303,7 +293,7 @@ try{
                                 });
                               });
 
-      }
+      
 
     })
     .catch(err => {

@@ -332,7 +332,7 @@ self.getResults =function(){
                 //Write your code here
                 if(result.status==200){
                 //self.token(result.token);
-                console.
+                
              
                 self.showResultsTable(result.data);
                 }
@@ -449,8 +449,8 @@ self.showEvaluators = function(data) {
      //make ajax call to api to get the data required to show the data tables.
   
     self.showTeamTable= function(tabledata) {
-        if(tabledata == null || tabledata ==[] || tabledata==''){ 
-            $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'warning'});
+        if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
+            $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
             return;}
      // console.log(table);
         $('#teams').fadeIn( 2000);
@@ -491,8 +491,8 @@ self.showEvaluators = function(data) {
         
     } 
     self.showResultsTable= function(tabledata) {
-        if(tabledata == null || tabledata ==[] || tabledata==''){ 
-            $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'warning'});
+        if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
+            $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
             return;}
         // console.log(table);
            $('#results').fadeIn( 2000);
@@ -535,10 +535,9 @@ self.showEvaluators = function(data) {
            
        } 
     self.showResultsDetailTable= function(tabledata) {
-     console.log(tabledata);
-     if(tabledata == null || tabledata ==[] || tabledata==''){ 
-        $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'warning'});
-        return;}
+        if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
+            $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
+            return;}
         
            $('#detailResult').fadeIn( 2000);
            if(detailTable == null ){
@@ -563,8 +562,8 @@ self.showEvaluators = function(data) {
        } 
     self.showEvaluatorsTable= function(tabledata) {
         console.log(tabledata);
-        if(tabledata == null || tabledata ==[] || tabledata==''){ 
-            $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'warning'});
+        if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
+            $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
             return;}
      
            $('#evaluators').fadeIn( 2000);
@@ -604,8 +603,8 @@ self.showEvaluators = function(data) {
            
        }
        self.showSurveyTable = function(tabledata) {
-        if(tabledata == null || tabledata ==[] || tabledata==''){ 
-            $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'warning'});
+        if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
+            $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
             return;}
             $('#survey').fadeIn( 2000);
             if(surveyTable == null){
