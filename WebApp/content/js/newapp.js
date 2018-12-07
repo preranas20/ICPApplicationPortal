@@ -508,15 +508,23 @@ self.showEvaluators = function(data) {
              resultsTable.rows.add(tabledata).draw();
            }
            $('#resultsTable tbody').on( 'click', 'tr', function () {
-              
-               
+            if ( $(this).hasClass('selected') ) {
+                $(this).removeClass('selected');
+             
+
+            }
+            else {
+                resultsTable.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+             
                 //   alert('show user details');
                 //find the userid and surveyid admin clicked
                 var teamid= resultsTable.row('.selected').data()._id;
                //hide this table and get details about the team using team id and results table
                self.getResultDetail(teamid)
                
-           } );
+           }
+         });
            
        } 
     self.showResultsDetailTable= function(tabledata) {
@@ -528,7 +536,7 @@ self.showEvaluators = function(data) {
                data: tabledata, 
                columns: [
                    { data: '_id', title:'SN' },
-                   
+                   { data: 'evalId',title:'Evaluator' },
                    { data: 'text',title:'Question' },
                    { data: 'answer' ,title:'Answer'}
                ]
@@ -712,7 +720,7 @@ self.showEvaluators = function(data) {
                      $('#addUser').slideToggle("slow");
                 
                     //self.getData();
-                    self.makeEvalQRCode(result.data.key);
+                    self.makeEvalQRCode(result.data.qrcode);
                     self.getEvaluators();
                     self.showEvaluatorForm()
                     }

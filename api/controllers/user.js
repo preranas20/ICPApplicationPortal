@@ -190,7 +190,7 @@ for(var item in data){
   var resultSave=  new Result({
     _id: new mongoose.Types.ObjectId(),
     evalId: req.userData.userId,
-    evalId: resData.evalId,
+   
     teamId: resData.teamId,
     qId: resData.qId,
       text:resData.text,
