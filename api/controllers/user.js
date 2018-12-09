@@ -307,5 +307,21 @@ try{
 };
 
 
+//get results for evaluator's teams
+module.exports.getResultForEvalTeam = function(req, res){
+  const evalId = req.userData.userId;
 
+
+    Result
+      .find({ evalId: evalId, teamId: req.body.teamId })
+      .exec(function(err, result) {
+        res.status(200).json({
+          message:"Request successful",
+          status:200,
+          data:result}
+
+        )
+      });
+
+};
 
