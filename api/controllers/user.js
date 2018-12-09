@@ -190,7 +190,7 @@ for(var item in data){
   var resultSave =  new Result({
     _id: new mongoose.Types.ObjectId(),
     evalId: req.userData.userId,
-    evalId: resData.evalId,
+   
     teamId: resData.teamId,
     qId: resData.qId,
       text:resData.text,
@@ -206,17 +206,7 @@ for(var item in data){
 Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }) //check if email id exists before in DB
     .exec()
     .then(result => {
-      if (result.length>=1) {
-      //if (result.length >= 1) {
-        //TBD
-        console.log("survey already exist");
-        return res.status(411).json({
-          message: "survye already exist",
-          status: 411
-        });
-        //});
-      } else {
-
+      // over riding the previous value functionality is yet to be implemeted
 console.log("survey not found saving new");
 Result.insertMany(resultSaveArray)
               .then(result => {
@@ -247,12 +237,11 @@ try{
                                        if (err) {
                                            console.log("Something wrong when updating data!");
                                            return res.status(411).json({
-                                            message: "error while updating score",
-                                            status: 411
+                                            message: err,
+                                            status: 410
                                           });
                                        }
-                                       if(doc!=null && doc.length>0){
-                                    console.log("Cb");
+                                       
                                        console.log("success");
                                        return res.status(200).json({
                                         status: 200,
@@ -262,13 +251,7 @@ try{
                                        // userId:user[0]._id,
                             
                                       })
-                                    }else{
-                                      console.log("Something wrong while updating data!");
-                                      return res.status(411).json({
-                                       message: "error while updating score",
-                                       status: 411
-                                     });
-                                    };
+                                    
                                    })
                                   }catch(err) {
                                     console.log(err);
@@ -303,7 +286,7 @@ try{
                                 });
                               });
 
-      }
+      
 
     })
     .catch(err => {
@@ -324,5 +307,21 @@ try{
 };
 
 
+//get results for evaluator's teams
+module.exports.getResultForEvalTeam = function(req, res){
+  const evalId = req.userData.userId;
 
+
+    Result
+      .find({ evalId: evalId, teamId: req.body.teamId })
+      .exec(function(err, result) {
+        res.status(200).json({
+          message:"Request successful",
+          status:200,
+          data:result}
+
+        )
+      });
+
+};
 

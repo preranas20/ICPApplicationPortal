@@ -332,6 +332,7 @@ self.getResults =function(){
                 //Write your code here
                 if(result.status==200){
                 //self.token(result.token);
+                
              
                 self.showResultsTable(result.data);
                 }
@@ -448,6 +449,9 @@ self.showEvaluators = function(data) {
      //make ajax call to api to get the data required to show the data tables.
   
     self.showTeamTable= function(tabledata) {
+        if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
+            $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
+            return;}
      // console.log(table);
         $('#teams').fadeIn( 2000);
         if(table == null ){
@@ -487,6 +491,9 @@ self.showEvaluators = function(data) {
         
     } 
     self.showResultsTable= function(tabledata) {
+        if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
+            $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
+            return;}
         // console.log(table);
            $('#results').fadeIn( 2000);
            if(resultsTable == null ){
@@ -508,19 +515,29 @@ self.showEvaluators = function(data) {
              resultsTable.rows.add(tabledata).draw();
            }
            $('#resultsTable tbody').on( 'click', 'tr', function () {
-              
-               
+            if ( $(this).hasClass('selected') ) {
+                $(this).removeClass('selected');
+             
+
+            }
+            else {
+                resultsTable.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+             
                 //   alert('show user details');
                 //find the userid and surveyid admin clicked
                 var teamid= resultsTable.row('.selected').data()._id;
                //hide this table and get details about the team using team id and results table
                self.getResultDetail(teamid)
                
-           } );
+           }
+         });
            
        } 
     self.showResultsDetailTable= function(tabledata) {
-     console.log(tabledata);
+        if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
+            $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
+            return;}
         
            $('#detailResult').fadeIn( 2000);
            if(detailTable == null ){
@@ -528,7 +545,7 @@ self.showEvaluators = function(data) {
                data: tabledata, 
                columns: [
                    { data: '_id', title:'SN' },
-                   
+                   { data: 'evalId',title:'Evaluator' },
                    { data: 'text',title:'Question' },
                    { data: 'answer' ,title:'Answer'}
                ]
@@ -545,6 +562,9 @@ self.showEvaluators = function(data) {
        } 
     self.showEvaluatorsTable= function(tabledata) {
         console.log(tabledata);
+        if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
+            $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
+            return;}
      
            $('#evaluators').fadeIn( 2000);
            if(evaluatorsTable == null){
@@ -583,7 +603,9 @@ self.showEvaluators = function(data) {
            
        }
        self.showSurveyTable = function(tabledata) {
-       
+        if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
+            $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
+            return;}
             $('#survey').fadeIn( 2000);
             if(surveyTable == null){
                 surveyTable=$('#surveyTable').DataTable( {
@@ -712,7 +734,7 @@ self.showEvaluators = function(data) {
                      $('#addUser').slideToggle("slow");
                 
                     //self.getData();
-                    self.makeEvalQRCode(result.data.key);
+                    self.makeEvalQRCode(result.data.qrcode);
                     self.getEvaluators();
                     self.showEvaluatorForm()
                     }
