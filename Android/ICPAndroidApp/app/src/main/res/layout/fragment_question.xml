@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".QuestionFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="textStart">
+
+        <TextView
+            android:id="@+id/txtQuestion"
+            android:layout_width="328dp"
+            android:layout_height="94dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="TextView"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/seekBarAnswer"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/txtQuestion"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="172dp"
+            android:max="4"
+            android:progress="0" />
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="198dp"
+            android:layout_marginEnd="42dp"
+            android:text="Next" />
+
+    </RelativeLayout>
+
+</FrameLayout>
