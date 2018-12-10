@@ -290,7 +290,7 @@
 
                   <button type="button" class=" btn btn-primary btn-sm " data-bind="click:$root.showQuestionForm"> Add New</button>
                   <button id="saveOrder" type="button"  class=" btn btn-primary btn-sm " data-bind="click:$root.saveOrder"> Save Order</button>
-                  <button id="editQuestion" type="button"  class=" btn btn-primary btn-sm disabled" data-bind="click:$root.showEditQuestion"> Edit</button>
+                  <button id="editQuestion" type="button"  class=" btn btn-primary btn-sm disabled" data-bind="click:$root.showEditQuestionForm"> Edit</button>
                   <button id="deleteQuestion" type="button"  class=" btn btn-danger btn-sm disabled" data-bind="click:$root.deleteSurvey"> Delete</button>
 
                 </div></span></h1> </div>
@@ -299,9 +299,9 @@
                       <form id="userForm" class="form-inline">
                           <div class="form-group  col-md-9">
                               <label for="inputName"  class="sr-only">Name</label>
-                              <input type="text" required class="form-control-plaintext" id="Question" placeholder="Type your question here" data-bind="value: $root.newname" >
+                              <input type="text" required class="form-control-plaintext" id="Question" placeholder="Type your question here" data-bind="value: $root.newQuestion" >
                             </div>  
-                          <button type="submit" class="btn btn-primary" data-bind="click:function(){$root.saveQuest()}" >&nbsp;&nbsp;Save&nbsp;&nbsp;</button>
+                          <button type="submit" class="btn btn-primary" data-bind="click:function(){$root.saveQuest($root.isEdit())}" >&nbsp;&nbsp;Save&nbsp;&nbsp;</button>
                         </form>
                        
                   </div>

@@ -8,21 +8,23 @@ const TeamControlller = require('../controllers/team');
 
 //new apis
 router.post("/login", UserController.user_login);
-router.get("/getTeam", TeamControlller.getTeam);
+router.get("/getTeam",checkAuth,TeamControlller.getTeam);
 router.get("/getEvaluatorsList",checkAuth, UserProfile.getEvaluatorsList);
 router.post("/editEvaluator",checkAuth,UserProfile.editEvaluator);
 router.delete("/:userId", checkAuth, UserProfile.user_delete);
+
 router.post("/createQuestion",UserProfile.createQuestion);
 router.post("/editQuestion",UserProfile.editQuestion);
 
 //put back chk auth in btw + savesurvey chnge ctrler
 router.post("/saveSurvey",checkAuth,UserController.saveSurvey);
+
 router.post("/getResultForEvalTeam",checkAuth,UserController.getResultForEvalTeam);
 
 router.post("/registerTeam",checkAuth,TeamControlller.createTeam);
 
 router.post("/deleteQuestion", UserProfile.deleteQuestion);
-router.get("/getAllQuestions",UserProfile.getAllQuestions);
+router.get("/getAllQuestions",checkAuth,UserProfile.getAllQuestions);
 router.post("/getResultForTeams",UserProfile.getResultForTeams);
 router.post("/registerEvaluator",checkAuth,UserController.create_evaluator);
 

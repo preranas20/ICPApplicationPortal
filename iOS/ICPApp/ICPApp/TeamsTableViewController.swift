@@ -15,6 +15,7 @@ class TeamsTableViewController: UITableViewController ,QRCodeReaderViewControlle
     var selectedTeam: String = ""
     var selectedName : String = ""
     var teams:NSArray = [];
+    var resultArray : [Result] = []
     var swiftyJson: JSON = []
     let RemoteIp:String = "http://52.202.147.130:5000/";
     override func viewDidLoad() {
@@ -44,17 +45,61 @@ class TeamsTableViewController: UITableViewController ,QRCodeReaderViewControlle
                    // self.teams = self.swiftyJson["data"] as! NSArray
                     let j = json as! NSDictionary
                   // print("JSON: \(j)")
+                    if j["data"] != nil{
                   self.teams = j["data"] as! NSArray
                //     print(self.teams.count)
                     
                     //self.saveToken(token: token)
                     print("Validation Successful")
                    self.tableView.reloadData()
+                    }}else{
+                    self.Logout(self);
                 }
             case .failure(_):
                 print("some error occured")
             }
         }
+        
+    }
+    func getSubmissions()-> Void {
+        let parameters: Parameters = [
+            "teamId": self.selectedTeam
+            
+        ]
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(self.readToken())",
+            "Content-Type": "application/json"
+        ]
+        Alamofire.request("\(RemoteIp)user/getResultForEvalTeam", method: .post, parameters: parameters, encoding: JSONEncoding.default,headers:headers).responseJSON { response in
+            switch response.result {
+            case .success:
+                if let json = response.result.value {
+                    var swifty = JSON(json);
+                    if swifty["data"] != [] {
+                        for (key,subJson):(String, JSON) in  swifty["data"] {
+                            // Do something you want
+                            print(subJson)
+                            
+                            let res:Result = Result(json:subJson)!
+                            //res.teamId = self.teamId
+                            self.resultArray.append(res)
+                        }
+                        if self.resultArray.count>0{
+                            self.performSegue(withIdentifier: "submissionSegue", sender: self)
+                        }
+                        else{
+                              self.performSegue(withIdentifier: "showSurvey", sender: self)
+                        }
+                    }
+                }
+                
+                print("savedScore")
+            case .failure(_):
+                print("some error occured")
+            }
+        }
+        
+        
         
     }
     func readToken()-> String{
@@ -167,13 +212,20 @@ class TeamsTableViewController: UITableViewController ,QRCodeReaderViewControlle
   override  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     self.selectedName = self.swiftyJson["data"][indexPath.row]["teamName"].stringValue
     self.selectedTeam = self.swiftyJson["data"][indexPath.row]["_id"].stringValue
-        self.performSegue(withIdentifier: "showSurvey", sender: self)
+      self.getSubmissions()
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showSurvey"{
         let dest = segue.destination as! SurveyTableViewController
         dest.teamId = self.selectedTeam;
         dest.name = self.selectedName
+        }else{
+        let dest1 = segue.destination as! SubmissionTableViewController
+        dest1.teamId = self.selectedTeam;
+            dest1.questions = self.resultArray
+        }
     }
+  
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
