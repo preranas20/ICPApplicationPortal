@@ -1,6 +1,7 @@
 package com.example.preranasingh.icpandroidapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -32,6 +33,7 @@ public class QuestionFragment extends Fragment implements SeekBar.OnSeekBarChang
     private SeekBar seekBar;
     private int answer;
     private Button btnNext;
+    private Button btnSubmit;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -51,6 +53,8 @@ public class QuestionFragment extends Fragment implements SeekBar.OnSeekBarChang
         seekBar.setOnSeekBarChangeListener(this);
         btnNext = getView().findViewById(R.id.btnNext);
         btnNext.setOnClickListener(this);
+        btnSubmit = getView().findViewById(R.id.btnSubmit);
+        btnSubmit.setOnClickListener(this);
     }
 
     /**
@@ -132,13 +136,26 @@ public class QuestionFragment extends Fragment implements SeekBar.OnSeekBarChang
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.btnNext){
-            if(SurveyActivity.idx < totalQuesns-1 )
+
             mListener.saveAnswer(answer);
-            else if(SurveyActivity.idx == totalQuesns-1){
-                mListener.saveAnswer(answer);
-                mListener.saveSurvey();
-            }
+
+
+
         }
+        if(view.getId() == R.id.btnSubmit){
+            mListener.saveAnswer(answer);
+            mListener.saveSurvey();
+        }
+    }
+
+    public void returnToScoreboard() {
+        Intent intent = new Intent(getActivity(),SurveyActivity.class);
+        startActivity(intent);
+    }
+
+    public void changeButton() {
+         btnNext.setVisibility(View.INVISIBLE);
+         btnSubmit.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -160,13 +177,9 @@ public class QuestionFragment extends Fragment implements SeekBar.OnSeekBarChang
         void saveSurvey();
     }
 
-    public void initalizeQuestion(Survey survey,int size) {
+    public void initalizeQuestion(Survey survey) {
         Log.d("fragment", "initalizeQuestion: "+survey.getQuestionText());
 
-        totalQuesns = size;
-        if(SurveyActivity.idx == totalQuesns-1){
-            btnNext.setText("Submit Evaluation");
-        }
         textQsn.setText(survey.getQuestionText());
     }
 

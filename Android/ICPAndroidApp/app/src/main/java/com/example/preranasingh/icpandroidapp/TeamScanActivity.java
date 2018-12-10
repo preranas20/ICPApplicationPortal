@@ -146,6 +146,7 @@ public class TeamScanActivity extends AppCompatActivity implements ZXingScannerV
         String id = result.getText();
         Intent intent = new Intent(TeamScanActivity.this,SurveyActivity.class);
         intent.putExtra(TEAM_ID, id);
+        intent.putExtra("Class","TeamScanActivity");
         startActivity(intent);
 
     }

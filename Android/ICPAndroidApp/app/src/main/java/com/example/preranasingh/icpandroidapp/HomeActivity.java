@@ -1,6 +1,8 @@
 package com.example.preranasingh.icpandroidapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -90,6 +92,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         Request request = new Request.Builder()
                 .url(remoteIP+"/user/getTeam")
+                .header("Authorization", "Bearer "+getToken())
                 .build();
 
         Call call = client.newCall(request);
@@ -121,7 +124,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
                     str=responseBody.string();
-                  //  Log.d("home", "onResponse: "+str);
+                    Log.d("home", "onResponse: "+str);
 
 
                 }
@@ -142,8 +145,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             for(int i=0;i< jsonArray.size();i++){
                                 JsonObject teamElement =jsonArray.get(i).getAsJsonObject();
                                 Team team = new Team();
-                                team.setId(String.valueOf(teamElement.get("_id")));
-                                team.setName(String.valueOf(teamElement.get("teamName")));
+                                team.setId(teamElement.get("_id").getAsString());
+                                team.setName(teamElement.get("teamName").getAsString());
                                 team.setNumberOfEval(teamElement.get("numberOfEval").getAsInt());
                                 team.setScore(teamElement.get("score").getAsFloat());
 
@@ -169,4 +172,17 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
     }
+
+
+    public  String getToken(){
+
+        String ret;
+        SharedPreferences sharedPref =this.getSharedPreferences(
+                "mypref", Context.MODE_PRIVATE);
+
+        ret = sharedPref.getString("token","");
+
+        return ret;
+    }
+
 }
