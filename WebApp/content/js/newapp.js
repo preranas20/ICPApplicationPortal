@@ -917,7 +917,7 @@ self.showEvaluators = function(data) {
     }
     self.editQuestion =function(params) {
         //add user ajax to be called here
-        var qid= surveyTable.row('.selected').data()._id;
+        var qid= surveyTable.row('.selected').data().qId;
         var qname =self.newQuestion();
         console.log('question :');
         console.log(qname);
@@ -1003,18 +1003,18 @@ self.showEvaluators = function(data) {
 
     }
     self.deleteSurvey = function () {
-        //return till not implemwnted
-        $.toast({heading:'error',text:'not implemented', icon: 'error'});
-
-        return;
+        
         //add user ajax to be called here
-        var teamId= table.row('.selected').data()._id;
+        var teamId= surveyTable.row('.selected').data().qId;
         console.log(teamId)
         $.ajax({
-            method: "DELETE",
+            method: "POST",
             contentType: 'application/json',
             headers: {"Authorization": "BEARER "+readCookie('token')},
-            url: self.urlIP()+ "/user/deleteTeam/"+teamId,
+            data: JSON.stringify({
+                qId: teamId
+                }),
+            url: self.urlIP()+ "/user/deleteQuestion",
                
                 success: function(result) {
                     //Write your code here
@@ -1024,9 +1024,9 @@ self.showEvaluators = function(data) {
                     text: result.message,
                       showHideTransition: 'slide',
                     icon: 'success'});
-                    self.getTeams();
+                    self.getSurvey();
                     self.disableButtons();
-                    $('#qrSpace').hide();
+                  //  $('#qrSpace').hide();
                     }
                     else{
                         $.toast({heading:'error',text:result.message, icon: 'error'});
@@ -1081,8 +1081,8 @@ self.showEvaluators = function(data) {
 
 
 self.disableButtons=function(){
-    $('#editTeam').addClass('disabled')
-    $('#deleteTeam').addClass('disabled');
+    $('#editQuestion').addClass('disabled')
+    $('#deleteQuestion').addClass('disabled');
 
 }
 self.showTeamForm= function(){

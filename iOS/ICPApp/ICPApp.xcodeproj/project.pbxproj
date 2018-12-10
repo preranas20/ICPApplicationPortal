@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		302D570D21BE0ED600A60B5D /* SubmissionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302D570C21BE0ED600A60B5D /* SubmissionTableViewController.swift */; };
 		30E8BDEC21B4C5AD00791C1E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E8BDEB21B4C5AD00791C1E /* AppDelegate.swift */; };
 		30E8BDEE21B4C5AD00791C1E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E8BDED21B4C5AD00791C1E /* ViewController.swift */; };
 		30E8BDF121B4C5AD00791C1E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30E8BDEF21B4C5AD00791C1E /* Main.storyboard */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		302D570C21BE0ED600A60B5D /* SubmissionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmissionTableViewController.swift; sourceTree = "<group>"; };
 		30E8BDE821B4C5AD00791C1E /* ICPApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ICPApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30E8BDEB21B4C5AD00791C1E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		30E8BDED21B4C5AD00791C1E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				30E8BE0321B519FB00791C1E /* Result.swift */,
 				30E8BE0721B51E0E00791C1E /* SurveyTableViewController.swift */,
 				30E8BE0B21B5C15900791C1E /* switcher.swift */,
+				302D570C21BE0ED600A60B5D /* SubmissionTableViewController.swift */,
 			);
 			path = ICPApp;
 			sourceTree = "<group>";
@@ -234,6 +237,7 @@
 				30E8BDFE21B4DB1B00791C1E /* LoginViewController.swift in Sources */,
 				30E8BE0C21B5C15900791C1E /* switcher.swift in Sources */,
 				30E8BDEE21B4C5AD00791C1E /* ViewController.swift in Sources */,
+				302D570D21BE0ED600A60B5D /* SubmissionTableViewController.swift in Sources */,
 				30E8BE0021B4F30800791C1E /* TeamsTableViewController.swift in Sources */,
 				30E8BE0821B51E0F00791C1E /* SurveyTableViewController.swift in Sources */,
 				30E8BDEC21B4C5AD00791C1E /* AppDelegate.swift in Sources */,

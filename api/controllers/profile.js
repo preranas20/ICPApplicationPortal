@@ -188,9 +188,6 @@ var id = req.body.qId;
 };
 
 
-
-
-
 //Delete question
 exports.deleteQuestion = (req, res, next) => {
   Survey.remove({ qId: req.body.qId })
