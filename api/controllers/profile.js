@@ -153,6 +153,9 @@ Survey
 
 //Edit question
 module.exports.editQuestion = function(req,res){
+ console.log('question values ')
+  console.log(req.body.qId)
+  console.log(req.body.qText)
 var id = req.body.qId;
   Survey.update(
     {qId: req.body.qId},

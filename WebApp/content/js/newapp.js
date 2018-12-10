@@ -22,6 +22,7 @@ function AppViewModel() {
     self.isDetail = ko.observable(false);
     self.teamNames = ko.observableArray([]);
     self.scores= ko.observableArray([]);
+    self.newQuestion = ko.observable();
   //table variables
     var table,evaluatorsTable,resultsTable,detailTable,surveyTable;
 
@@ -731,7 +732,7 @@ self.showEvaluators = function(data) {
                     console.log('team data')
                     console.log(result.data);
 
-                     $('#addUser').slideToggle("slow");
+                    // $('#addUser').slideToggle("slow");
                 
                     //self.getData();
                     self.makeEvalQRCode(result.data.qrcode);
@@ -756,8 +757,56 @@ self.showEvaluators = function(data) {
         
 
     }
-    self.saveQuest = function (params) {
-        
+    self.saveQuest = function (isEdit) {
+         //add user ajax to be called here'
+         if(isEdit){
+            self.editQuestion();
+            return;
+        }
+
+        console.log("adding question")
+        console.log(self.newQuestion())
+        $.ajax({
+            method: "POST",
+            contentType: 'application/json',
+        headers: {"Authorization": "BEARER "+readCookie('token')},
+            data: JSON.stringify({
+                qText:self.newQuestion()
+                }),
+                url: self.urlIP()+ "/user/createQuestion",
+               
+                success: function(result) {
+                    //Write your code here
+                    if(result.status==200){
+                    //self.token(result.token);
+                    $.toast({ heading: 'Success',
+                    text: result.message,
+                      showHideTransition: 'slide',
+                    icon: 'success'});
+                    console.log('queston data')
+                    console.log(result.data);
+
+                    // $('#addQuestion').slideToggle("slow");
+                    //self.getData();
+                   self.showQuestionForm();
+                   self.getSurvey();
+                  
+                    }
+                    else{
+                        $.toast({heading:'error',text:result.message, icon: 'error'});
+                    }
+                    },
+                error:
+                function(result) {
+                    //Write your code here
+                    $.toast({heading:'error',text:result.responseJSON.message,icon:'error'});
+                    }
+            
+          });
+            // .done(function( data ) {
+            //   alert( "welcome your token is = : " + data.token );
+            // });
+    
     }
     self.showeditForm= function(){
         self.isEdit(!self.isEdit());
@@ -777,10 +826,8 @@ self.showEvaluators = function(data) {
     self.showEditQuestionForm= function(){
         self.isEdit(!self.isEdit());
         var text= surveyTable.row('.selected').data().qText;
-        self.newname(text)
-        $('#emailEval').hide();
-        $('#passwordEval').hide();
-        $('#addEvaluator').slideToggle( "slow");
+        self.newQuestion(text)
+        $('#addQuestion').slideToggle( "slow");
     }
     self.editTeam = function () {
         //add user ajax to be called here
@@ -869,7 +916,53 @@ self.showEvaluators = function(data) {
 
     }
     self.editQuestion =function(params) {
-        
+        //add user ajax to be called here
+        var qid= surveyTable.row('.selected').data()._id;
+        var qname =self.newQuestion();
+        console.log('question :');
+        console.log(qname);
+        console.log('question id :');
+        console.log(qid);
+        $.ajax({
+            method: "POST",
+            contentType: 'application/json',
+        headers: {"Authorization": "BEARER "+readCookie('token')},
+            data: JSON.stringify({
+                qId: qid, 
+                qText:qname
+                
+                }),
+                url: self.urlIP()+ "/user/editQuestion",
+               
+                success: function(result) {
+                    //Write your code here
+                    if(result.status==200){
+                    //self.token(result.token);
+                    $.toast({ heading: 'Success',
+                    text: result.message,
+                      showHideTransition: 'slide',
+                    icon: 'success'});
+                    // $('#addUser').slideToggle("slow");
+                    console.log('edit question result : ');
+                    console.log(result)
+                     self.getSurvey();
+                     self.showEditQuestionForm();
+                
+                    }
+                    else{
+                        $.toast({heading:'error',text:result.message, icon: 'error'});
+                    }
+                    },
+                error:
+                function(result) {
+                    //Write your code here
+                    $.toast({heading:'error',text:result.responseJSON.message,icon:'error'});
+                    }
+            
+          });
+            // .done(function( data ) {
+            //   alert( "welcome your token is = : " + data.token );
+            // });
     }
     self.deleteTeam = function () {
         //add user ajax to be called here
@@ -910,6 +1003,10 @@ self.showEvaluators = function(data) {
 
     }
     self.deleteSurvey = function () {
+        //return till not implemwnted
+        $.toast({heading:'error',text:'not implemented', icon: 'error'});
+
+        return;
         //add user ajax to be called here
         var teamId= table.row('.selected').data()._id;
         console.log(teamId)
@@ -1011,11 +1108,43 @@ var arrayToStore = $.each( surveyData, function( i, val){
   //send this array to ajax similar to saveTeam
 }
 self.showQuestionForm = function (params) {
-    self.newname('');
-    
+    self.newQuestion('');
+    self.isEdit(false);
     $('#addQuestion').slideToggle( "slow");
 }
 self.delelteSurvey = function (params) {
+     //add user ajax to be called here
+     var teamId= surveyTable.row('.selected').data()._id;
+     console.log(teamId)
+     $.ajax({
+         method: "DELETE",
+         contentType: 'application/json',
+         headers: {"Authorization": "BEARER "+readCookie('token')},
+         url: self.urlIP()+ "/user/deleteTeam/"+teamId,
+            
+             success: function(result) {
+                 //Write your code here
+                 if(result.status==200){
+                 //self.token(result.token);
+                 $.toast({ heading: 'Success',
+                 text: result.message,
+                   showHideTransition: 'slide',
+                 icon: 'success'});
+                 self.getTeams();
+                 self.disableButtons();
+                 $('#qrSpace').hide();
+                 }
+                 else{
+                     $.toast({heading:'error',text:result.message, icon: 'error'});
+                 }
+                 },
+             error:
+             function(result) {
+                 //Write your code here
+                 $.toast({heading:'error',text:result.responseJSON.message,icon:'error'});
+                 }
+         
+       });
     
 }
 
