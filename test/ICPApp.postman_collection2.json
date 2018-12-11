@@ -1,0 +1,68 @@
+{
+	"info": {
+		"_postman_id": "24945db5-8c49-4714-9fe9-1eaf2bd1c390",
+		"name": "ICPApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:5000/user/getResultForEvalTeam",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"teamId\":\"5c08bf8576107a1084b69668\"\n}"
+				},
+				"url": {
+					"raw": "localhost:5000/user/getResultForEvalTeam",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"getResultForEvalTeam"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/user/saveOrder",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n\"data\": [\n\n    {\n\n      \n\n      \"qId\": \"5c0cb92e20df371ae98c377a\"\n\n    },\n\n{\n\n      \n\n      \"qId\": \"5c0cb93c20df371ae98c377e\"\n\n    },\n    {\n\n     \n\n      \"qId\": \"5c0cb93520df371ae98c377c\"\n\n    }\n\n  ]\n\n}\n\n"
+				},
+				"url": {
+					"raw": "http://localhost:5000/user/saveOrder",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"saveOrder"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
