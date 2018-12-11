@@ -191,7 +191,7 @@ for(var item in data){
     _id: new mongoose.Types.ObjectId(),
     evalId: req.userData.userId,
    
-    teamId: resData.teamId,
+    teamName: resData.teamName,
     qId: resData.qId,
       text:resData.text,
       surveyId: 0,
@@ -203,7 +203,7 @@ for(var item in data){
 }
 
   //flow
-Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }) //check if email id exists before in DB
+Result.find({ teamName: data[1].teamName, evalId:req.userData.userId  }) //check if email id exists before in DB
     .exec()
     .then(result => {
 
@@ -212,14 +212,14 @@ if (result.length >= 1) {
 
         console.log("Ohm");
 
-Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }).remove().exec()
+Result.find({ teamName: data[1].teamName, evalId:req.userData.userId  }).remove().exec()
 .then(result => {
 
         Result.insertMany(resultSaveArray)
                       .then(result => {
                                         //console.log(result);
                                       //  console.log("A");
-                                        Team.find({ _id: data[1].teamId })
+                                        Team.find({ teamName: data[1].teamName })
                                         .exec()
                                         .then(team => {
                                      //   console.log("B");
@@ -240,7 +240,7 @@ Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }).remove().ex
 
 
         try{
-                                           Team.findOneAndUpdate({_id: data[1].teamId}, {$set:{score:newScore, numberOfEval:newEval }}, {new: true}, (err, doc) => {
+                                           Team.findOneAndUpdate({teamName: data[1].teamName}, {$set:{score:newScore, numberOfEval:newEval }}, {new: true}, (err, doc) => {
                                                if (err) {
                                                    console.log("Something wrong when updating data!");
                                                    return res.status(411).json({
@@ -313,7 +313,7 @@ Result.insertMany(resultSaveArray)
               .then(result => {
                                 //console.log(result);
                               //  console.log("A");
-                                Team.find({ _id: data[1].teamId })
+                                Team.find({ teamName: data[1].teamName })
                                 .exec()
                                 .then(team => {
                              //   console.log("B");
@@ -334,7 +334,7 @@ Result.insertMany(resultSaveArray)
                                  
 
 try{
-                                   Team.findOneAndUpdate({_id: data[1].teamId}, {$set:{score:newScore, numberOfEval:newEval }}, {new: true}, (err, doc) => {
+                                   Team.findOneAndUpdate({teamName: data[1].teamName}, {$set:{score:newScore, numberOfEval:newEval }}, {new: true}, (err, doc) => {
                                        if (err) {
                                            console.log("Something wrong when updating data!");
                                            return res.status(411).json({
@@ -428,7 +428,7 @@ module.exports.getResultForEvalTeam = function(req, res){
 
 
     Result
-      .find({ evalId: evalId, teamId: req.body.teamId })
+      .find({ evalId: evalId, _id: req.body.teamId })
       .exec(function(err, result) {
         res.status(200).json({
           message:"Request successful",

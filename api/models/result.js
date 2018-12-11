@@ -5,7 +5,7 @@ const resultSchema = mongoose.Schema({
     evalId: {
         type:String
     },
-    teamId:{
+    teamName:{
     	type:String
     },
     qId:{
