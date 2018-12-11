@@ -325,3 +325,99 @@ module.exports.getResultForEvalTeam = function(req, res){
 
 };
 
+
+//save order
+module.exports.saveOrder = function(req, res){
+console.log(req.body)
+var data = req.body.data;
+var count = 0;
+for(var item in data){
+  count = count +1;
+ console.log(count)
+  var resData = data[item];
+  var id = resData.qId;
+
+/*
+    Survey.findByIdAndUpdate(
+        id, //qId: id
+        {
+          $set:{
+            orderId: count
+
+          }
+        },
+        {new: true}, */
+
+
+/*
+        Survey.findOneAndUpdate({qId: id}, {$set:{orderId: count}})
+        .exec()
+        .then(result => {
+                            console.log(result);
+                            res.status(200).json({
+                              message: count,
+                              status: 200
+                            });
+                          })
+                          .catch(err => {
+                            console.log(err);
+                            res.status(500).json({
+                              error: err,
+                              status: 500
+                            });
+                          });  */
+
+
+
+        try{
+                                           Survey.findOneAndUpdate({qId: id}, {$set:{orderId: count}}, {new: true}, (err, doc) => {
+                                               if (err) {
+                                                   console.log("Something wrong when updating data!");
+                                                   return res.status(411).json({
+                                                    message: err,
+                                                    status: 410
+                                                  });
+                                               }
+
+                                               console.log("success");
+                                               return res.status(200).json({
+                                                status: 200,
+                                                message: "successful",
+                                                data:{ }
+
+                                               // userId:user[0]._id,
+
+                                              })
+
+                                           })
+                                          }catch(err) {
+                                            console.log(err);
+                                            res.status(500).json({
+                                              error: err,
+                                              status: 500
+                                            });
+                                          };
+
+        /*,
+        function(err,result){
+        if(err){
+          console.log(err);
+          res.status(500).json({
+            error:err,
+            status:500
+          });
+        }else{
+          console.log(result);
+          res.status(200).json({
+          status:200,
+          message:"Request successful",
+          result
+         }
+          );
+
+        }
+        }); */
+
+}
+};
+

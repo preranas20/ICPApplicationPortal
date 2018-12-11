@@ -105,18 +105,22 @@ exports.user_delete = (req, res, next) => {
 module.exports.createQuestion = function(req, res){
 //var userId=req.userData.userId;
 //Get max
-var order;
+var order = 0;
 Survey
   .findOne()
   .sort('-orderId')  // give me the max
   .exec(function (err, survey) {
 
+
     // your callback code
     if (survey == null)
     { order = 1;
     }
-    else { order = (survey.orderId)+1;
-    console.log(order);}
+    else {
+     console.log(survey.orderId);
+     order = (survey.orderId)+1;
+    }
+
 
     //
     const question = new Survey({
@@ -125,6 +129,14 @@ Survey
                   qText: req.body.qText,
                   orderId: order
                 });
+
+
+
+
+
+
+
+
             question.save()
                   .then(result => {
                     console.log(result);
@@ -159,6 +171,7 @@ var id = req.body.qId;
     {
 
         qText: req.body.qText
+
 
 
     },
@@ -210,7 +223,7 @@ exports.deleteQuestion = (req, res, next) => {
 //get all questions
 module.exports.getAllQuestions = function(req, res){
 Survey.find({})
-      .sort({orderId: -1})
+      .sort({orderId: 1})
       .exec(function(err, survey) {
         res.status(200).json({
           message:"Request successful",
