@@ -220,7 +220,7 @@ Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }).remove().ex
                                         //console.log(result);
                                       //  console.log("A");
 
-                                      // Result table updated successfully + prob: updating on older values: need to PUT new values to team
+
 
                                         Team.find({ _id: data[1].teamId })
                                         .exec()
@@ -234,7 +234,7 @@ Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }).remove().ex
 
                                                } else {
 
-                                               //var prob??- yes the only problem
+
                                          //var score = team[0].score;
 
                                          //var numEval = team[0].numberOfEval;
