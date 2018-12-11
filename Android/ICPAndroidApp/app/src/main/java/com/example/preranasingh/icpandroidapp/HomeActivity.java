@@ -1,10 +1,16 @@
 package com.example.preranasingh.icpandroidapp;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -22,7 +28,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -30,19 +36,36 @@ public class HomeActivity extends AppCompatActivity {
     private String token;
     private String remoteIP="http://52.202.147.130:5000";
     private ArrayList<Team> teamList;
+    private ImageButton imgQRBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        //getSupportActionBar().hide();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+
+        imgQRBtn=(ImageButton) findViewById(R.id.imgTeamQR);
+        imgQRBtn.setOnClickListener(this);
 
 
+        //setTitle("Score Board");
         if(getIntent().getExtras()!= null) {
 
             token = getIntent().getExtras().getString(LoginActivity.TOKEN_KEY);
             Log.d("home", "onCreate: "+token);
 
         }
+
+        if(getIntent().getExtras()!= null) {
+
+            token = getIntent().getExtras().getString(ScanActivity.TOKEN_KEY);
+            Log.d("home", "onCreate: "+token);
+
+        }
+
 
         teamList = new ArrayList<Team>();
 
@@ -69,6 +92,7 @@ public class HomeActivity extends AppCompatActivity {
 
         Request request = new Request.Builder()
                 .url(remoteIP+"/user/getTeam")
+                .header("Authorization", "Bearer "+getToken())
                 .build();
 
         Call call = client.newCall(request);
@@ -100,7 +124,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
 
                     str=responseBody.string();
-                  //  Log.d("home", "onResponse: "+str);
+                    Log.d("home", "onResponse: "+str);
 
 
                 }
@@ -121,8 +145,8 @@ public class HomeActivity extends AppCompatActivity {
                             for(int i=0;i< jsonArray.size();i++){
                                 JsonObject teamElement =jsonArray.get(i).getAsJsonObject();
                                 Team team = new Team();
-                                team.setId(String.valueOf(teamElement.get("_id")));
-                                team.setName(String.valueOf(teamElement.get("teamName")));
+                                team.setId(teamElement.get("_id").getAsString());
+                                team.setName(teamElement.get("teamName").getAsString());
                                 team.setNumberOfEval(teamElement.get("numberOfEval").getAsInt());
                                 team.setScore(teamElement.get("score").getAsFloat());
 
@@ -130,11 +154,7 @@ public class HomeActivity extends AppCompatActivity {
 
                             }
 
-                            // notify adapter
                             mAdapter.notifyDataSetChanged();
-                            //Log.d("home", "run: "+teamList);
-
-
 
 
                         }
@@ -144,4 +164,25 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId()==R.id.imgTeamQR){
+            Intent intent = new Intent(HomeActivity.this, TeamScanActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
+    public  String getToken(){
+
+        String ret;
+        SharedPreferences sharedPref =this.getSharedPreferences(
+                "mypref", Context.MODE_PRIVATE);
+
+        ret = sharedPref.getString("token","");
+
+        return ret;
+    }
+
 }

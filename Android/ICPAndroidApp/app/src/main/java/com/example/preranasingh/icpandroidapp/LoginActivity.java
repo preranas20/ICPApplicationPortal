@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if(result.status.equalsIgnoreCase("200")){
                             Toast.makeText(LoginActivity.this,result.message,Toast.LENGTH_SHORT).show();
 
-                            token = String.valueOf(result.data.get("token"));
+                            token = result.data.get("token").getAsString();
                             Log.d("login", "run: "+token);
 
                             SharedPreferences sharedPref =  getApplicationContext().getSharedPreferences(

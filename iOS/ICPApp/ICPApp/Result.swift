@@ -19,6 +19,7 @@ class Result {
     var evalId: String = ""
     var teamId:String = ""
     let qId:String
+    var qtext : String = ""
     let text : String
     let surveyId:String
     var answer:Int = 1
@@ -31,6 +32,7 @@ class Result {
         self.answer = answer
         self.orderId = orderId
         
+        
     }
     init?(json: JSON) {
         
@@ -38,12 +40,15 @@ class Result {
             let orderId = json["orderId"]
             let text = json["qText"]
             let surveyId = json["surveyId"]
-        
+        let qtext = json["text"]
+        let num = json["answer"]
         
         self.qId = String(qId.stringValue);
         self.text = text.stringValue
         self.surveyId = surveyId.stringValue
         self.orderId = orderId.stringValue
+        self.qtext = qtext.stringValue
+        self.answer = num.intValue
     }
     func toJSON() -> [String:Any] {
         var dictionary: [String : Any] = [:]

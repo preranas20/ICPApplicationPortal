@@ -40,6 +40,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder
             public void onClick(View view) {
                 Intent intent = new Intent(context,SurveyActivity.class);
                 intent.putExtra("TEAM_KEY", team);
+                intent.putExtra("Class","TeamAdapter");
                 context.startActivity(intent);
             }
         });

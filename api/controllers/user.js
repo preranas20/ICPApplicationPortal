@@ -187,7 +187,7 @@ for(var item in data){
   newTotal = newTotal + resData.answer;
   
 
-  var resultSave=  new Result({
+  var resultSave =  new Result({
     _id: new mongoose.Types.ObjectId(),
     evalId: req.userData.userId,
    

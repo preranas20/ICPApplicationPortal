@@ -192,11 +192,86 @@
                     </tableView>
                     <connections>
                         <segue destination="eN1-z4-gqs" kind="show" identifier="showSurvey" id="Yif-b7-nSF"/>
+                        <segue destination="Ih7-6s-OGr" kind="show" identifier="submissionSegue" id="tGa-mE-q2D"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uIj-TR-oIa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="68" y="116"/>
+        </scene>
+        <!--Submission Table View Controller-->
+        <scene sceneID="2qs-TJ-gwW">
+            <objects>
+                <tableViewController id="Ih7-6s-OGr" customClass="SubmissionTableViewController" customModule="ICPApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Cbl-UL-Dnl">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="YOE-FA-CS7">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <items>
+                                <navigationItem title="Submission" id="HFp-6D-8Z5">
+                                    <barButtonItem key="leftBarButtonItem" title="back" id="BKn-Qi-ElU">
+                                        <connections>
+                                            <action selector="back:" destination="Ih7-6s-OGr" id="HLM-JI-eXY"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem key="rightBarButtonItem" title="Resubmit" id="dXO-qi-iFq">
+                                        <connections>
+                                            <action selector="Resubmit:" destination="Ih7-6s-OGr" id="phe-GC-1NZ"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </navigationItem>
+                            </items>
+                        </navigationBar>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="questionsCell" rowHeight="125" id="o4N-tU-4bx">
+                                <rect key="frame" x="0.0" y="72" width="375" height="125"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="o4N-tU-4bx" id="AUN-yh-vdI">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="124.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YWt-ge-ANp">
+                                            <rect key="frame" x="21" y="51.5" width="42" height="21.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="20" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VsU-vn-23H">
+                                            <rect key="frame" x="310" y="51.5" width="49" height="21.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="49" id="BLH-gE-BzA"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="YWt-ge-ANp" firstAttribute="centerY" secondItem="AUN-yh-vdI" secondAttribute="centerY" id="9P9-hX-quS"/>
+                                        <constraint firstItem="VsU-vn-23H" firstAttribute="baseline" secondItem="YWt-ge-ANp" secondAttribute="baseline" id="LCe-qW-JtO"/>
+                                        <constraint firstItem="VsU-vn-23H" firstAttribute="centerY" secondItem="YWt-ge-ANp" secondAttribute="centerY" id="fIT-tt-MlB"/>
+                                        <constraint firstAttribute="trailing" secondItem="VsU-vn-23H" secondAttribute="trailing" constant="16" id="jST-tE-fcB"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="VsU-vn-23H" secondAttribute="bottom" constant="41" id="l0w-pv-k3W"/>
+                                        <constraint firstItem="YWt-ge-ANp" firstAttribute="leading" secondItem="AUN-yh-vdI" secondAttribute="leadingMargin" constant="5" id="r2r-oQ-Ys4"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Ih7-6s-OGr" id="mbg-Cm-5K8"/>
+                            <outlet property="delegate" destination="Ih7-6s-OGr" id="CgS-Se-GeY"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <segue destination="eN1-z4-gqs" kind="show" identifier="resubmitSegue" id="cBT-KT-KAe"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9lh-eB-J2E" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="892" y="-553.67316341829087"/>
         </scene>
         <!--Survey Table View Controller-->
         <scene sceneID="82F-Jo-k8m">
@@ -310,10 +385,13 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lmZ-Ii-VAA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1080.8" y="115.59220389805098"/>
+            <point key="canvasLocation" x="1655" y="153"/>
         </scene>
     </scenes>
     <resources>
         <image name="camera" width="225" height="225"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="cBT-KT-KAe"/>
+    </inferredMetricsTieBreakers>
 </document>

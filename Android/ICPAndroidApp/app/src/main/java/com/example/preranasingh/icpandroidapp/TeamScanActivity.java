@@ -1,10 +1,8 @@
 package com.example.preranasingh.icpandroidapp;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,35 +12,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.google.zxing.Result;
 
-import java.io.IOException;
-
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.Headers;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 import static android.Manifest.permission_group.CAMERA;
 
-public class ScanActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler{
+public class TeamScanActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView mScannerView;
     private String remoteIP="http://52.202.147.130:5000";
-    static final String TOKEN_KEY ="TOKEN";
+    static final String TEAM_ID ="TEAMID";
     private String token;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_team_scan);
+
         mScannerView = new ZXingScannerView(this);
         setContentView(mScannerView);
         int currentapiVersion = Build.VERSION.SDK_INT;
@@ -66,9 +55,11 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
     private void requestPermission() {
         Log.d("test", "asking for  permission");
 
-        ActivityCompat.requestPermissions(ScanActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
+        ActivityCompat.requestPermissions(TeamScanActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
     }
-@Override
+
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CAMERA:
@@ -102,15 +93,15 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         }
     }
 
+
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new android.support.v7.app.AlertDialog.Builder(ScanActivity.this)
+        new android.support.v7.app.AlertDialog.Builder(TeamScanActivity.this)
                 .setMessage(message)
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Cancel", null)
                 .create()
                 .show();
     }
-
 
 
     @Override
@@ -132,6 +123,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         }
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -145,92 +137,20 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
     }
 
 
-
     @Override
     public void handleResult(Result result) {
         // Do something with the result here
         final String txtresult = result.getText();
         Log.d("QR", result.getText());
         Log.d("QR", result.getBarcodeFormat().toString());
-        String key = result.getText();
-        loginQRApi(key);
-
+        String id = result.getText();
+        Intent intent = new Intent(TeamScanActivity.this,SurveyActivity.class);
+        intent.putExtra(TEAM_ID, id);
+        intent.putExtra("Class","TeamScanActivity");
+        startActivity(intent);
 
     }
 
-    private void loginQRApi(String key) {
-        final OkHttpClient client = new OkHttpClient();
-        RequestBody formBody = new FormBody.Builder()
-                .add("key",key)
-                .build();
-
-        Request request = new Request.Builder()
-                .url(remoteIP+"/user/loginQRCode")
-                .header("Content-Type","application/json")
-                .post(formBody)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("login", "onFailure: login");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Log.d("login", "onResponse: "+response.body().toString());
-                String str;
-                try (final ResponseBody responseBody = response.body()) {
-                    if (!response.isSuccessful()) {
-
-                        ScanActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                Toast.makeText(ScanActivity.this, responseBody.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-
-                    Headers responseHeaders = response.headers();
-                    for (int i = 0, size = responseHeaders.size(); i < size; i++) {
-                        System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
-                    }
-
-                    str=responseBody.string();
-                    Log.d("login", "onResponse: "+str);
 
 
-                }
-
-                Gson gson = new Gson();
-                final ResponseApi result=  (ResponseApi) gson.fromJson(str, ResponseApi.class);
-
-                ScanActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(result.status.equalsIgnoreCase("200")){
-                            Toast.makeText(ScanActivity.this,result.message,Toast.LENGTH_SHORT).show();
-
-                            token = String.valueOf(result.data.get("token"));
-                            Log.d("login", "run: "+token);
-
-                            SharedPreferences sharedPref =  getApplicationContext().getSharedPreferences(
-                                    "mypref", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putString("token", token);
-                            editor.apply();
-
-                            Intent intent = new Intent(ScanActivity.this, HomeActivity.class);
-                            intent.putExtra(TOKEN_KEY, token);
-                            startActivity(intent);
-
-                        }
-                    }
-                });
-
-
-            }
-        });
-    }
 }
