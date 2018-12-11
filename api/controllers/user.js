@@ -240,13 +240,13 @@ Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }).remove().ex
                                          //var numEval = team[0].numberOfEval;
                                          //console.log(numEval);
 
-                                         var newScore = newTotal;
-                                         var newEval = 1;
-                                         newScore =Math.round( newScore/newEval);
+                                         var newScore2 = newTotal;
+                                         var newEval2 = team[0].numberOfEval;
+                                         newScore2 =Math.round( newScore2/newEval2);
 
 
         try{
-                                           Team.findOneAndUpdate({_id: data[1].teamId}, {$set:{score:newScore, numberOfEval:newEval }}, {new: true}, (err, doc) => {
+                                           Team.findOneAndUpdate({_id: data[1].teamId}, {$set:{score:newScore2}}, {new: true}, (err, doc) => {
                                                if (err) {
                                                    console.log("Something wrong when updating data!");
                                                    return res.status(411).json({
