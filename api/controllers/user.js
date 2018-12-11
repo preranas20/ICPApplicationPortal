@@ -219,6 +219,9 @@ Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }).remove().ex
                       .then(result => {
                                         //console.log(result);
                                       //  console.log("A");
+
+                                      // Result table updated successfully + prob: updating on older values: need to PUT new values to team
+
                                         Team.find({ _id: data[1].teamId })
                                         .exec()
                                         .then(team => {
@@ -230,12 +233,15 @@ Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }).remove().ex
 
 
                                                } else {
-                                         var score = team[0].score;
 
-                                         var numEval = team[0].numberOfEval;
-                                         console.log(numEval);
-                                         var newScore = (score*numEval) + newTotal;
-                                         var newEval = numEval+1;
+                                               //var prob??- yes the only problem
+                                         //var score = team[0].score;
+
+                                         //var numEval = team[0].numberOfEval;
+                                         //console.log(numEval);
+
+                                         var newScore = newTotal;
+                                         var newEval = 1;
                                          newScore =Math.round( newScore/newEval);
 
 
