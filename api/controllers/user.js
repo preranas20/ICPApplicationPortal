@@ -206,7 +206,108 @@ for(var item in data){
 Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }) //check if email id exists before in DB
     .exec()
     .then(result => {
-      // over riding the previous value functionality is yet to be implemeted
+
+
+if (result.length >= 1) {
+
+        console.log("Ohm");
+
+Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }).remove().exec()
+.then(result => {
+
+        Result.insertMany(resultSaveArray)
+                      .then(result => {
+                                        //console.log(result);
+                                      //  console.log("A");
+                                        Team.find({ _id: data[1].teamId })
+                                        .exec()
+                                        .then(team => {
+                                     //   console.log("B");
+                                         if (team!=null && team.length <=0) {
+                                                 //TBD
+                                                 console.log("TeamNotFound");
+
+
+
+                                               } else {
+                                         var score = team[0].score;
+
+                                         var numEval = team[0].numberOfEval;
+                                         console.log(numEval);
+                                         var newScore = (score*numEval) + newTotal;
+                                         var newEval = numEval+1;
+                                         newScore =Math.round( newScore/newEval);
+
+
+        try{
+                                           Team.findOneAndUpdate({_id: data[1].teamId}, {$set:{score:newScore, numberOfEval:newEval }}, {new: true}, (err, doc) => {
+                                               if (err) {
+                                                   console.log("Something wrong when updating data!");
+                                                   return res.status(411).json({
+                                                    message: err,
+                                                    status: 410
+                                                  });
+                                               }
+
+                                               console.log("success");
+                                               return res.status(200).json({
+                                                status: 200,
+                                                message: "Auth successful",
+                                                data:{ }
+
+                                               // userId:user[0]._id,
+
+                                              })
+
+                                           })
+                                          }catch(err) {
+                                            console.log(err);
+                                            res.status(500).json({
+                                              error: err,
+                                              status: 500
+                                            });
+                                          };
+
+                                           }
+
+
+
+                                         })
+                                         .catch(err => {
+                                          console.log(err);
+                                          res.status(500).json({
+                                            error: err,
+                                            status: 500
+                                          });
+                                        });;
+
+
+                                        //});
+
+                                      })
+                                      .catch(err => {
+                                        console.log(err);
+                                        res.status(500).json({
+                                          error: err,
+                                          status: 500
+                                        });
+                                      });
+
+
+
+                                      })
+                                          .catch(err => {
+                                            console.log(err);
+                                            res.status(500).json({
+                                              error: err,
+                                              status: 500
+                                            });
+                                          });
+
+
+      } else {
+
+
 console.log("survey not found saving new");
 Result.insertMany(resultSaveArray)
               .then(result => {
@@ -286,7 +387,11 @@ try{
                                 });
                               });
 
-      
+
+
+
+
+       }
 
     })
     .catch(err => {
@@ -305,6 +410,16 @@ try{
 
 
 };
+
+
+
+
+
+
+
+
+
+
 
 
 //get results for evaluator's teams
