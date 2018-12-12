@@ -71,8 +71,7 @@ exports.user_login = (req, res, next) => {
   User.find({ email: req.body.email })
     .exec()
     .then(user => {
-      if (user.length < 1 || (onlyAdmin&&user[0].role=="evaluator")) {
-      if (user.length < 1 || (!(onlyAdmin) && user[0].role=="evaluator")) {
+      if (user.length < 1 || (onlyAdmin&&user[0].role=="evaluator") || (!onlyAdmin&&user[0].role=="admin")) {
         return res.status(401).json({
           message: "Not Authorized",
           status: 401
