@@ -452,7 +452,7 @@ self.showEvaluators = function(data) {
     self.showTeamTable= function(tabledata) {
         if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
             $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
-            return;}
+            }
      // console.log(table);
         $('#teams').fadeIn( 2000);
         if(table == null ){
@@ -494,7 +494,7 @@ self.showEvaluators = function(data) {
     self.showResultsTable= function(tabledata) {
         if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
             $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
-            return;}
+        }
         // console.log(table);
            $('#results').fadeIn( 2000);
            if(resultsTable == null ){
@@ -538,7 +538,7 @@ self.showEvaluators = function(data) {
     self.showResultsDetailTable= function(tabledata) {
         if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
             $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
-            return;}
+            }
         
            $('#detailResult').fadeIn( 2000);
            if(detailTable == null ){
@@ -565,7 +565,7 @@ self.showEvaluators = function(data) {
         console.log(tabledata);
         if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
             $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
-            return;}
+            }
      
            $('#evaluators').fadeIn( 2000);
            if(evaluatorsTable == null){
@@ -606,7 +606,7 @@ self.showEvaluators = function(data) {
        self.showSurveyTable = function(tabledata) {
         if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
             $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
-            return;}
+           }
             $('#survey').fadeIn( 2000);
             if(surveyTable == null){
                 surveyTable=$('#surveyTable').DataTable( {
@@ -1064,7 +1064,8 @@ self.showEvaluators = function(data) {
                     text: result.message,
                       showHideTransition: 'slide',
                     icon: 'success'});
-                   self.getEvaluators()
+                   self.getEvaluators();
+                   self.disableButtons()
                     $('#qrSpace').hide();
                     }
                     else{
@@ -1085,6 +1086,10 @@ self.showEvaluators = function(data) {
 self.disableButtons=function(){
     $('#editQuestion').addClass('disabled')
     $('#deleteQuestion').addClass('disabled');
+    $('#editTeam').addClass('disabled')
+    $('#deleteTeam').addClass('disabled');
+    $('#editEvaluator').addClass('disabled')
+    $('#deleteEvaluator').addClass('disabled');
 
 }
 self.showTeamForm= function(){
