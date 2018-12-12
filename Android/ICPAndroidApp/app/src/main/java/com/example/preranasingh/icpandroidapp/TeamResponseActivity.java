@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,7 @@ public class TeamResponseActivity extends AppCompatActivity implements View.OnCl
     private RecyclerView.LayoutManager mLayoutManager;
     private Team team;
     private Button btnResubmit;
+    private TextView teamTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +32,9 @@ public class TeamResponseActivity extends AppCompatActivity implements View.OnCl
             responses = (ArrayList<Survey>) getIntent().getExtras().getSerializable("TEAM_RESPONSE");
 
         }
+
+        teamTitle = findViewById(R.id.team_title);
+        teamTitle.setText(team.name);
 
 
         if(responses != null) {
@@ -57,4 +62,8 @@ public class TeamResponseActivity extends AppCompatActivity implements View.OnCl
         intent.putExtra("Class", "TeamResponseActivity");
         startActivity(intent);
     }
+
+
+
+
 }

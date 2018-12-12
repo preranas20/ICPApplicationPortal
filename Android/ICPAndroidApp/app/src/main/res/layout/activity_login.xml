@@ -29,5 +29,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="113dp"
-        android:text="Login" />
+        android:backgroundTint="#1976d2"
+        android:text="Login"
+        android:textColor="@android:color/background_light" />
 </RelativeLayout>

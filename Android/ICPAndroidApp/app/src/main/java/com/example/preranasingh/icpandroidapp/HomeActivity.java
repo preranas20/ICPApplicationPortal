@@ -145,7 +145,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void run() {
                         if(result.status.equalsIgnoreCase("200")){
-                            Toast.makeText(HomeActivity.this,result.message,Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(HomeActivity.this,result.message,Toast.LENGTH_SHORT).show();
 
                           //  Log.d("home", "run: "+result.data);
                             JsonArray jsonArray = result.data;

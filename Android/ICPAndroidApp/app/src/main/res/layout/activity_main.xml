@@ -10,7 +10,9 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="108dp"
-        android:text="Login through Credentials" />
+        android:text="Login"
+        android:textColor="@android:color/background_light"
+        android:backgroundTint="#1976d2"/>
 
     <ImageButton
         android:id="@+id/btnLoginQR"

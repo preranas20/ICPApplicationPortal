@@ -120,7 +120,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionFragmen
                     @Override
                     public void run() {
                         if (result.status.equalsIgnoreCase("200")) {
-                            Toast.makeText(SurveyActivity.this, result.message, Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(SurveyActivity.this, result.message, Toast.LENGTH_SHORT).show();
                             surveyList= new ArrayList<Survey>();
                             //  Log.d("home", "run: "+result.data);
                             JsonArray jsonArray = result.data;
@@ -260,11 +260,25 @@ public class SurveyActivity extends AppCompatActivity implements QuestionFragmen
 
                     str = responseBody.string();
                       Log.d("data", "onResponse: "+str);
-                    if(str!=null){
 
-                        Log.d("data", "onResponse: before calling clearFragments");
-                        clearAllFragments();
+
+                    Gson gson = new Gson();
+                    final ResponseApi result=  (ResponseApi) gson.fromJson(str, ResponseApi.class);
+                    SurveyActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(result.status.equalsIgnoreCase("200")){
+                                Toast.makeText(SurveyActivity.this,result.message,Toast.LENGTH_SHORT).show();
+                                Log.d("data", "onResponse: before calling clearFragments");
+                                clearAllFragments();
+
+                            }
+                            else{
+                                Toast.makeText(SurveyActivity.this,result.message,Toast.LENGTH_SHORT).show();
+                            }
                         }
+                    });
+
                     }
 
 
