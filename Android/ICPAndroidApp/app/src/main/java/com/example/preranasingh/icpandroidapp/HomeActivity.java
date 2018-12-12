@@ -22,9 +22,11 @@ import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
@@ -37,6 +39,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private String remoteIP="http://52.202.147.130:5000";
     private ArrayList<Team> teamList;
     private ImageButton imgQRBtn;
+    private ImageButton imgLogout;
+    ArrayList<Survey> teamResponseList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         imgQRBtn=(ImageButton) findViewById(R.id.imgTeamQR);
         imgQRBtn.setOnClickListener(this);
+        imgLogout = findViewById(R.id.imgBtnLogout);
+        imgLogout.setOnClickListener(this);
 
 
         //setTitle("Score Board");
@@ -67,6 +73,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
+
+
         teamList = new ArrayList<Team>();
 
         getTeamAPI();
@@ -78,7 +86,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             // use a linear layout manager
             mLayoutManager = new LinearLayoutManager(this);
             mRecyclerView.setLayoutManager(mLayoutManager);
-            mAdapter = new TeamAdapter(teamList, getApplicationContext());
+            mAdapter = new TeamAdapter(teamList, getApplicationContext(),getToken(),HomeActivity.this);
             mRecyclerView.setAdapter(mAdapter);
 
         }
@@ -165,11 +173,115 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+    ArrayList<Survey> getResultsForTeam(String teamId) {
+        final OkHttpClient client = new OkHttpClient();
+
+        RequestBody bodyEvaluatorTeam = new FormBody.Builder()
+                .add("teamId",teamId)
+                .build();
+
+
+        Request request = new Request.Builder()
+                .url(remoteIP+"/user/getResultForEvalTeam")
+                .header("Content-Type","application/json")
+                .header("Authorization", "Bearer "+token)
+                .post(bodyEvaluatorTeam)
+                .build();
+
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //  Log.d("home", "onFailure: getTeam");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                String str;
+                try (final ResponseBody responseBody = response.body()) {
+                    if (!response.isSuccessful()) {
+
+                        HomeActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                //Toast.makeText(activity, responseBody.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    Headers responseHeaders = response.headers();
+                    for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+                        System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                    }
+
+                    str = responseBody.string();
+                    Log.d("teamdata", "onResponse: "+str);
+
+                }
+
+                Gson gson = new Gson();
+                final TeamResponseApi result = (TeamResponseApi) gson.fromJson(str, TeamResponseApi.class);
+
+                HomeActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (result.status.equalsIgnoreCase("200")) {
+                            //  Toast.makeText(activity, result.message, Toast.LENGTH_SHORT).show();
+                            teamResponseList = new ArrayList<Survey>();
+                            Log.d("teamdata", "run: "+result.data);
+                            JsonArray jsonArray = result.data;
+
+                            for (int i = 0; i < jsonArray.size(); i++) {
+                                JsonObject questionsElement = jsonArray.get(i).getAsJsonObject();
+                                Survey survey = new Survey();
+                                survey.setSurveyId(questionsElement.get("surveyId").getAsInt());
+                                survey.setQuestionId(questionsElement.get("qId").getAsString());
+                                survey.setQuestionText(questionsElement.get("text").getAsString());
+                                survey.setAnswer(questionsElement.get("answer").getAsInt());
+                                survey.setTeamId(questionsElement.get("teamId").getAsString());
+                                teamResponseList.add(survey);
+
+                                Log.d("teamdata", "run: " + survey);
+
+                            }
+
+
+
+
+                        }
+                    }
+                });
+
+
+
+            }
+
+        });
+        return teamResponseList;
+
+    }
+
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.imgTeamQR){
+            Log.d("team", "onClick: "+teamResponseList);
             Intent intent = new Intent(HomeActivity.this, TeamScanActivity.class);
+            intent.putExtra("TEAMLIST",teamList);
             startActivity(intent);
+        }
+        if(view.getId()==R.id.imgBtnLogout){
+            //logout
+            Toast.makeText(getApplicationContext(),"You pressed logout",Toast.LENGTH_SHORT).show();
+            //delete token
+            deleteToken();
+            Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+            startActivity(intent);
+
+
         }
     }
 
@@ -183,6 +295,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         ret = sharedPref.getString("token","");
 
         return ret;
+    }
+
+
+    public void deleteToken(){
+        SharedPreferences sharedPref =this.getSharedPreferences(
+                "mypref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.clear();
+        editor.apply();
+
     }
 
 }

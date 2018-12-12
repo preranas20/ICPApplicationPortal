@@ -36,6 +36,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionFragmen
     private String remoteIP="http://52.202.147.130:5000";
     private String teamId;
     private ArrayList<Survey> surveyList;
+
     int idx=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionFragmen
         if(getIntent().getExtras()!= null) {
 
             String className = getIntent().getStringExtra("Class");
-            if(className.equals("TeamAdapter")) {
+            if(className.equals("SurveyResponseApi") || className.equals("TeamResponseActivity")){
                 Team team = (Team) getIntent().getSerializableExtra("TEAM_KEY");
                 Log.d("survey", "onCreate: " + team.getName() + " " + team.getId());
                 teamId = team.getId();
@@ -58,16 +59,18 @@ public class SurveyActivity extends AppCompatActivity implements QuestionFragmen
         }
 
 
+            //create new survey
+            getQuestionsApi();
 
-        getQuestionsApi();
-
-        getFragmentManager().beginTransaction()
-                .add(R.id.container,new QuestionFragment(),"tag_questionFragment")
-                .commit();
+            getFragmentManager().beginTransaction()
+                    .add(R.id.container,new QuestionFragment(),"tag_questionFragment")
+                    .commit();
 
 
 
     }
+
+
 
     private void getQuestionsApi() {
         final OkHttpClient client = new OkHttpClient();
@@ -218,49 +221,12 @@ public class SurveyActivity extends AppCompatActivity implements QuestionFragmen
         Log.d("data", "saveSurvey: "+formBody.toString());
 
 
-      /*  RequestBody formBody = new FormBody.Builder()
-                .add("data", jsonData.toString())
-                .build();*/
-
-
       final Request request = new Request.Builder()
                 .url(remoteIP+"/user/saveSurvey")
                 .header("Content-Type","application/json")
                 .header("Authorization", "Bearer "+token)
                 .post(formBody)
                 .build();
-
-       /* AsyncTask<Void, Void, String> asyncTask = new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                try {
-                    Response response = client.newCall(request).execute();
-                    if (!response.isSuccessful()) {
-                        //Log.d("data", "doInBackground: "+response);
-                        Log.d("data", "doInBackground: "+response.message());
-                        Log.d("data", "doInBackground: "+response.body().string());
-                    }
-                    Log.d("data", "doInBackground: "+response.body().string());
-                    return response.body().string();
-
-                } catch (Exception e) {
-                    Log.d("data", "doInBackground: "+e);
-                   // e.printStackTrace();
-                    return null;
-                }
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                if (s != null) {
-                    QuestionFragment fragmentFinal = (QuestionFragment) getFragmentManager().findFragmentByTag("tag_questionFragment");
-                     fragmentFinal.returnToScoreboard();
-                }
-            }
-        };
-
-        asyncTask.execute();*/
 
 
 

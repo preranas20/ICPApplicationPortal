@@ -1,7 +1,7 @@
 package com.example.preranasingh.icpandroidapp;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +13,14 @@ import java.util.ArrayList;
 public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder>{
     ArrayList<Team> mData;
     private Context context;
+    private String token;
+    private Activity activity;
 
-    public TeamAdapter(ArrayList<Team> mData,Context context) {
+    public TeamAdapter(ArrayList<Team> mData, Context context, String token,Activity activity) {
         this.mData = mData;
         this.context=context;
+        this.token = token;
+        this.activity = activity;
     }
 
     @Override
@@ -38,10 +42,14 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder
         holder.txtTeamName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,SurveyActivity.class);
-                intent.putExtra("TEAM_KEY", team);
-                intent.putExtra("Class","TeamAdapter");
-                context.startActivity(intent);
+                //token = response.getToken();//
+               // activity = (Activity) context;
+                SurveyResponseApi response = new SurveyResponseApi(token,activity);
+
+              //  ArrayList<Survey>responseList = new ArrayList<Survey>();
+                response.getResultsForTeam(team);
+             //   Log.d("teamdata", "onClick: "+responseList);
+
             }
         });
 
@@ -64,4 +72,6 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder
 
         }
     }
+
+
 }

@@ -173,7 +173,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("login", "onFailure: login");
+                Log.d("loginscan", "onFailure: login");
             }
 
             @Override
@@ -212,7 +212,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
                         if(result.status.equalsIgnoreCase("200")){
                             Toast.makeText(ScanActivity.this,result.message,Toast.LENGTH_SHORT).show();
 
-                            token = String.valueOf(result.data.get("token"));
+                            token = String.valueOf(result.data.get("token").getAsString());
                             Log.d("login", "run: "+token);
 
                             SharedPreferences sharedPref =  getApplicationContext().getSharedPreferences(
