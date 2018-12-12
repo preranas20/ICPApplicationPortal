@@ -10,7 +10,7 @@ module.exports.getTeam = function(req, res){
 
     User
       .find({})
-      ..sort('-score')
+      .sort('-score')
       .exec(function(err, user) {
         res.status(200).json({
           message:"Request successful",
