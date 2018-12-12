@@ -67,11 +67,12 @@ exports.create_evaluator = (req, res, next) => {
 exports.user_login = (req, res, next) => {
   //in case we login from portal we need only admin to login but from mobile we need to let evaluator login as well
   var onlyAdmin = req.body.isPortal;
+  console.log(onlyAdmin);
 
   User.find({ email: req.body.email })
     .exec()
     .then(user => {
-      if (user.length < 1 || (!(onlyAdmin) && user[0].role=="evaluator")) {
+      if (user.length < 1 || (onlyAdmin&&user[0].role=="evaluator") || (!onlyAdmin&&user[0].role=="admin")) {
         return res.status(401).json({
           message: "Not Authorized",
           status: 401
@@ -228,7 +229,6 @@ for(var item2 in result){
 }
 console.log(oldScore);
 
-
         Result.insertMany(resultSaveArray)
                       .then(result => {
                                         //console.log(result);
@@ -254,12 +254,11 @@ console.log(oldScore);
                                          //var numEval = team[0].numberOfEval;
                                          //console.log(numEval);
 
-                                     //((curr score*no.of eva) - old score + newTotal)/newEval2
+//((curr score*no.of eva) - old score + newTotal)/newEval2
                                          var newEval2 = team[0].numberOfEval;
                                          var newScore2 = ((team[0].score * newEval2) - oldScore + newTotal)/newEval2;
 
                                          //newScore2 =Math.round( newScore2/newEval2);
-
 
         try{
                                            Team.findOneAndUpdate({_id: data[1].teamId}, {$set:{score:newScore2}}, {new: true}, (err, doc) => {

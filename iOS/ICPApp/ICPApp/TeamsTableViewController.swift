@@ -75,7 +75,8 @@ class TeamsTableViewController: UITableViewController ,QRCodeReaderViewControlle
             case .success:
                 if let json = response.result.value {
                     var swifty = JSON(json);
-                    if swifty["data"] != [] {
+                    print(swifty["data"])
+                    
                         for (key,subJson):(String, JSON) in  swifty["data"] {
                             // Do something you want
                             print(subJson)
@@ -90,7 +91,7 @@ class TeamsTableViewController: UITableViewController ,QRCodeReaderViewControlle
                         else{
                               self.performSegue(withIdentifier: "showSurvey", sender: self)
                         }
-                    }
+                    
                 }
                 
                 print("savedScore")
@@ -128,7 +129,21 @@ class TeamsTableViewController: UITableViewController ,QRCodeReaderViewControlle
         
         dismiss(animated: true) { [weak self] in
          self?.selectedTeam = result.value
-            self!.performSegue(withIdentifier: "showSurvey", sender: self)
+          //  self!.performSegue(withIdentifier: "showSurvey", sender: self)
+            var same : Bool = false
+            for (key,val):(String, JSON) in (self?.swiftyJson["data"])! {
+                if result.value == val["_id"].stringValue{
+                    same = true;
+                    break;
+                }
+            }
+            if same {
+           self?.getSubmissions()
+            }else{
+                  var alert: UIAlertController
+                  alert = UIAlertController(title: "Error", message: "Invalid QR code", preferredStyle: .alert)
+                  self?.present(alert, animated: true, completion: nil)
+            }
         }
     }
     
