@@ -611,10 +611,12 @@ self.showEvaluators = function(data) {
             if(surveyTable == null){
                 surveyTable=$('#surveyTable').DataTable( {
                 data: tabledata,
-                rowReorder: true,
+                rowReorder: {
+                    dataSrc: 'orderId'
+                },
                 columns: [
-                    { data: 'qId', title:'ID' },
-                    { data: 'qText',title:'Text' },
+                    { data: 'qId', title:'ID' ,"orderable": false,},
+                    { data: 'qText',title:'Text', "orderable": false,},
                     { data: 'orderId',title:'Order' },
                     
                 ]
@@ -1101,11 +1103,47 @@ self.showEvaluatorForm= function(){
     $('#addEvaluator').slideToggle( "slow");
 }
 self.saveOrder = function(){
+    console.log("ins save survey")
 var surveyData = surveyTable.rows().data();
-var arrayToStore = $.each( surveyData, function( i, val){
-    return val.orderId;
+console.log(surveyData);
+var arrayToStore =[] ;
+  $.each( surveyData, function( i, val){
+    var myObject = new Object();
+     myObject.qId= val.qId;
+     arrayToStore.push(myObject);
   });
-  //send this array to ajax similar to saveTeam
+  console.log(arrayToStore);
+  var obj = new Object();
+  obj.data= arrayToStore;
+  $.ajax({
+    method: "POST",
+    contentType: 'application/json',
+headers: {"Authorization": "BEARER "+readCookie('token')},
+    data: JSON.stringify( obj),
+        url: self.urlIP()+ "/user/saveOrder",
+       
+        success: function(result) {
+            //Write your code here
+            if(result.status==200){
+            //self.token(result.token);
+            $.toast({ heading: 'Success',
+            text: result.message,
+              showHideTransition: 'slide',
+            icon: 'success'});
+            console.log('team data')
+         self.getSurvey()
+            }
+            else{
+                $.toast({heading:'error',text:result.message, icon: 'error'});
+            }
+            },
+        error:
+        function(result) {
+            //Write your code here
+            $.toast({heading:'error',text:result.responseJSON.message,icon:'error'});
+            }
+    
+  });
 }
 self.showQuestionForm = function (params) {
     self.newQuestion('');
