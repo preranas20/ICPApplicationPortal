@@ -209,15 +209,6 @@ Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }) //check if 
     .exec()
     .then(result => {
 
-
-
-if (result.length >= 1) {
-
-        console.log("Ohm");
-
-Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }).remove().exec()
-.then(result => {
-
 var oldScore = 0;
 for(var item2 in result){
 
@@ -229,6 +220,16 @@ for(var item2 in result){
 
 }
 console.log(oldScore);
+
+
+if (result.length >= 1) {
+
+        console.log("Ohm");
+
+Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }).remove().exec()
+.then(result => {
+
+
 
         Result.insertMany(resultSaveArray)
                       .then(result => {
