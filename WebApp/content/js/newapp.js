@@ -452,7 +452,7 @@ self.showEvaluators = function(data) {
     self.showTeamTable= function(tabledata) {
         if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
             $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
-            return;}
+            }
      // console.log(table);
         $('#teams').fadeIn( 2000);
         if(table == null ){
@@ -494,7 +494,7 @@ self.showEvaluators = function(data) {
     self.showResultsTable= function(tabledata) {
         if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
             $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
-            return;}
+        }
         // console.log(table);
            $('#results').fadeIn( 2000);
            if(resultsTable == null ){
@@ -538,7 +538,7 @@ self.showEvaluators = function(data) {
     self.showResultsDetailTable= function(tabledata) {
         if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
             $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
-            return;}
+            }
         
            $('#detailResult').fadeIn( 2000);
            if(detailTable == null ){
@@ -565,7 +565,7 @@ self.showEvaluators = function(data) {
         console.log(tabledata);
         if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
             $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
-            return;}
+            }
      
            $('#evaluators').fadeIn( 2000);
            if(evaluatorsTable == null){
@@ -606,15 +606,17 @@ self.showEvaluators = function(data) {
        self.showSurveyTable = function(tabledata) {
         if(tabledata == null || tabledata ==[] || tabledata=='' ||tabledata.length <=0){ 
             $.toast({heading:'Ah! Oh!',text:"Looks like there is no data to show!",icon:'error'});
-            return;}
+           }
             $('#survey').fadeIn( 2000);
             if(surveyTable == null){
                 surveyTable=$('#surveyTable').DataTable( {
                 data: tabledata,
-                rowReorder: true,
+                rowReorder: {
+                    dataSrc: 'orderId'
+                },
                 columns: [
-                    { data: 'qId', title:'ID' },
-                    { data: 'qText',title:'Text' },
+                    { data: 'qId', title:'ID' ,"orderable": false,},
+                    { data: 'qText',title:'Text', "orderable": false,},
                     { data: 'orderId',title:'Order' },
                     
                 ]
@@ -1062,7 +1064,8 @@ self.showEvaluators = function(data) {
                     text: result.message,
                       showHideTransition: 'slide',
                     icon: 'success'});
-                   self.getEvaluators()
+                   self.getEvaluators();
+                   self.disableButtons()
                     $('#qrSpace').hide();
                     }
                     else{
@@ -1083,6 +1086,10 @@ self.showEvaluators = function(data) {
 self.disableButtons=function(){
     $('#editQuestion').addClass('disabled')
     $('#deleteQuestion').addClass('disabled');
+    $('#editTeam').addClass('disabled')
+    $('#deleteTeam').addClass('disabled');
+    $('#editEvaluator').addClass('disabled')
+    $('#deleteEvaluator').addClass('disabled');
 
 }
 self.showTeamForm= function(){
@@ -1101,11 +1108,47 @@ self.showEvaluatorForm= function(){
     $('#addEvaluator').slideToggle( "slow");
 }
 self.saveOrder = function(){
+    console.log("ins save survey")
 var surveyData = surveyTable.rows().data();
-var arrayToStore = $.each( surveyData, function( i, val){
-    return val.orderId;
+console.log(surveyData);
+var arrayToStore =[] ;
+  $.each( surveyData, function( i, val){
+    var myObject = new Object();
+     myObject.qId= val.qId;
+     arrayToStore.push(myObject);
   });
-  //send this array to ajax similar to saveTeam
+  console.log(arrayToStore);
+  var obj = new Object();
+  obj.data= arrayToStore;
+  $.ajax({
+    method: "POST",
+    contentType: 'application/json',
+headers: {"Authorization": "BEARER "+readCookie('token')},
+    data: JSON.stringify( obj),
+        url: self.urlIP()+ "/user/saveOrder",
+       
+        success: function(result) {
+            //Write your code here
+            if(result.status==200){
+            //self.token(result.token);
+            $.toast({ heading: 'Success',
+            text: result.message,
+              showHideTransition: 'slide',
+            icon: 'success'});
+            console.log('team data')
+         self.getSurvey()
+            }
+            else{
+                $.toast({heading:'error',text:result.message, icon: 'error'});
+            }
+            },
+        error:
+        function(result) {
+            //Write your code here
+            $.toast({heading:'error',text:result.responseJSON.message,icon:'error'});
+            }
+    
+  });
 }
 self.showQuestionForm = function (params) {
     self.newQuestion('');

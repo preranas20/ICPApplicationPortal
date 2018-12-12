@@ -1,6 +1,8 @@
 package com.example.preranasingh.icpandroidapp;
 
-public class Survey {
+import java.io.Serializable;
+
+public class Survey implements Serializable {
 
     String questionText,questionId,teamId;
     int surveyId,orderId,answer;

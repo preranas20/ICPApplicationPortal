@@ -1,8 +1,9 @@
 package com.example.preranasingh.icpandroidapp;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 
 import com.google.zxing.Result;
 
+import java.util.ArrayList;
+
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import static android.Manifest.permission_group.CAMERA;
@@ -23,14 +26,23 @@ public class TeamScanActivity extends AppCompatActivity implements ZXingScannerV
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView mScannerView;
     private String remoteIP="http://52.202.147.130:5000";
-    static final String TEAM_ID ="TEAMID";
+    static final String TEAM_KEY ="TEAM";
     private String token;
+    private ArrayList<Team> teamList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_scan);
+
+        teamList = new ArrayList<Team>();
+
+        if(getIntent().getExtras()!= null) {
+
+            teamList = (ArrayList<Team>) getIntent().getExtras().getSerializable("TEAMLIST");
+
+        }
 
         mScannerView = new ZXingScannerView(this);
         setContentView(mScannerView);
@@ -144,13 +156,40 @@ public class TeamScanActivity extends AppCompatActivity implements ZXingScannerV
         Log.d("QR", result.getText());
         Log.d("QR", result.getBarcodeFormat().toString());
         String id = result.getText();
-        Intent intent = new Intent(TeamScanActivity.this,SurveyActivity.class);
-        intent.putExtra(TEAM_ID, id);
-        intent.putExtra("Class","TeamScanActivity");
-        startActivity(intent);
+        Team team = checkValidity(id);
+        if(team == null)
+            Toast.makeText(this,"Not a valid team",Toast.LENGTH_LONG).show();
+        else {
+            SurveyResponseApi response = new SurveyResponseApi(getToken(),this);
+            response.getResultsForTeam(team);
+           /* Intent intent = new Intent(TeamScanActivity.this, SurveyActivity.class);
+            intent.putExtra(TEAM_KEY, team);
+            intent.putExtra("Class", "TeamScanActivity");
+            startActivity(intent);*/
+        }
 
     }
 
+    private Team checkValidity(String id) {
+        for(Team team : teamList) {
+            if(team != null && team.getId().equals(id)) {
+                return team;
+            }
+        }
+
+        return null;
+    }
+
+    public  String getToken(){
+
+        String ret;
+        SharedPreferences sharedPref =this.getSharedPreferences(
+                "mypref", Context.MODE_PRIVATE);
+
+        ret = sharedPref.getString("token","");
+
+        return ret;
+    }
 
 
 }
