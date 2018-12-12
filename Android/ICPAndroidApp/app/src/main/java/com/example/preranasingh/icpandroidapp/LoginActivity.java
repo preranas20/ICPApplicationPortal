@@ -17,8 +17,8 @@ import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.Headers;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -70,10 +70,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void loginApi(String email, String password) {
 
         final OkHttpClient client = new OkHttpClient();
-        RequestBody formBody = new FormBody.Builder()
+
+       MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+       RequestBody formBody = RequestBody.create(JSON, "{\"email\":\""+email+"\",\"password\":\""+password+"\",\"isPortal\":false}");
+       Log.d("login", "loginApi: "+formBody.toString());
+       /* RequestBody formBody = new FormBody.Builder()
                 .add("email",email)
                 .add("password",password)
-                .build();
+               // .add("isPortal",false)
+                .build();*/
 
         Request request = new Request.Builder()
                 .url(remoteIP+"/user/login")
@@ -110,7 +115,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     str=responseBody.string();
                     Log.d("login", "onResponse: "+str);
-
+                    //Toast.makeText(LoginActivity.this,str, Toast.LENGTH_SHORT).show();
 
                 }
 
