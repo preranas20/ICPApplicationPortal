@@ -67,10 +67,12 @@ exports.create_evaluator = (req, res, next) => {
 exports.user_login = (req, res, next) => {
   //in case we login from portal we need only admin to login but from mobile we need to let evaluator login as well
   var onlyAdmin = req.body.isPortal;
+  console.log(onlyAdmin);
+
   User.find({ email: req.body.email })
     .exec()
     .then(user => {
-      if (user.length < 1 || (onlyAdmin&&user[0].role=="evaluator")) {
+      if (user.length < 1 || (onlyAdmin&&user[0].role=="evaluator") || (!onlyAdmin&&user[0].role=="admin")) {
         return res.status(401).json({
           message: "Not Authorized",
           status: 401
@@ -208,12 +210,24 @@ Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }) //check if 
     .then(result => {
 
 
+
 if (result.length >= 1) {
 
         console.log("Ohm");
 
 Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }).remove().exec()
 .then(result => {
+
+var oldScore = 0;
+for(var item2 in result){
+
+
+  oldScore = oldScore + result[item2].answer;
+
+
+
+}
+console.log(oldScore);
 
         Result.insertMany(resultSaveArray)
                       .then(result => {
@@ -240,10 +254,11 @@ Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }).remove().ex
                                          //var numEval = team[0].numberOfEval;
                                          //console.log(numEval);
 
-                                         var newScore2 = newTotal;
+//((curr score*no.of eva) - old score + newTotal)/newEval2
                                          var newEval2 = team[0].numberOfEval;
-                                         newScore2 =Math.round( newScore2/newEval2);
+                                         var newScore2 = ((team[0].score * newEval2) - oldScore + newTotal)/newEval2;
 
+                                         //newScore2 =Math.round( newScore2/newEval2);
 
         try{
                                            Team.findOneAndUpdate({_id: data[1].teamId}, {$set:{score:newScore2}}, {new: true}, (err, doc) => {
