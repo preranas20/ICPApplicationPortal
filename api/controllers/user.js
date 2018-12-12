@@ -190,8 +190,8 @@ for(var item in data){
   var resultSave =  new Result({
     _id: new mongoose.Types.ObjectId(),
     evalId: req.userData.userId,
-   
-    teamName: resData.teamName,
+   //evalId: resData.evalId,
+    teamId: resData.teamId,
     qId: resData.qId,
       text:resData.text,
       surveyId: 0,
@@ -203,7 +203,7 @@ for(var item in data){
 }
 
   //flow
-Result.find({ teamName: data[1].teamName, evalId:req.userData.userId  }) //check if email id exists before in DB
+Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }) //check if email id exists before in DB
     .exec()
     .then(result => {
 
@@ -212,14 +212,17 @@ if (result.length >= 1) {
 
         console.log("Ohm");
 
-Result.find({ teamName: data[1].teamName, evalId:req.userData.userId  }).remove().exec()
+Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }).remove().exec()
 .then(result => {
 
         Result.insertMany(resultSaveArray)
                       .then(result => {
                                         //console.log(result);
                                       //  console.log("A");
-                                        Team.find({ teamName: data[1].teamName })
+
+
+
+                                        Team.find({ _id: data[1].teamId })
                                         .exec()
                                         .then(team => {
                                      //   console.log("B");
@@ -230,17 +233,20 @@ Result.find({ teamName: data[1].teamName, evalId:req.userData.userId  }).remove(
 
 
                                                } else {
-                                         var score = team[0].score;
 
-                                         var numEval = team[0].numberOfEval;
-                                         console.log(numEval);
-                                         var newScore = (score*numEval) + newTotal;
-                                         var newEval = numEval+1;
-                                         newScore =Math.round( newScore/newEval);
+
+                                         //var score = team[0].score;
+
+                                         //var numEval = team[0].numberOfEval;
+                                         //console.log(numEval);
+
+                                         var newScore2 = newTotal;
+                                         var newEval2 = team[0].numberOfEval;
+                                         newScore2 =Math.round( newScore2/newEval2);
 
 
         try{
-                                           Team.findOneAndUpdate({teamName: data[1].teamName}, {$set:{score:newScore, numberOfEval:newEval }}, {new: true}, (err, doc) => {
+                                           Team.findOneAndUpdate({_id: data[1].teamId}, {$set:{score:newScore2}}, {new: true}, (err, doc) => {
                                                if (err) {
                                                    console.log("Something wrong when updating data!");
                                                    return res.status(411).json({
@@ -313,7 +319,7 @@ Result.insertMany(resultSaveArray)
               .then(result => {
                                 //console.log(result);
                               //  console.log("A");
-                                Team.find({ teamName: data[1].teamName })
+                                Team.find({ _id: data[1].teamId })
                                 .exec()
                                 .then(team => {
                              //   console.log("B");
@@ -334,7 +340,7 @@ Result.insertMany(resultSaveArray)
                                  
 
 try{
-                                   Team.findOneAndUpdate({teamName: data[1].teamName}, {$set:{score:newScore, numberOfEval:newEval }}, {new: true}, (err, doc) => {
+                                   Team.findOneAndUpdate({_id: data[1].teamId}, {$set:{score:newScore, numberOfEval:newEval }}, {new: true}, (err, doc) => {
                                        if (err) {
                                            console.log("Something wrong when updating data!");
                                            return res.status(411).json({
@@ -428,7 +434,7 @@ module.exports.getResultForEvalTeam = function(req, res){
 
 
     Result
-      .find({ evalId: evalId, _id: req.body.teamId })
+      .find({ evalId: evalId, teamId: req.body.teamId })
       .exec(function(err, result) {
         res.status(200).json({
           message:"Request successful",
@@ -446,41 +452,15 @@ module.exports.saveOrder = function(req, res){
 console.log(req.body)
 var data = req.body.data;
 var count = 0;
+var limit = data.length;
+var wait = 0;
 for(var item in data){
   count = count +1;
  console.log(count)
   var resData = data[item];
   var id = resData.qId;
 
-/*
-    Survey.findByIdAndUpdate(
-        id, //qId: id
-        {
-          $set:{
-            orderId: count
 
-          }
-        },
-        {new: true}, */
-
-
-/*
-        Survey.findOneAndUpdate({qId: id}, {$set:{orderId: count}})
-        .exec()
-        .then(result => {
-                            console.log(result);
-                            res.status(200).json({
-                              message: count,
-                              status: 200
-                            });
-                          })
-                          .catch(err => {
-                            console.log(err);
-                            res.status(500).json({
-                              error: err,
-                              status: 500
-                            });
-                          });  */
 
 
 
@@ -495,43 +475,33 @@ for(var item in data){
                                                }
 
                                                console.log("success");
+                                               console.log(wait)
+                                               if(wait<limit-1){
+                                               wait = wait+1;
+}else{
+
                                                return res.status(200).json({
                                                 status: 200,
                                                 message: "successful",
                                                 data:{ }
 
                                                // userId:user[0]._id,
-
-                                              })
+                                                     })
+                                                     }
+                                              //})
 
                                            })
                                           }catch(err) {
+
                                             console.log(err);
-                                            res.status(500).json({
+                                           return res.status(500).json({
                                               error: err,
                                               status: 500
                                             });
+
                                           };
 
-        /*,
-        function(err,result){
-        if(err){
-          console.log(err);
-          res.status(500).json({
-            error:err,
-            status:500
-          });
-        }else{
-          console.log(result);
-          res.status(200).json({
-          status:200,
-          message:"Request successful",
-          result
-         }
-          );
 
-        }
-        }); */
 
 }
 };
