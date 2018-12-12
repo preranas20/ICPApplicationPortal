@@ -5,12 +5,13 @@ const Survey = require("../models/survey");
 const Team = require("../models/team");
 const jwt = require("jsonwebtoken");
 
+/*
 //show team details
 module.exports.getTeam = function(req, res){
 
     User
       .find({})
-      .sort('-score')
+      .sort({score: -1})
       .exec(function(err, user) {
         res.status(200).json({
           message:"Request successful",
@@ -19,7 +20,7 @@ module.exports.getTeam = function(req, res){
         )
       });
 
-};
+}; */
 
 
 
