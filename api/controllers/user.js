@@ -70,7 +70,7 @@ exports.user_login = (req, res, next) => {
   User.find({ email: req.body.email })
     .exec()
     .then(user => {
-      if (user.length < 1 || (onlyAdmin&&user[0].role=="evaluator")) {
+      if (user.length < 1 || (!(onlyAdmin) && user[0].role=="evaluator")) {
         return res.status(401).json({
           message: "Not Authorized",
           status: 401
@@ -208,12 +208,15 @@ Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }) //check if 
     .then(result => {
 
 
+
 if (result.length >= 1) {
 
         console.log("Ohm");
 
 Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }).remove().exec()
 .then(result => {
+
+
 
         Result.insertMany(resultSaveArray)
                       .then(result => {
@@ -240,6 +243,7 @@ Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }).remove().ex
                                          //var numEval = team[0].numberOfEval;
                                          //console.log(numEval);
 
+//((curr score*no.of eva) - old score + newTotal)/newEval2
                                          var newScore2 = newTotal;
                                          var newEval2 = team[0].numberOfEval;
                                          newScore2 =Math.round( newScore2/newEval2);
