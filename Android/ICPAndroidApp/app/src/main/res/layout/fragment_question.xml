@@ -31,8 +31,8 @@
             android:layout_alignStart="@+id/txtQuestion"
             android:layout_marginRight="30dp"
             android:layout_marginTop="172dp"
-            android:max="4"
-            android:progress="0" />
+            android:min="0"
+            android:max="4" />
 
         <Button
             android:id="@+id/btnNext"

@@ -119,7 +119,7 @@ public class QuestionFragment extends Fragment implements SeekBar.OnSeekBarChang
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        Log.d("fragment", "onProgressChanged: "+i);
+        Log.d("fragment", "onProgressChanged: " );
         answer = i;
     }
 
@@ -137,13 +137,13 @@ public class QuestionFragment extends Fragment implements SeekBar.OnSeekBarChang
     public void onClick(View view) {
         if(view.getId() == R.id.btnNext){
 
-            mListener.saveAnswer(answer);
+            mListener.saveAnswer(answer+1);
 
 
 
         }
         if(view.getId() == R.id.btnSubmit){
-            mListener.saveAnswer(answer);
+            mListener.saveAnswer(answer+1);
             mListener.saveSurvey();
         }
     }
@@ -181,6 +181,7 @@ public class QuestionFragment extends Fragment implements SeekBar.OnSeekBarChang
         Log.d("fragment", "initalizeQuestion: "+survey.getQuestionText());
 
         textQsn.setText(survey.getQuestionText());
+        seekBar.setProgress(0);
     }
 
 
