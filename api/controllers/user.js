@@ -209,6 +209,17 @@ Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }) //check if 
     .exec()
     .then(result => {
 
+var oldScore = 0;
+for(var item2 in result){
+
+  var itemElem = result[item2].answer;
+  console.log(itemElem);
+  oldScore = oldScore + itemElem;
+
+
+
+}
+console.log(oldScore);
 
 
 if (result.length >= 1) {
@@ -218,16 +229,7 @@ if (result.length >= 1) {
 Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }).remove().exec()
 .then(result => {
 
-var oldScore = 0;
-for(var item2 in result){
 
-
-  oldScore = oldScore + result[item2].answer;
-
-
-
-}
-console.log(oldScore);
 
         Result.insertMany(resultSaveArray)
                       .then(result => {

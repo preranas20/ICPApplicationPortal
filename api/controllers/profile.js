@@ -5,6 +5,7 @@ const Survey = require("../models/survey");
 const Team = require("../models/team");
 const jwt = require("jsonwebtoken");
 
+/*
 //show team details
 module.exports.getTeam = function(req, res){
 
@@ -19,7 +20,7 @@ module.exports.getTeam = function(req, res){
         )
       });
 
-};
+}; */
 
 
 

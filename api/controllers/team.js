@@ -107,6 +107,7 @@ const team = new Team({
 module.exports.getTeam = function(req, res){
     Team
       .find({})
+      .sort({score: -1})
       .exec(function(err, team) {
         res.status(200).json({
           message:"Request successful",
