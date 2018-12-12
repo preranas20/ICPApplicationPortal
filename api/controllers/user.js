@@ -221,8 +221,9 @@ Result.find({ teamId: data[1].teamId, evalId:req.userData.userId  }).remove().ex
 var oldScore = 0;
 for(var item2 in result){
 
-
-  oldScore = oldScore + result[item2].answer;
+  var itemElem = result[item2].answer;
+  console.log(itemElem);
+  oldScore = oldScore + itemElem;
 
 
 
